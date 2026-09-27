@@ -1,0 +1,2123 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modul 1.2 - Routing & Switching | Bahan Ajar Mentoring</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-module-id="modul-1-2">
+
+  <!-- ========================================================================
+       1. HEADER MODUL STICKY + PROGRESS BAR (BAGIAN 1 & 2)
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="header-main">
+      <div class="header-left">
+        <a href="index.html" class="btn-back">Daftar Modul</a>
+        <div class="header-title-box">
+          <h1>Modul 1.2 - Routing & Switching</h1>
+          <span class="header-subtitle">Fase 1: Jaringan & Infrastruktur (TKJ Kelas 11)</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <span class="badge-meta">Estimasi: <strong>3-4 Minggu (150-180 Menit/Sesi)</strong></span>
+        <span class="badge-meta badge-meta--quest">Quest: <strong>0 / 18</strong></span>
+      </div>
+    </div>
+
+    <!-- Progress Bar Scroll Sticky -->
+    <div class="progress-container">
+      <div class="progress-bar" id="reading-progress"></div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. LAYOUT UTAMA (SIDEBAR STICKY + KONTEN)
+       ======================================================================== -->
+  <div class="layout-wrapper">
+
+    <!-- Sidebar Navigasi Sub-Topik (Desktop) -->
+    <aside class="sidebar-nav">
+      <div class="sidebar-title">Peta Perjalanan Modul 1.2</div>
+      <ul class="subtopic-nav-list">
+        <li class="subtopic-nav-item active">
+          <a href="#subtopik-1">
+            <span class="subtopic-nav-num">1</span>
+            <span>Switching & CAM Table</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-2">
+            <span class="subtopic-nav-num">2</span>
+            <span>VLAN & Isolasi Port</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-3">
+            <span class="subtopic-nav-num">3</span>
+            <span>VLAN Trunking & 802.1Q</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-4">
+            <span class="subtopic-nav-num">4</span>
+            <span>Inter-VLAN Routing (ROAS)</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-5">
+            <span class="subtopic-nav-num">5</span>
+            <span>Lintas Router & MAC Rewrite</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-6">
+            <span class="subtopic-nav-num">6</span>
+            <span>Static vs Dynamic Routing (OSPF)</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#evaluasi-modul">
+            <span class="subtopic-nav-num"></span>
+            <span>Rangkuman & Evaluasi</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Konten Utama Modul -->
+    <main class="main-content">
+
+      <!-- Dropdown Navigasi Cepat (Mobile) -->
+      <div class="mobile-nav-select-wrapper">
+        <select class="mobile-nav-select" id="mobile-topic-select" aria-label="Pilih Sub-topik">
+          <option value="#subtopik-1">1. Switching & CAM Table Learning</option>
+          <option value="#subtopik-2">2. VLAN & Isolasi Access Port</option>
+          <option value="#subtopik-3">3. VLAN Trunking & 802.1Q Tagging</option>
+          <option value="#subtopik-4">4. Inter-VLAN Routing (Router-on-a-Stick)</option>
+          <option value="#subtopik-5">5. Perjalanan Lintas Router (Hop-by-Hop MAC Rewrite)</option>
+          <option value="#subtopik-6">6. Static Routing vs OSPF Failover</option>
+          <option value="#evaluasi-modul"> Rangkuman, Quest Akhir & Mini-Proyek</option>
+        </select>
+      </div>
+
+      <!-- ====================================================================
+           BAGIAN 3: TUJUAN PEMBELAJARAN
+           ==================================================================== -->
+      <section class="section-card" id="tujuan-pembelajaran">
+        <div class="section-header">
+          <span class="badge badge--primary">Target Kompetensi</span>
+          <h2>Apa yang Akan Kamu Kuasai di Modul 1.2 Ini?</h2>
+        </div>
+        <p>
+          Setelah menyelesaikan Modul 1.2, kamu tidak hanya sekadar bisa mengetik perintah di Packet Tracer, tapi benar-benar memahami mekanisme fisik dan logis bagaimana data dialihkan di switch dan dirutekan melintasi banyak router:
+        </p>
+        <ul class="learning-goals-list">
+          <li><strong>Paham Cara Kerja Switch (CAM Table):</strong> Memahami proses <em>Learning</em>, <em>Flooding (Unknown Unicast)</em>, <em>Forwarding/Filtering</em>, dan <em>Aging Timer</em> pada tabel MAC Layer 2.</li>
+          <li><strong>Menguasai Segmentasi VLAN & Access Port:</strong> Mampu memecah satu switch fisik menjadi beberapa broadcast domain virtual mandiri demi keamanan dan efisiensi lalu lintas.</li>
+          <li><strong>Mengonfigurasi 802.1Q VLAN Trunking:</strong> Mengerti bagaimana header frame disisipkan tag 4-byte saat melintasi kabel trunk antar-switch tanpa saling bercampur.</li>
+          <li><strong>Membangun Inter-VLAN Routing:</strong> Menguasai konfigurasi <em>Router-on-a-Stick (ROAS)</em> menggunakan sub-interface router serta Switch Layer 3 (SVI).</li>
+          <li><strong>Menguasai Konsep Hop-by-Hop MAC Rewrite:</strong> Membuktikan bahwa di setiap perhentian router, <em>Alamat IP Asli Tetap Sama</em>, namun <em>Alamat MAC Selalu Berganti</em> di Layer 2.</li>
+          <li><strong>Membandingkan Static vs Dynamic Routing (OSPF):</strong> Mampu mengonfigurasi Static Route, Default Route (<code>0.0.0.0/0</code>), dan Dynamic Routing OSPF dengan <em>Automatic Failover</em> saat jalur putus.</li>
+        </ul>
+      </section>
+
+      <!-- ====================================================================
+           BAGIAN 4: PETA PERJALANAN MODUL
+           ==================================================================== -->
+      <section class="section-card" id="peta-modul">
+        <div class="section-header">
+          <span class="badge badge--outline">️ Peta Alur Belajar</span>
+          <h2>Alur Penguasaan: Dari Switch Lokal Menuju Jaringan Global</h2>
+        </div>
+        <div class="module-pathway">
+          <div class="pathway-step">
+            <div class="step-circle">1</div>
+            <div class="step-label">CAM Table</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">2</div>
+            <div class="step-label">VLAN Access</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">3</div>
+            <div class="step-label">802.1Q Trunk</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">4</div>
+            <div class="step-label">ROAS Routing</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">5</div>
+            <div class="step-label">MAC Rewrite</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">6</div>
+            <div class="step-label">Static vs OSPF</div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.2.1: SWITCHING & CAM TABLE LEARNING
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-1">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.2.1</span>
+          <h2>Switching & Cara Kerja MAC Address Table (CAM Table)</h2>
+          <p class="subtopic-lead">
+            Bagaimana switch belajar port setiap perangkat secara otomatis tanpa perlu dikonfigurasi satu per satu?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Bayangkan sebuah kantor dengan 50 komputer terhubung. Jika mereka memakai <strong>Hub</strong> jadul, setiap kali satu orang mengirim file, Hub akan membroadcast file itu ke 49 komputer lain! Akibatnya, terjadi tabrakan data (<em>collision</em>) dan jaringan kantor langsung lumpuh.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Switch hadir sebagai perangkat cerdas yang hanya mengirim data ke port tujuan. Tapi jika switch baru pertama kali dinyalakan dari kardus, tabel memorinya masih KOSONG. Bagaimana switch tahu laptop Arya dicolok di Port 1 dan laptop Ervan di Port 4 tanpa disetting manual?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Jawabannya ada pada mekanisme <strong>MAC Learning & CAM Table</strong>. Switch tidak perlu disuapi data - switch belajar sendiri dari setiap frame yang lewat!
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Switching & CAM Table:</div>
+            <p style="margin: 0;">
+              <strong>Switching</strong> adalah proses menerima frame Layer 2 pada satu port fisik dan meneruskannya (forwarding) secara presisi hanya ke port tujuan berdasarkan pemetaan alamat fisik yang tersimpan di dalam <strong>CAM Table (Content Addressable Memory)</strong> atau <em>MAC Address Table</em>.
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Resepsionis Kantor Cerdas:</div>
+            <ul>
+              <li><strong>Hub Jadul</strong> = Satpam yang berteriak pakai pengeras suara ke seluruh ruangan gedung setiap kali ada surat datang. Semua orang terganggu.</li>
+              <li><strong>Switch</strong> = Resepsionis cerdas yang punya <em>Buku Tamu</em> (CAM Table).</li>
+              <li><strong>Proses Belajar (Learning)</strong> = Saat Arya datang ke meja resepsionis (Port 1), resepsionis mencatat: <em>"Oh, Arya duduk di Meja 1"</em>.</li>
+              <li><strong>Unknown Unicast (Flooding)</strong> = Jika Arya menitipkan surat untuk Budi, tapi resepsionis belum pernah melihat Budi, resepsionis akan bertanya ke semua meja: <em>"Siapa yang bernama Budi?"</em>.</li>
+              <li><strong>Forwarding Cerdas</strong> = Begitu Budi menjawab dari Meja 4, resepsionis mencatat Meja 4. Mulai detik itu, semua surat untuk Budi langsung diantar ke Meja 4 tanpa berteriak lagi!</li>
+            </ul>
+          </div>
+
+          <div class="key-points-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-sm); margin-top: var(--space-md);">
+            <div class="card card--ghost" style="">
+              <strong style="color:var(--info);">1. Learning</strong>
+              <p style="font-size:0.88rem; margin:4px 0 0; color:var(--text-muted);">Membaca <strong>Source MAC</strong> dari setiap frame yang masuk dan mencatatnya bersama nomor port asal.</p>
+            </div>
+            <div class="card card--ghost" style="">
+              <strong style="color:var(--warning);">2. Flooding</strong>
+              <p style="font-size:0.88rem; margin:4px 0 0; color:var(--text-muted);">Jika <strong>Destination MAC</strong> belum ada di CAM Table, frame disalin ke SEMUA port aktif kecuali port asal.</p>
+            </div>
+            <div class="card card--ghost" style="">
+              <strong style="color:var(--success);">3. Forwarding / Filtering</strong>
+              <p style="font-size:0.88rem; margin:4px 0 0; color:var(--text-muted);">Jika Destination MAC sudah terdaftar, frame langsung dikirim HANYA ke port tersebut (Unicast murni).</p>
+            </div>
+            <div class="card card--ghost" style="">
+              <strong style="color:var(--danger);">4. Aging Timer</strong>
+              <p style="font-size:0.88rem; margin:4px 0 0; color:var(--text-muted);">Jika perangkat diam selama 300 detik (5 menit), entry dihapus otomatis agar tabel tidak penuh.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Perhatikan bagaimana Switch belajar MAC Address PC-A, mem-flood saat belum tahu PC-B, hingga akhirnya mampu melakukan forwarding cerdas:
+          </p>
+
+          <div class="sim-container" id="sim-cam-learning">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 360" preserveAspectRatio="xMidYMid meet">
+                <!-- Kabel Fisik -->
+                <line x1="160" y1="180" x2="400" y2="180" stroke="var(--border-light)" stroke-width="3.5" stroke-linecap="round" />
+                <line x1="400" y1="180" x2="640" y2="100" stroke="var(--border-light)" stroke-width="3.5" stroke-linecap="round" />
+                <line x1="400" y1="180" x2="640" y2="260" stroke="var(--border-light)" stroke-width="3.5" stroke-linecap="round" />
+
+                <!-- Label Port -->
+                <text x="260" y="170" fill="var(--info)" font-size="10" font-family="var(--font-mono)">Port Fa0/1</text>
+                <text x="530" y="130" fill="var(--info)" font-size="10" font-family="var(--font-mono)">Port Fa0/2</text>
+                <text x="530" y="240" fill="var(--info)" font-size="10" font-family="var(--font-mono)">Port Fa0/3</text>
+
+                <!-- Nodes Perangkat -->
+                <g id="cam-node-pca" data-cx="160" data-cy="180" transform="translate(95, 110)"></g>
+                <g id="cam-node-sw" data-cx="400" data-cy="180" transform="translate(335, 110)"></g>
+                <g id="cam-node-pcb" data-cx="640" data-cy="100" transform="translate(575, 30)"></g>
+                <g id="cam-node-pcc" data-cx="640" data-cy="260" transform="translate(575, 190)"></g>
+              </svg>
+            </div>
+
+            <!-- Live CAM Table HUD di Bawah Stage -->
+            <div style="margin: 12px 16px 0; background: var(--bg-card); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: var(--space-sm);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="font-size:0.85rem; color:var(--text);"> Live Switch CAM Table Inspector:</strong>
+                <span class="badge badge--primary" style="font-size:0.75rem;">Layer 2 Hardware ASIC</span>
+              </div>
+              <table class="table-styled" style="margin:0; font-size:0.82rem;">
+                <thead>
+                  <tr>
+                    <th>VLAN</th>
+                    <th>MAC Address</th>
+                    <th>Port Tujuan</th>
+                    <th>Status Entry</th>
+                  </tr>
+                </thead>
+                <tbody id="cam-hud-table">
+                  <tr>
+                    <td colspan="4" style="text-align:center; color:var(--text-dim); padding:10px;">(CAM Table Masih Kosong - Switch Baru Dinyalakan)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 6</span>
+              <p class="sim__text">PC-A menyiapkan frame ping untuk PC-B...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Perintah CLI</span>
+
+          <h4>4.1 Collision Domain vs Broadcast Domain pada Switch:</h4>
+          <p>
+            Ini adalah konsep yang paling sering ditanyakan pada ujian sertifikasi CCNA maupun tes industri:
+          </p>
+          <div class="table-wrapper">
+            <table class="table-styled">
+              <thead>
+                <tr>
+                  <th>Fitur Arsitektur</th>
+                  <th>Hub Jadul (Layer 1)</th>
+                  <th>Switch Standar (Layer 2)</th>
+                  <th>Alasan Teknis ("Kenapa")</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Collision Domain</strong></td>
+                  <td><span class="badge badge--danger">1 Shared Domain</span></td>
+                  <td><span class="badge badge--success">1 Domain per Port</span></td>
+                  <td>Setiap port switch punya sirkuit transceiver terisolasi (Full-Duplex), sehingga tidak pernah ada tabrakan sinyal antar port.</td>
+                </tr>
+                <tr>
+                  <td><strong>Broadcast Domain</strong></td>
+                  <td><span class="badge badge--warning">1 Shared Domain</span></td>
+                  <td><span class="badge badge--warning">1 Shared Domain (Default)</span></td>
+                  <td>Secara default tanpa VLAN, jika ada pesan broadcast (FF:FF:FF:FF:FF:FF), switch tetap mem-forward ke semua port.</td>
+                </tr>
+                <tr>
+                  <td><strong>Basis Forwarding</strong></td>
+                  <td>Listrik Mentah (Bit Layer 1)</td>
+                  <td>MAC Address (Frame Layer 2)</td>
+                  <td>Switch memiliki chip ASIC mikroprosesor yang mampu membaca header Ethernet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 style="margin-top: 20px;">4.2 Perintah Cisco CLI untuk Memeriksa CAM Table:</h4>
+
+          <!-- Terminal Context 1 -->
+          <div class="terminal-banner">
+            <span class="terminal-banner__device">️ Perangkat: Switch Core Catalyst 2960</span>
+            <span class="terminal-banner__location"> Mode: Privileged EXEC (#)</span>
+            <span class="terminal-banner__action"> Tujuan: Melihat isi tabel CAM yang sudah dipelajari</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">Switch# show mac address-table</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code>Switch# <strong>show mac address-table</strong>
+          Mac Address Table
+-------------------------------------------
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+   1    aa11.0100.0001    DYNAMIC     Fa0/1
+   1    bb22.0200.0002    DYNAMIC     Fa0/2
+Total Mac Addresses for this module: 2
+
+<span style="color:var(--text-dim);"># Menghapus tabel jika ingin switch belajar ulang:</span>
+Switch# <strong>clear mac address-table dynamic</strong></code></pre>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Studio Animasi & Misteri "Lag 1 Detik" Pasca Listrik Padam</h4>
+            <span class="badge badge--warning">Troubleshooting Jaringan</span>
+          </div>
+          <p>
+            <strong>Latar Kasus:</strong> Sebuah studio animasi di Bandung memiliki 20 PC Render Farm dan 1 Server Storage NAS. Suatu sore, listrik padam sekejap dan genset menyala. Semua switch dan PC menyala bersamaan. Namun teknisi heran: saat 20 PC mulai mengirim file render pertama kali, jaringan sempat tersendat selama 1-2 detik sebelum akhirnya kembali lancar 1 Gbps.
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Analisis Penyebab (Root Cause):</strong>
+              <p>Saat switch baru menyala (reboot), RAM CAM Table dalam kondisi kosong melompong (0 entry). Ketika 20 PC mengirim data bersamaan, switch melakukan <em>Unknown Unicast Flooding</em> secara masif ke seluruh 24 port, menyebabkan lonjakan beban sementara (<em>broadcast/flood storm mini</em>).</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Proses Pemulihan Otomatis:</strong>
+              <p>Setelah masing-masing PC dan Server saling membalas 1 paket, switch berhasil mempelajari ke-21 MAC Address ke dalam CAM Table. Flooding langsung berhenti total dan switch kembali ke mode <em>Unicast Forwarding</em> murni.</p>
+            </div>
+          </div>
+          <div class="lesson-box">
+            <strong> Pelajaran yang Diambil:</strong> Unknown Unicast Flooding adalah perilaku NORMAL dan WAJIB dari switch Layer 2 saat belum mengenal tujuan. Namun di jaringan besar, flooding yang tidak terkontrol bisa dicegah dengan segmentasi <strong>VLAN</strong>.
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <!-- Quest 1.2.1 -->
+          <div class="quest-card" id="q1-2-1" data-quest-type="multiple-choice" data-answer="B">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.2.1 • Pilihan Ganda</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Sebuah switch menerima frame Ethernet di Port Fa0/3 dengan <strong>Source MAC: AA:BB:CC</strong> dan <strong>Destination MAC: DD:EE:FF</strong>. Jika Destination MAC <code>DD:EE:FF</code> <strong>BELUM ADA</strong> di dalam CAM Table, apa tindakan yang dilakukan oleh switch?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-1" value="A"> A. Membuang (Drop) frame tersebut dan mengirim pesan error ICMP.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-1" value="B"> B. Mencatat Port Fa0/3 = AA:BB:CC, lalu mem-flood frame ke semua port aktif kecuali Fa0/3.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-1" value="C"> C. Mengirim frame ke router gateway untuk dicari alamat IP-nya.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-1" value="D"> D. Menahan frame di buffer RAM selama 300 detik sampai tujuan membalas.</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-2-1')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-2-1')">Tampilkan Jawaban</button>
+            </div>
+
+            <!-- BLOK 7: JAWABAN BERANIMASI -->
+            <div class="quest-answer-panel" id="ans-q1-2-1">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: B (Mencatat Source MAC, lalu Flooding ke port lain)</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan Mendalam:</strong></p>
+                <ul>
+                  <li><strong>Tahap 1 (Learning):</strong> Switch SELALU membaca <em>Source MAC</em> terlebih dahulu. Karena frame masuk dari Port Fa0/3, switch mencatat bahwa <code>AA:BB:CC</code> berada di Fa0/3.</li>
+                  <li><strong>Tahap 2 (Unknown Unicast Flooding):</strong> Karena switch belum tahu letak <code>DD:EE:FF</code>, switch menyalin frame ke semua port aktif (kecuali Fa0/3 agar tidak terjadi loop) dengan harapan pemilik MAC tersebut akan membalas.</li>
+                  <li><strong>Kenapa opsi A salah?</strong> Switch Layer 2 tidak akan mendrop frame hanya karena belum tahu tujuannya - jika di-drop, perangkat baru tidak akan pernah bisa berkomunikasi!</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quest 1.2.2 -->
+          <div class="quest-card" id="q1-2-2" data-quest-type="multiple-choice" data-answer="C">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.2.2 • Analisis CAM Table</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Perhatikan CAM Table berikut:<br>
+              <code>Port Fa0/1 -> MAC 11:11</code> | <code>Port Fa0/2 -> MAC 22:22</code> | <code>Port Fa0/4 -> MAC 44:44</code>.<br>
+              Jika PC di Port Fa0/1 mengirim frame dengan Destination MAC <code>44:44</code>, port mana saja yang akan menerima salinan frame tersebut?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-2" value="A"> A. Port Fa0/1, Fa0/2, dan Fa0/4</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-2" value="B"> B. Port Fa0/2 dan Fa0/4 saja</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-2" value="C"> C. HANYA Port Fa0/4</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-2" value="D"> D. Semua port di switch</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-2-2')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-2-2')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-2-2">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: C (HANYA Port Fa0/4)</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> Karena MAC tujuan <code>44:44</code> <strong>sudah terdaftar di CAM Table pada Port Fa0/4</strong>, switch melakukan <em>Forwarding Unicast</em> langsung ke Fa0/4. Switch TIDAK AKAN mem-flood ke Fa0/2 maupun port lainnya!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KOTAK MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak pemula mengira Switch Layer 2 memeriksa alamat IP tujuan saat mengarahkan paket. <strong>Ini keliru!</strong> Switch Layer 2 murni tidak mengerti apa itu IP Address <code>192.168.1.1</code>. Switch hanya membaca <strong>MAC Address (Layer 2)</strong> pada header Ethernet. Yang bertugas membaca IP Address adalah <strong>Router (Layer 3)</strong>.
+          </p>
+        </div>
+
+        <!-- PANEL CATATAN MENTOR -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 25 Menit.</li>
+              <li><strong>Poin Kunci:</strong> Bedakan konsep <em>Learning (baca Source MAC)</em> vs <em>Forwarding (baca Destination MAC)</em>.</li>
+              <li><strong>Naskah Pembuka:</strong> <em>"Arya, bayangkan switch itu seperti resepsionis yang punya papan catatan kosong. Mari kita lihat bagaimana papan itu terisi saat kamu melakukan ping pertama kali di Packet Tracer."</em></li>
+              <li><strong>Pertanyaan Pemantik:</strong> <em>"Kalau kita cabut kabel PC-A lalu pindah ke Port 8, apakah switch langsung tahu atau nunggu 300 detik?"</em> (Jawab: Begitu PC-A kirim 1 frame dari Port 8, switch langsung memperbarui entry ke Port 8).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.2.2: VLAN & ISOLASI PORT (ACCESS PORT)
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-2">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.2.2</span>
+          <h2>VLAN (Virtual LAN) & Isolasi Lalu Lintas (Access Port)</h2>
+          <p class="subtopic-lead">
+            Bagaimana cara membelah 1 switch fisik menjadi beberapa jaringan virtual mandiri yang aman dan hemat biaya?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Sekolah SMK memiliki 1 switch 48-port di ruang server. Di lab ada siswa TKJ yang sedang belajar tools audit jaringan (seperti Wireshark). Di ruang Tata Usaha, pegawai sedang membuka data nilai ujian dan gaji guru.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Jika semua komputer dicolokkan ke switch yang sama, siswa di lab bisa dengan mudah menyadap lalu lintas data broadcast TU! Apakah sekolah harus membeli 3 switch fisik terpisah seharga jutaan rupiah untuk tiap ruangan?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Tentu tidak! Dengan <strong>VLAN (Virtual Local Area Network)</strong>, kita bisa membelah 1 switch fisik menjadi puluhan switch virtual yang terisolasi secara total di Layer 2 tanpa beli perangkat baru.
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi VLAN & Access Port:</div>
+            <p style="margin: 0;">
+              <strong>VLAN (Virtual LAN)</strong> adalah teknologi segmentasi Layer 2 yang mengelompokkan port-port pada satu atau lebih switch menjadi beberapa domain broadcast logis yang terpisah, seolah-olah port-port tersebut berada pada switch fisik yang berbeda.<br>
+              <strong>Access Port</strong> adalah port switch yang dikonfigurasikan untuk menjadi anggota <em>tepat satu VLAN</em> dan terhubung langsung ke end-device (PC, printer, laptop). Lalu lintas pada Access Port selalu berstatus <strong>Untagged</strong> (frame Ethernet standar tanpa label tambahan).
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Kamar-Kamar Terkunci di Rumah Kost:</div>
+            <ul>
+              <li><strong>Switch Tanpa VLAN</strong> = Rumah kost dengan 1 aula besar tanpa dinding pembatas. Semua orang bisa mendengar obrolan semua orang (Broadcast Storm), dan barang berharga tidak aman.</li>
+              <li><strong>VLAN 10 (Keuangan)</strong> = Kamar No. 10 terkunci. Hanya penghuni Kamar 10 yang bisa saling bicara di dalam.</li>
+              <li><strong>VLAN 20 (HRD / Tamu)</strong> = Kamar No. 20 terkunci.</li>
+              <li><strong>Access Port</strong> = Pintu kamar masing-masing. Komputer yang dicolok ke Port VLAN 10 tidak akan pernah bisa mendengar obrolan atau membroadcast ke Kamar 20!</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Simulasi berikut menunjukkan bagaimana Switch membatasi broadcast hanya pada sesama VLAN, dan memblokir total frame cross-VLAN:
+          </p>
+
+          <div class="sim-container" id="sim-vlan-isolation">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 360" preserveAspectRatio="xMidYMid meet">
+                <!-- Garis VLAN 10 (Ungu) -->
+                <line x1="150" y1="120" x2="425" y2="180" stroke="#A855F7" stroke-width="3" stroke-linecap="round" />
+                <line x1="150" y1="260" x2="425" y2="180" stroke="#A855F7" stroke-width="3" stroke-linecap="round" />
+                <!-- Garis VLAN 20 (Cyan) -->
+                <line x1="700" y1="120" x2="425" y2="180" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" />
+                <line x1="700" y1="260" x2="425" y2="180" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" />
+
+                <!-- Label Segmentasi -->
+                <rect x="70" y="55" width="160" height="24" rx="4" fill="rgba(168, 85, 247, 0.15)" stroke="#A855F7" />
+                <text x="150" y="71" text-anchor="middle" fill="#A855F7" font-size="11" font-weight="bold">VLAN 10 (Keuangan)</text>
+
+                <rect x="620" y="55" width="160" height="24" rx="4" fill="rgba(6, 182, 212, 0.15)" stroke="#06B6D4" />
+                <text x="700" y="71" text-anchor="middle" fill="#06B6D4" font-size="11" font-weight="bold">VLAN 20 (HRD)</text>
+
+                <!-- Nodes -->
+                <g id="vlan-node-fin1" data-cx="150" data-cy="120" transform="translate(85, 50)"></g>
+                <g id="vlan-node-fin2" data-cx="150" data-cy="260" transform="translate(85, 190)"></g>
+                <g id="vlan-node-sw" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="vlan-node-hr1" data-cx="700" data-cy="120" transform="translate(635, 50)"></g>
+                <g id="vlan-node-hr2" data-cx="700" data-cy="260" transform="translate(635, 190)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Switch 24-Port dikonfigurasikan memuat 2 VLAN terisolasi...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Perintah CLI</span>
+
+          <h4>4.1 Rentang VLAN ID (IEEE Standard):</h4>
+          <div class="table-wrapper">
+            <table class="table-styled">
+              <thead>
+                <tr>
+                  <th>Rentang VLAN ID</th>
+                  <th>Kategori</th>
+                  <th>Karakteristik & Penggunaan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>1</code></td>
+                  <td>Default VLAN</td>
+                  <td>VLAN bawaan pabrik switch Cisco. Semua port otomatis masuk ke VLAN 1. <strong>Tidak bisa dihapus atau di-rename</strong>.</td>
+                </tr>
+                <tr>
+                  <td><code>2 - 1001</code></td>
+                  <td>Normal Range</td>
+                  <td>VLAN yang paling umum dibuat untuk departemen kantor, lab sekolah, dsb. Disimpan di file <code>vlan.dat</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>1002 - 1005</code></td>
+                  <td>Cisco Legacy</td>
+                  <td>Direservasi untuk Token Ring dan FDDI (Legacy, tidak bisa dihapus).</td>
+                </tr>
+                <tr>
+                  <td><code>1006 - 4094</code></td>
+                  <td>Extended Range</td>
+                  <td>Dipakai oleh ISP dan Enterprise besar (hanya didukung mode VTP Transparent).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 style="margin-top: 20px;">4.2 Langkah Baku Konfigurasi VLAN Access Port di Cisco IOS:</h4>
+
+          <!-- Terminal Context 2 -->
+          <div class="terminal-banner">
+            <span class="terminal-banner__device">️ Perangkat: Switch Cisco Catalyst 2960</span>
+            <span class="terminal-banner__location"> Mode: Global Configuration (config)#</span>
+            <span class="terminal-banner__action"> Tujuan: Membuat VLAN 10 & 20 dan memasukkan Port Fa0/1-4</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">Switch(config)# Konfigurasi VLAN Access</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code><span style="color:var(--text-dim);">! Langkah 1: Buat VLAN database & beri nama</span>
+Switch# <strong>configure terminal</strong>
+Switch(config)# <strong>vlan 10</strong>
+Switch(config-vlan)# <strong>name KEUANGAN</strong>
+Switch(config-vlan)# <strong>vlan 20</strong>
+Switch(config-vlan)# <strong>name HRD_STAFF</strong>
+Switch(config-vlan)# <strong>exit</strong>
+
+<span style="color:var(--text-dim);">! Langkah 2: Masukkan port Fa0/1 dan Fa0/2 ke VLAN 10</span>
+Switch(config)# <strong>interface range fastEthernet 0/1 - 2</strong>
+Switch(config-if-range)# <strong>switchport mode access</strong>
+Switch(config-if-range)# <strong>switchport access vlan 10</strong>
+Switch(config-if-range)# <strong>exit</strong>
+
+<span style="color:var(--text-dim);">! Langkah 3: Masukkan port Fa0/3 dan Fa0/4 ke VLAN 20</span>
+Switch(config)# <strong>interface range fastEthernet 0/3 - 4</strong>
+Switch(config-if-range)# <strong>switchport mode access</strong>
+Switch(config-if-range)# <strong>switchport access vlan 20</strong>
+Switch(config-if-range)# <strong>end</strong>
+
+<span style="color:var(--text-dim);">! Langkah 4: Verifikasi hasil konfigurasi</span>
+Switch# <strong>show vlan brief</strong></code></pre>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Penataan Jaringan Lab SMK Bina Informatika</h4>
+            <span class="badge badge--success">Implementasi Sekolah</span>
+          </div>
+          <p>
+            <strong>Kebutuhan:</strong> SMK memiliki 1 switch Core 24 port untuk 3 laboratorium: Lab TKJ (8 PC), Lab RPL (8 PC), dan Lab Multimedia (6 PC). Kepala Sekolah meminta agar siswa antar-lab tidak bisa saling mengintip proyek satu sama lain.
+          </p>
+          <div class="table-wrapper">
+            <table class="table-styled">
+              <thead>
+                <tr>
+                  <th>Nama Lab</th>
+                  <th>VLAN ID</th>
+                  <th>Alokasi Port Switch</th>
+                  <th>Subnet IP Alamat</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Lab TKJ</td>
+                  <td><code>VLAN 10</code></td>
+                  <td><code>Fa0/1 - Fa0/8</code></td>
+                  <td><code>192.168.10.0/24</code></td>
+                </tr>
+                <tr>
+                  <td>Lab RPL</td>
+                  <td><code>VLAN 20</code></td>
+                  <td><code>Fa0/9 - Fa0/16</code></td>
+                  <td><code>192.168.20.0/24</code></td>
+                </tr>
+                <tr>
+                  <td>Lab Multimedia</td>
+                  <td><code>VLAN 30</code></td>
+                  <td><code>Fa0/17 - Fa0/22</code></td>
+                  <td><code>192.168.30.0/24</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="lesson-box" style="margin-top: 12px;">
+            <strong>Hasil Akhir:</strong> Ketiga lab berhasil diisolasi total di Layer 2. Siswa di Lab TKJ tidak bisa membroadcast atau melakukan scanning IP ke Lab RPL, menghemat biaya pengadaan switch baru sebesar Rp 8.000.000!
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <!-- Quest 1.2.3 -->
+          <div class="quest-card" id="q1-2-3" data-quest-type="multiple-choice" data-answer="B">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.2.3 • Pilihan Ganda</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              PC-A memiliki IP <code>192.168.1.10/24</code> dicolok ke Port Fa0/1 (VLAN 10). PC-B memiliki IP <code>192.168.1.20/24</code> dicolok ke Port Fa0/2 (VLAN 20) pada switch fisik yang sama. Mengapa PC-A <strong>TIDAK BISA PING</strong> ke PC-B padahal IP-nya satu subnet?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-3" value="A"> A. Karena kabel LAN PC-B rusak.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-3" value="B"> B. Karena switch memisahkan kedua port ke dalam broadcast domain Layer 2 yang berbeda, sehingga frame diblokir.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-3" value="C"> C. Karena PC-A dan PC-B harus memiliki IP Address yang berbeda kelas.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-3" value="D"> D. Karena VLAN 20 memerlukan lisensi berbayar.</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-2-3')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-2-3')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-2-3">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: B</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> Sebelum paket IP bisa dikirim, PC-A harus mencari MAC Address PC-B melalui <strong>ARP Request (Broadcast Layer 2)</strong>. Karena PC-A berada di VLAN 10 dan PC-B di VLAN 20, switch <strong>TIDAK AKAN meneruskan broadcast ARP dari VLAN 10 ke VLAN 20</strong>. Komunikasi gagal total di Layer 2 sebelum Layer 3 sempat bekerja!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak teknisi pemula mengira cukup membuat VLAN berbeda, IP address PC otomatis berubah. <strong>VLAN bekerja di Layer 2</strong> (Data Link). Kamu sebagai administrator tetap WAJIB memberikan subnet IP yang berbeda untuk masing-masing VLAN (misal VLAN 10 = <code>192.168.10.0/24</code>, VLAN 20 = <code>192.168.20.0/24</code>) agar rapi saat nanti dihubungkan ke Router.
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 25 Menit.</li>
+              <li><strong>Poin Kunci:</strong> Tunjukkan perintah <code>show vlan brief</code> di Cisco Packet Tracer. Perhatikan kolom <em>Ports</em>.</li>
+              <li><strong>Miskonsepsi yang Harus Dihapus:</strong> Jelaskan kenapa menaruh dua IP satu subnet di VLAN berbeda adalah <em>bad practice</em> (desain yang salah).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.2.3: VLAN TRUNKING & IEEE 802.1Q TAGGING
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-3">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.2.3</span>
+          <h2>VLAN Trunking & 802.1Q Header Tagging</h2>
+          <p class="subtopic-lead">
+            Bagaimana satu kabel fisik antar-switch bisa mengalirkan paket dari puluhan VLAN sekaligus tanpa tertukar?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Kantor memiliki Gedung A dan Gedung B yang berjarak 200 meter. Di Gedung A ada Switch 1 (berisi VLAN 10 Keuangan, VLAN 20 HRD, dan VLAN 30 IT). Di Gedung B ada Switch 2 (juga memiliki karyawan Keuangan, HRD, dan IT).
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Jika kita menghubungkan Switch 1 dan Switch 2 menggunakan port Access biasa, kita harus menarik 3 kabel fisik terpisah antar-gedung. Bagaimana kalau kantor punya 40 divisi VLAN? Apakah kita harus menarik 40 tarikan kabel mahal menyeberang gedung?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Jawabannya: <strong>TIDAK PERLU!</strong> Cukup tarik <strong>1 kabel fisik tunggal</strong> dan jadikan sebagai <strong>Trunk Port</strong> dengan standar penandaan <strong>IEEE 802.1Q</strong>!
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Trunking & IEEE 802.1Q:</div>
+            <p style="margin: 0;">
+              <strong>VLAN Trunking</strong> adalah link komunikasi point-to-point antar perangkat jaringan (switch-ke-switch atau switch-ke-router) yang mampu melewatkan lalu lintas dari banyak VLAN secara simultan melalui satu media fisik.<br>
+              <strong>IEEE 802.1Q (Dot1Q)</strong> adalah protokol standar industri yang menyisipkan <strong>Tag 4-Byte (32-bit)</strong> ke dalam header Ethernet untuk menandai kepemilikan VLAN ID saat frame melintasi kabel trunk.
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Truk Kontainer Ekspedisi Antar-Kota:</div>
+            <ul>
+              <li><strong>Port Access</strong> = Kurir motor pengantar surat perorangan di perumahan (hanya bawa surat polos tanpa stempel khusus).</li>
+              <li><strong>Port Trunk</strong> = Truk kontainer kargo besar yang menyeberang jalan tol antar-kota.</li>
+              <li><strong>Tag 802.1Q</strong> = Stempel label warna pada kotak kargo:
+                <br>• Kotak Merah = Stempel [VLAN 10 - Keuangan]
+                <br>• Kotak Biru = Stempel [VLAN 20 - HRD]
+              </li>
+              <li><strong>Proses Untagging di Tujuan</strong> = Begitu truk sampai di gudang kota tujuan (Switch 2), stempel warna dilepas (untagged) dan paket diantar ke meja karyawan dengan bersih.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Simulasi berikut memperlihatkan penempelan Tag 802.1Q saat melewati kabel trunk dan pencopotan tag saat sampai di switch tujuan:
+          </p>
+
+          <div class="sim-container" id="sim-trunk-tagging">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 360" preserveAspectRatio="xMidYMid meet">
+                <!-- Kabel Access Lt 1 -->
+                <line x1="120" y1="180" x2="260" y2="190" stroke="#A855F7" stroke-width="3" stroke-linecap="round" />
+                <!-- Kabel TRUNK Antar Switch (Tebal Emas) -->
+                <line x1="260" y1="190" x2="540" y2="190" stroke="#F59E0B" stroke-width="5" stroke-linecap="round" />
+                <!-- Kabel Access Lt 2 -->
+                <line x1="540" y1="190" x2="720" y2="180" stroke="#A855F7" stroke-width="3" stroke-linecap="round" />
+
+                <text x="400" y="175" text-anchor="middle" fill="#F59E0B" font-size="11" font-weight="bold" font-family="var(--font-mono)">Link TRUNK 802.1Q (Gi0/1)</text>
+
+                <!-- Nodes -->
+                <g id="trunk-node-pca1" data-cx="120" data-cy="180" transform="translate(55, 110)"></g>
+                <g id="trunk-node-sw1" data-cx="260" data-cy="190" transform="translate(195, 120)"></g>
+                <g id="trunk-node-sw2" data-cx="540" data-cy="190" transform="translate(475, 120)"></g>
+                <g id="trunk-node-pca2" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">PC-A1 di Lantai 1 menyiapkan frame data untuk PC-A2 di Lantai 2...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Format Frame</span>
+
+          <h4>4.1 Anatomi 4-Byte Header Tag IEEE 802.1Q:</h4>
+          <p>
+            Ketika frame Ethernet melintasi kabel trunk, switch menyisipkan 4 byte tambahan (32 bit) di antara field <em>Source MAC</em> dan <em>EtherType</em>:
+          </p>
+
+          <div class="binary-table-container">
+            <table class="binary-table">
+              <thead>
+                <tr>
+                  <th style="background:#1E293B;">TPID (16 Bit)</th>
+                  <th style="background:#334155;">PCP (3 Bit)</th>
+                  <th style="background:#475569;">DEI (1 Bit)</th>
+                  <th style="background:#0284C7; color: var(--text-primary);">VID - VLAN ID (12 Bit)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>0x8100</strong><br><small>(Penanda Tag 802.1Q)</small></td>
+                  <td><strong>Priority (CoS)</strong><br><small>(QoS 0-7 untuk Voice/Video)</small></td>
+                  <td><strong>Drop Indicator</strong><br><small>(0/1 saat jaringan padat)</small></td>
+                  <td><strong>Nomor VLAN (1 - 4094)</strong><br><small>2¹² = 4096 kemungkinan ID</small></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 style="margin-top: 20px;">4.2 Konfigurasi Trunk Port di Cisco IOS:</h4>
+
+          <!-- Terminal Context 3 -->
+          <div class="terminal-banner">
+            <span class="terminal-banner__device">️ Perangkat: Switch Cisco Catalyst 2960 (Switch 1 & 2)</span>
+            <span class="terminal-banner__location"> Interface: GigabitEthernet 0/1 (Gi0/1)</span>
+            <span class="terminal-banner__action"> Tujuan: Mengaktifkan mode Trunk dan membatasi VLAN yang diizinkan</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">Switch(config)# Konfigurasi 802.1Q Trunk</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code>Switch(config)# <strong>interface gigabitEthernet 0/1</strong>
+Switch(config-if)# <strong>switchport mode trunk</strong>
+<span style="color:var(--text-dim);"># Membatasi hanya VLAN 10, 20, dan 30 yang boleh lewat trunk:</span>
+Switch(config-if)# <strong>switchport trunk allowed vlan 10,20,30</strong>
+<span style="color:var(--text-dim);"># Mengganti Native VLAN default demi keamanan:</span>
+Switch(config-if)# <strong>switchport trunk native vlan 99</strong>
+Switch(config-if)# <strong>end</strong>
+
+<span style="color:var(--text-dim);"># Verifikasi status trunk:</span>
+Switch# <strong>show interfaces trunk</strong></code></pre>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Troubleshooting "VLAN Allowed Filter" di Kampus</h4>
+            <span class="badge badge--danger">Troubleshooting Kasus Nyata</span>
+          </div>
+          <p>
+            <strong>Masalah:</strong> Teknisi baru menambahkan Lab Baru (VLAN 40) di Gedung A dan Gedung B. Namun PC VLAN 40 di Gedung A tidak bisa ping ke PC VLAN 40 di Gedung B, sementara VLAN 10 dan 20 berjalan lancar tanpa kendala.
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Pemeriksaan Perintah:</strong>
+              <p>Saat dicek dengan <code>show interfaces trunk</code>, tercantum baris: <code>Vlans allowed on trunk: 10,20,30</code>.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Solusi:</strong>
+              <p>Teknisi lupa menambahkan VLAN 40 ke daftar izin trunk. Solusinya adalah menjalankan perintah:<br>
+              <code>Switch(config-if)# switchport trunk allowed vlan add 40</code>.</p>
+            </div>
+          </div>
+          <div class="lesson-box">
+            <strong> Catatan Kritis:</strong> Selalu gunakan kata kunci <code>add</code> saat menambah VLAN di trunk. Jika kamu mengetik <code>switchport trunk allowed vlan 40</code> tanpa kata <em>add</em>, semua VLAN lama (10,20,30) akan <strong>TERHAPUS</strong> dari trunk dan menyebabkan pemadaman koneksi!
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <!-- Quest 1.2.5 -->
+          <div class="quest-card" id="q1-2-5" data-quest-type="multiple-choice" data-answer="C">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.2.5 • Pilihan Ganda</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Berapa byte ukuran tag header IEEE 802.1Q yang disisipkan pada frame Ethernet saat melewati link trunk, dan berapa bit panjang field VLAN ID (VID)-nya?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-5" value="A"> A. 2 Byte tag, 8 bit VID</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-5" value="B"> B. 8 Byte tag, 16 bit VID</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-5" value="C"> C. 4 Byte tag, 12 bit VID</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-5" value="D"> D. 32 Byte tag, 32 bit VID</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-2-5')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-2-5')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-2-5">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: C (4 Byte Tag, 12 Bit VID)</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> Standar IEEE 802.1Q menambahkan tepat <strong>4 Byte (32 bit)</strong> ke frame. Di dalamnya terdapat field <strong>VLAN ID sepanjang 12 bit</strong>, yang memungkinkan pembuatan hingga 2¹² = 4.096 VLAN unik.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak yang mengira port trunk boleh langsung dicolokkan ke laptop biasa. <strong>Jangan lakukan ini!</strong> Laptop biasa memiliki kartu jaringan (NIC) standar yang tidak mengerti tag 802.1Q. Jika menerima frame ber-tag, OS laptop akan menganggap frame tersebut korup/rusak dan langsung membuangnya.
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 25 Menit.</li>
+              <li><strong>Poin Kunci:</strong> Bedakan konsep <em>Untagged (Access Port)</em> vs <em>Tagged (Trunk Port)</em>.</li>
+              <li><strong>Peringatan Khusus:</strong> Ingatkan peserta tentang bahaya salah mengetik perintah <code>switchport trunk allowed vlan</code> tanpa kata <code>add</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.2.4: INTER-VLAN ROUTING (ROUTER-ON-A-STICK & L3 SWITCH)
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-4">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.2.4</span>
+          <h2>Inter-VLAN Routing (Router-on-a-Stick & L3 Switch)</h2>
+          <p class="subtopic-lead">
+            Bagaimana menghubungkan komunikasi antar VLAN yang berbeda secara aman tanpa merusak isolasi keamanan?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Kita sudah berhasil memisahkan Departemen Keuangan (VLAN 10) dan HRD (VLAN 20) menggunakan switch VLAN. Semuanya aman dan tidak bisa saling intip. Namun pada akhir bulan, bagian HRD wajib mengirimkan file rekap absensi pegawai ke Server Gaji di Keuangan.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Karena switch Layer 2 memblokir total komunikasi beda VLAN, bagaimana cara menghubungkan dua VLAN berbeda tersebut secara resmi dan terkontrol tanpa membongkar isolasi VLAN yang sudah kita buat?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Jawabannya adalah <strong>Inter-VLAN Routing</strong> menggunakan <strong>Router-on-a-Stick (ROAS)</strong> atau <strong>Switch Layer 3</strong>!
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Inter-VLAN Routing:</div>
+            <p style="margin: 0;">
+              <strong>Inter-VLAN Routing</strong> adalah proses meneruskan lalu lintas data antar VLAN (antar subnet IP yang berbeda) menggunakan perangkat Layer 3 (Network Layer) yang memiliki tabel routing.<br>
+              <strong>Router-on-a-Stick (ROAS)</strong> adalah metode Inter-VLAN routing di mana satu interface fisik router (misal <code>g0/0</code>) dihubungkan dengan 1 kabel trunk ke switch, lalu interface tersebut dipecah secara logis menjadi beberapa <strong>Sub-Interface Virtual</strong> (misal <code>g0/0.10</code> dan <code>g0/0.20</code>) yang bertindak sebagai <em>Default Gateway</em> masing-masing VLAN.
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Meja Rujukan Dokter Rumah Sakit:</div>
+            <ul>
+              <li><strong>Poli Gigi (VLAN 10)</strong> dan <strong>Poli Mata (VLAN 20)</strong> adalah dua ruangan terpisah dengan pintu tertutup. Pasien di Poli Gigi tidak boleh asal nyelonong ke Poli Mata.</li>
+              <li><strong>Router (ROAS)</strong> = Dokter Kepala di Meja Konsultasi Utama.</li>
+              <li>Jika pasien Gigi butuh resep obat mata, dia harus keluar lewat pintu gerbang (Gateway), melapor ke Meja Dokter Kepala (Router), lalu Dokter Kepala memeriksa buku rujukan (Routing Table) dan mengantar pasien ke Poli Mata dengan izin resmi.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Perhatikan bagaimana paket dari PC-1 (VLAN 10) naik ke Router melalui kabel trunk, dirutekan antar sub-interface, lalu turun kembali ke PC-2 (VLAN 20):
+          </p>
+
+          <div class="sim-container" id="sim-router-on-a-stick">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 360" preserveAspectRatio="xMidYMid meet">
+                <!-- Kabel Access Bawah -->
+                <line x1="140" y1="240" x2="400" y2="240" stroke="#A855F7" stroke-width="3" stroke-linecap="round" />
+                <line x1="400" y1="240" x2="660" y2="240" stroke="#06B6D4" stroke-width="3" stroke-linecap="round" />
+
+                <!-- Kabel TRUNK Vertikal Naik ke Router -->
+                <line x1="400" y1="240" x2="400" y2="70" stroke="#F59E0B" stroke-width="5" stroke-linecap="round" />
+                <text x="415" y="160" fill="#F59E0B" font-size="10" font-weight="bold" font-family="var(--font-mono)">Link Trunk (ROAS)</text>
+
+                <!-- Nodes -->
+                <g id="roas-node-pc1" data-cx="140" data-cy="240" transform="translate(75, 170)"></g>
+                <g id="roas-node-sw" data-cx="400" data-cy="240" transform="translate(335, 170)"></g>
+                <g id="roas-node-rtr" data-cx="400" data-cy="70" transform="translate(335, 0)"></g>
+                <g id="roas-node-pc2" data-cx="660" data-cy="240" transform="translate(595, 170)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">PC-1 (VLAN 10) ingin mengirim data ke PC-2 (VLAN 20)...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Perintah CLI</span>
+
+          <h4>4.1 Konfigurasi Lengkap Cisco Router-on-a-Stick (ROAS):</h4>
+
+          <!-- Terminal Context 4 -->
+          <div class="terminal-banner">
+            <span class="terminal-banner__device">️ Perangkat: Router Cisco 2911 (ROAS Gateway)</span>
+            <span class="terminal-banner__location"> Interface: GigabitEthernet 0/0 (Sub-Interfaces)</span>
+            <span class="terminal-banner__action"> Tujuan: Membuat Gateway VLAN 10 (192.168.10.1) & VLAN 20 (192.168.20.1)</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">Router(config)# Konfigurasi Sub-Interface ROAS</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code><span style="color:var(--text-dim);">! 1. Nyalakan interface fisik utama (tanpa IP)</span>
+Router(config)# <strong>interface gigabitEthernet 0/0</strong>
+Router(config-if)# <strong>no shutdown</strong>
+Router(config-if)# <strong>exit</strong>
+
+<span style="color:var(--text-dim);">! 2. Konfigurasi Sub-Interface untuk VLAN 10</span>
+Router(config)# <strong>interface gigabitEthernet 0/0.10</strong>
+<span style="color:var(--text-dim);">! Kenapa dot1q 10? Agar router memproses frame tag VLAN ID 10:</span>
+Router(config-subif)# <strong>encapsulation dot1Q 10</strong>
+Router(config-subif)# <strong>ip address 192.168.10.1 255.255.255.0</strong>
+Router(config-subif)# <strong>exit</strong>
+
+<span style="color:var(--text-dim);">! 3. Konfigurasi Sub-Interface untuk VLAN 20</span>
+Router(config)# <strong>interface gigabitEthernet 0/0.20</strong>
+Router(config-subif)# <strong>encapsulation dot1Q 20</strong>
+Router(config-subif)# <strong>ip address 192.168.20.1 255.255.255.0</strong>
+Router(config-subif)# <strong>end</strong>
+
+<span style="color:var(--text-dim);">! 4. Cek status sub-interface dan tabel routing</span>
+Router# <strong>show ip interface brief</strong>
+Router# <strong>show ip route</strong></code></pre>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Troubleshooting "Request Timed Out" pada ROAS</h4>
+            <span class="badge badge--warning">Analisis Konfigurasi</span>
+          </div>
+          <p>
+            <strong>Gejala:</strong> PC-1 (IP <code>192.168.10.5</code>) di VLAN 10 mencoba ping ke PC-2 (IP <code>192.168.20.8</code>) di VLAN 20, namun hasilnya selalu <em>Request Timed Out</em>.
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Langkah Pemeriksaan 1 (Default Gateway):</strong>
+              <p>Cek konfigurasi IP pada PC-1. Ternyata field <em>Default Gateway</em> dikosongkan! Akibatnya, saat PC-1 melihat IP tujuan (<code>192.168.20.8</code>) berada di luar subnet lokalnya, PC-1 bingung harus mengirim paket ke mana dan membuang paket tersebut.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Langkah Pemeriksaan 2 (Switch Port Mode):</strong>
+              <p>Cek port switch yang terhubung ke router. Teknisi salah mengatur port tersebut sebagai <code>switchport mode access</code> bukannya <code>switchport mode trunk</code>, sehingga frame ber-tag dari router ditolak oleh switch.</p>
+            </div>
+          </div>
+          <div class="lesson-box">
+            <strong> Kunci Sukses ROAS:</strong> (1) Port switch ke router WAJIB mode Trunk, (2) Sub-interface router diberi <code>encapsulation dot1q</code> yang cocok, dan (3) Setiap PC klien WAJIB diisi Default Gateway ke IP sub-interface VLAN masing-masing.
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <!-- Quest 1.2.7 -->
+          <div class="quest-card" id="q1-2-7" data-quest-type="multiple-choice" data-answer="A">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.2.7 • Pilihan Ganda</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Pada router Cisco, mengapa perintah <code>encapsulation dot1Q &lt;vlan-id&gt;</code> <strong>WAJIB</strong> diketik terlebih dahulu sebelum perintah <code>ip address &lt;ip&gt; &lt;mask&gt;</code> pada sub-interface?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-7" value="A"> A. Karena router harus tahu protokol enkapsulasi dan VLAN ID mana yang dilayani sebelum bisa mengikat alamat IP ke sub-interface tersebut.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-7" value="B"> B. Karena jika terbalik, password router akan otomatis ter-reset.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-7" value="C"> C. Karena perintah ip address hanya berlaku untuk interface fisik.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-7" value="D"> D. Karena Cisco IOS mengharuskan urutan alfabet.</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-2-7')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-2-7')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-2-7">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: A</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> Sub-interface adalah interface virtual di Layer 3. Router Cisco menolak pemberian IP address pada sub-interface jika tipe enkapsulasi Layer 2 (802.1Q) dan VLAN ID-nya belum didefinisikan. Jika kamu mencoba memasukkan IP duluan, router akan memunculkan error: <em>% Configuring IP routing on a LAN subinterface is only allowed if that subinterface is already configured as part of an 802.10, 802.1Q, or ISL vLAN.</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak siswa memberikan IP address pada interface fisik utama (misal <code>g0/0</code>) DAN juga memberikan IP pada sub-interface <code>g0/0.10</code>. <strong>Pada desain ROAS standar, interface fisik utama <code>g0/0</code> TIDAK PERLU diberi IP address</strong> - cukup aktifkan dengan perintah <code>no shutdown</code>.
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 30 Menit.</li>
+              <li><strong>Praktik Langsung:</strong> Buka Cisco Packet Tracer, buat 1 Router 2911, 1 Switch 2960, dan 2 PC. Bimbing adikmu mengetik baris per baris perintah ROAS.</li>
+              <li><strong>Pertanyaan Pemantik:</strong> <em>"Kenapa metode ini disebut 'on-a-stick'? Di mana tongkatnya?"</em> (Jawab: Karena hanya ada 1 kabel tunggal seperti batang permen lolipop antara router dan switch).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.2.5: PERJALANAN LINTAS ROUTER (HOP-BY-HOP MAC REWRITE)
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-5">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.2.5</span>
+          <h2>Konsep Routing & Hop-by-Hop MAC Rewrite</h2>
+          <p class="subtopic-lead">
+            Rahasia terbesar jaringan komputer: Kenapa alamat IP tidak pernah berubah di perjalanan, tapi alamat MAC selalu dihancurkan dan dibuat baru di setiap router?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Ketika kamu membuka website Google di laptopmu di Bandung, paket data menyeberangi belasan router: Router Rumah -> Router ISP Telkom Bandung -> Router Jakarta Gateway -> Router Kabel Laut Singapura -> Router Server Google.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Laptopmu berada ribuan kilometer jauhnya. Bagaimana kartu jaringan laptopmu tahu harus mengisi MAC Address siapa pada frame Ethernet-nya? Apakah laptopmu harus tahu MAC Address milik server Google di Singapura?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Tentu tidak! Laptopmu <strong>TIDAK PERNAH TAHU</strong> MAC Address server Google. Inilah alasan mengapa Layer 2 (MAC) dan Layer 3 (IP) dipisahkan: <strong>IP Address mengurus tujuan akhir global, sedangkan MAC Address hanya mengurus lompatan lokal dari satu router ke router berikutnya (Hop-by-Hop)!</strong>
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Routing & Hop-by-Hop MAC Rewrite:</div>
+            <p style="margin: 0;">
+              <strong>Routing</strong> adalah proses pemilihan jalur terbaik pada Layer 3 untuk meneruskan paket data dari jaringan sumber ke jaringan tujuan.<br>
+              <strong>Hop-by-Hop MAC Rewrite</strong> adalah mekanisme di mana setiap router yang menerima frame Layer 2 akan <em>mencopot dan membuang header MAC lama</em>, membaca IP tujuan pada Layer 3, mengurangi nilai <em>TTL (Time to Live)</em>, lalu <em>membungkus ulang paket dengan header MAC BARU</em> yang sesuai dengan link fisik lompatan berikutnya.
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Surat Pos dari Arya di Bandung ke Paman di Tokyo:</div>
+            <ul>
+              <li><strong>IP Source & IP Destination (Layer 3)</strong> = Tulisan permanen di amplop surat: <em>"Dari: Arya (Bandung) - Kepada: Paman (Tokyo)"</em>. Tulisan ini <strong>TIDAK PERNAH BERUBAH</strong> dari awal sampai surat sampai di tangan paman.</li>
+              <li><strong>MAC Source & MAC Destination (Layer 2)</strong> = Kendaraan pengantar per estafet (Hop):
+                <br>• <strong>Hop 1 (Lokal):</strong> Kurir Motor Arya -> Kantor Pos Bandung
+                <br>• <strong>Hop 2 (Antar-Kota):</strong> Truk Kargo Bandung -> Bandara Soekarno-Hatta
+                <br>• <strong>Hop 3 (Internasional):</strong> Pesawat Kargo Jakarta -> Bandara Haneda Tokyo
+                <br>• <strong>Hop 4 (Tujuan):</strong> Kurir Sepeda Tokyo -> Rumah Paman
+              </li>
+              <li>Di setiap perhentian bandara/kantor pos (Router), amplop surat dimasukkan ke dalam wadah kargo baru yang berbeda!</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Perhatikan HUD Live Header di bawah saat paket melintasi Router 1 dan Router 2. Amati bagaimana IP Source/Destination TETAP, sedangkan MAC Source/Destination BERUBAH di setiap hop:
+          </p>
+
+          <div class="sim-container" id="sim-hop-mac-rewrite">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 340" preserveAspectRatio="xMidYMid meet">
+                <!-- Hop 1: LAN -->
+                <line x1="100" y1="180" x2="300" y2="180" stroke="var(--border-light)" stroke-width="3.5" stroke-linecap="round" />
+                <text x="200" y="165" text-anchor="middle" fill="var(--info)" font-size="10" font-family="var(--font-mono)">Hop 1 (LAN Asal)</text>
+
+                <!-- Hop 2: WAN Antar Router (Merah Bata) -->
+                <line x1="300" y1="180" x2="500" y2="180" stroke="#EF4444" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="6,4" />
+                <text x="400" y="165" text-anchor="middle" fill="#EF4444" font-size="10" font-family="var(--font-mono)">Hop 2 (Link WAN / Serial)</text>
+
+                <!-- Hop 3: LAN Server -->
+                <line x1="500" y1="180" x2="700" y2="180" stroke="var(--border-light)" stroke-width="3.5" stroke-linecap="round" />
+                <text x="600" y="165" text-anchor="middle" fill="var(--success)" font-size="10" font-family="var(--font-mono)">Hop 3 (LAN Server)</text>
+
+                <!-- Nodes -->
+                <g id="hop-node-pc" data-cx="100" data-cy="180" transform="translate(35, 110)"></g>
+                <g id="hop-node-r1" data-cx="300" data-cy="180" transform="translate(235, 110)"></g>
+                <g id="hop-node-r2" data-cx="500" data-cy="180" transform="translate(435, 110)"></g>
+                <g id="hop-node-srv" data-cx="700" data-cy="180" transform="translate(635, 110)"></g>
+              </svg>
+            </div>
+
+            <!-- Live HUD Header Inspector -->
+            <div id="hop-hud-container" style="margin: 12px 16px 0;"></div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 6</span>
+              <p class="sim__text">Laptop Arya membungkus paket HTTP GET untuk Web Server...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Perjalanan Header</span>
+
+          <h4>4.1 Matriks Transformasi Header Sepanjang Perjalanan:</h4>
+          <div class="table-wrapper">
+            <table class="table-styled">
+              <thead>
+                <tr>
+                  <th>Tahap Perjalanan (Hop)</th>
+                  <th>Source IP (L3)</th>
+                  <th>Destination IP (L3)</th>
+                  <th>Source MAC (L2)</th>
+                  <th>Destination MAC (L2)</th>
+                  <th>TTL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. PC -> Router 1</strong></td>
+                  <td><code>192.168.1.10</code></td>
+                  <td><code>10.0.0.50</code></td>
+                  <td><code>AA:AA:01</code> (PC)</td>
+                  <td><code>11:11:01</code> (R1-LAN)</td>
+                  <td><strong>64</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>2. Router 1 -> Router 2</strong></td>
+                  <td><code>192.168.1.10</code></td>
+                  <td><code>10.0.0.50</code></td>
+                  <td><code>12:12:02</code> (R1-WAN)</td>
+                  <td><code>21:21:01</code> (R2-WAN)</td>
+                  <td><strong>63</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>3. Router 2 -> Server</strong></td>
+                  <td><code>192.168.1.10</code></td>
+                  <td><code>10.0.0.50</code></td>
+                  <td><code>22:22:02</code> (R2-LAN)</td>
+                  <td><code>SS:SS:01</code> (Server)</td>
+                  <td><strong>62</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 style="margin-top: 20px;">4.2 Peran Kritis Time To Live (TTL) & Kode Rute Routing Table:</h4>
+          <p>
+            Setiap kali paket melewati 1 router, router wajib mengurangi nilai <strong>TTL sebesar 1 (TTL = TTL - 1)</strong>. Jika terjadi salah konfigurasi routing loop (rute berputar tanpa ujung), TTL akan berkurang hingga 0. Saat TTL = 0, router akan membuang paket tersebut dan mengirim pesan ICMP <em>Time-to-Live Exceeded</em> kembali ke pengirim, mencegah jaringan internet macet total!
+          </p>
+
+          <!-- Terminal Context 5 -->
+          <div class="terminal-banner">
+            <span class="terminal-banner__device">️ Perangkat: Router Cisco 2911 (Router Jakarta)</span>
+            <span class="terminal-banner__location"> Mode: Privileged EXEC (#)</span>
+            <span class="terminal-banner__action"> Tujuan: Membaca tabel routing dan arti kode rute</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">Router# show ip route</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code>Router# <strong>show ip route</strong>
+Codes: C - connected, S - static, R - RIP, O - OSPF, * - candidate default
+
+Gateway of last resort is 203.0.113.1 to network 0.0.0.0
+
+C    192.168.1.0/24 is directly connected, GigabitEthernet0/0
+C    10.10.10.0/30 is directly connected, GigabitEthernet0/1
+S    10.0.0.0/24 [1/0] via 10.10.10.2
+S*   0.0.0.0/0 [1/0] via 203.0.113.1</code></pre>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Bencana Routing Loop Antar Dua ISP Lokal</h4>
+            <span class="badge badge--danger">Insiden Nyata Industri</span>
+          </div>
+          <p>
+            <strong>Kronologi:</strong> Router ISP-A memiliki static route: <em>"Tujuan 172.16.0.0/16 lempar ke ISP-B"</em>. Namun di sisi ISP-B, teknisinya salah memasukkan rute: <em>"Tujuan 172.16.0.0/16 lempar ke ISP-A"</em>.
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Terjadinya Ping-Pong Packet:</strong>
+              <p>Paket data menuju <code>172.16.5.50</code> berputar-putar ratusan kali per detik antara ISP-A dan ISP-B seperti bola ping-pong.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Penyelamatan oleh TTL:</strong>
+              <p>Setelah 64 kali berputar, TTL paket mencapai angka 0. Router ISP-A langsung menghancurkan paket tersebut dan mengirim pesan error <code>TTL Expired in Transit</code> ke pengirim, menyelamatkan link antar-router dari kepenuhan kapasitas.</p>
+            </div>
+          </div>
+          <div class="lesson-box">
+            <strong> Pelajaran:</strong> Tanpa mekanisme TTL di header IP, satu kesalahan static route sederhana bisa melumpuhkan link bandwidth internet selamanya!
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <!-- Quest 1.2.9 -->
+          <div class="quest-card" id="q1-2-9" data-quest-type="multiple-choice" data-answer="B">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.2.9 • Analisis Header Hop-by-Hop</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Saat paket data sedang meluncur di kabel WAN antar Router-1 dan Router-2, manakah pernyataan yang <strong>BENAR</strong> mengenai alamat pada header paket tersebut?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-9" value="A"> A. Source IP berubah menjadi IP Router-1, Source MAC tetap MAC laptop pengirim.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-9" value="B"> B. Source IP & Destination IP TETAP ASLI, tetapi Source MAC & Destination MAC diganti menjadi MAC interface link WAN tersebut.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-9" value="C"> C. Semua alamat (IP dan MAC) berubah menjadi milik Router-1 dan Router-2.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-9" value="D"> D. Header MAC dihapus total dan paket dikirim tanpa Layer 2.</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-2-9')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-2-9')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-2-9">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: B</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> Ini adalah hukum fundamental jaringan (Routing Murni): <strong>IP Address (Layer 3) bersifat End-to-End</strong> sehingga TIDAK BERUBAH sepanjang perjalanan, sedangkan <strong>MAC Address (Layer 2) bersifat Hop-by-Hop</strong> sehingga SELALU DI-REWRITE (ditulis ulang) oleh setiap router yang dilewati.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak siswa mengira bahwa perintah <code>ping</code> yang gagal selalu disebabkan kabel putus. Jika kamu melihat respon <code>TTL Expired in Transit</code>, kabelnya baik-baik saja, tapi ada <strong>Routing Loop</strong> (kesalahan konfigurasi rute di router yang menyebabkan paket berputar-putar).
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 25 Menit.</li>
+              <li><strong>Poin Kunci:</strong> Gunakan fitur <em>Simulation Mode</em> di Cisco Packet Tracer. Klik amplop paket di setiap hop router, lalu tunjukkan tab <em>Inbound PDU Details</em> vs <em>Outbound PDU Details</em>. Tunjukkan kepada adikmu secara nyata bahwa MAC address-nya berganti!</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.2.6: STATIC ROUTING VS DYNAMIC ROUTING (OSPF FAILOVER)
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-6">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.2.6</span>
+          <h2>Static Routing vs Dynamic Routing (Dasar OSPF)</h2>
+          <p class="subtopic-lead">
+            Kapan kita memilih rute manual (Static) dan bagaimana protokol dinamis (OSPF) secara otomatis mengalihkan jalur saat ada kabel optik putus?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Jika kantor hanya memiliki 2 router, kita bisa mengetikkan jalurnya satu per satu secara manual (Static Routing). Namun bayangkan sebuah Bank Nasional dengan 500 kantor cabang di seluruh Indonesia yang saling terhubung.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Jika kabel fiber optik bawah laut Jakarta-Surabaya putus terhantam jangkar kapal pada jam 3 pagi, apakah network engineer harus dibangunkan dari tidur untuk mengetik ulang ratusan tabel routing manual?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Tentu tidak! Dengan <strong>Dynamic Routing (seperti OSPF)</strong>, para router saling berkomunikasi, mendeteksi jalur putus dalam hitungan detik, dan <strong>secara otomatis membelokkan lalu lintas ke jalur cadangan (Failover)</strong> tanpa perlu campur tangan manusia!
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Static vs Dynamic Routing:</div>
+            <p style="margin: 0;">
+              <strong>Static Routing</strong> adalah metode di mana administrator jaringan mengisi tabel routing secara manual dengan menentukan network tujuan, subnet mask, dan alamat next-hop.<br>
+              <strong>Default Route (<code>0.0.0.0/0</code>)</strong> adalah rute statis khusus ("rute sapu jagat") yang mengarahkan semua paket yang tidak terdaftar di tabel routing ke gateway internet.<br>
+              <strong>Dynamic Routing (OSPF - Open Shortest Path First)</strong> adalah protokol routing interior berbasis <em>Link-State</em> yang menggunakan <em>Algoritma Dijkstra (SPF)</em> untuk secara otomatis mempelajari seluruh topologi jaringan, menghitung rute tercepat (Cost terendah), dan melakukan <em>failover otomatis</em> saat terjadi perubahan link.
+            </p>
+          </div>
+
+          <div class="table-wrapper" style="margin-top:16px;">
+            <table class="table-styled">
+              <thead>
+                <tr>
+                  <th>Parameter Perbandingan</th>
+                  <th>Static Routing</th>
+                  <th>Dynamic Routing (OSPF)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Beban Konfigurasi</strong></td>
+                  <td>Tinggi pada jaringan besar (harus input manual tiap router)</td>
+                  <td>Rendah (cukup deklarasikan network lokal, router saling bertukar)</td>
+                </tr>
+                <tr>
+                  <td><strong>Penggunaan CPU & RAM</strong></td>
+                  <td>Sangat Ringan (tanpa kalkulasi algoritma)</td>
+                  <td>Sedang (membutuhkan memori untuk database LSA & kalkulasi SPF)</td>
+                </tr>
+                <tr>
+                  <td><strong>Respon Jalur Putus (Failover)</strong></td>
+                  <td><span class="badge badge--danger">Manual (Mati sebelum diubah)</span></td>
+                  <td><span class="badge badge--success">Otomatis dalam 1-3 detik</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Administrative Distance (AD)</strong></td>
+                  <td><code>AD = 1</code> (Sangat Dipercaya)</td>
+                  <td><code>AD = 110</code> (Dipercaya)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Simulasi berikut memperlihatkan topologi segitiga (Jakarta - Semarang - Surabaya). Saat link utama FO 10G terputus, amati bagaimana OSPF secara otomatis mengalihkan paket melalui Semarang:
+          </p>
+
+          <div class="sim-container" id="sim-routing-failover">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 340" preserveAspectRatio="xMidYMid meet">
+                <!-- Jalur Utama A-B (Bawah) -->
+                <line id="link-ab" x1="160" y1="220" x2="640" y2="220" stroke="var(--success)" stroke-width="3.5" stroke-linecap="round" />
+                <text x="400" y="240" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="var(--font-mono)">Link Utama FO 10G (Jakarta - Surabaya)</text>
+
+                <!-- Jalur Cadangan Segitiga Atas (via Semarang) -->
+                <line id="link-ac" x1="160" y1="220" x2="400" y2="80" stroke="var(--border-light)" stroke-width="2" stroke-linecap="round" />
+                <line id="link-cb" x1="400" y1="80" x2="640" y2="220" stroke="var(--border-light)" stroke-width="2" stroke-linecap="round" />
+
+                <!-- Nodes Router -->
+                <g id="failover-node-ra" data-cx="160" data-cy="220" transform="translate(95, 150)"></g>
+                <g id="failover-node-rc" data-cx="400" data-cy="80" transform="translate(335, 10)"></g>
+                <g id="failover-node-rb" data-cx="640" data-cy="220" transform="translate(575, 150)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Kondisi Normal: OSPF memilih jalur cepat Jakarta-Surabaya...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis, Wildcard Mask & CLI</span>
+
+          <h4>4.1 Rumus Menghitung Wildcard Mask pada OSPF:</h4>
+          <p>
+            Pada konfigurasi OSPF, Cisco menggunakan <strong>Wildcard Mask</strong> (kebalikan dari Subnet Mask).
+          </p>
+
+          <div class="calc-step-card">
+            <div class="calc-step-header">
+              <span class="calc-step-num">Rumus Baku</span>
+              <strong>Wildcard Mask = 255.255.255.255 − Subnet Mask</strong>
+            </div>
+            <div class="calc-step-body">
+              <p><strong>Kenapa dikurangi dari 255?</strong> Karena bit <code>0</code> pada wildcard berarti "bit ini harus COCOK PERSIS", sedangkan bit <code>1</code> berarti "bit ini BEBAS (don't care)".</p>
+            </div>
+          </div>
+
+          <!-- Widget Interaktif Wildcard Mask -->
+          <div class="interactive-widget-box" style="margin-top: 16px;">
+            <div class="widget-header">
+              <span class="widget-icon"></span>
+              <h4>Kalkulator Wildcard Mask & Generator Perintah OSPF:</h4>
+            </div>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;">
+              Geser slider prefix untuk melihat proses inversi matematika dan baris konfigurasi Cisco yang dihasilkan:
+            </p>
+
+            <div style="display:flex; align-items:center; gap:var(--space-md); margin-bottom:14px;">
+              <input type="range" id="wildcard-slider" min="24" max="30" step="1" value="26" style="flex:1;">
+              <span class="badge badge--primary" id="wildcard-prefix-label" style="font-size:1.1rem; padding:6px 14px;">/26</span>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:var(--space-sm); font-size:0.88rem;">
+              <div style="background: var(--bg-surface); padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border);">
+                <div style="color:var(--text-muted); font-size:0.75rem;">Subnet Mask Asli:</div>
+                <strong style="color:var(--info); font-family:var(--font-mono); font-size:1rem;" id="wildcard-mask-label">255.255.255.192</strong>
+              </div>
+              <div style="background: var(--bg-surface); padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border);">
+                <div style="color:var(--text-muted); font-size:0.75rem;">Hasil Wildcard Mask:</div>
+                <strong style="color:var(--success); font-family:var(--font-mono); font-size:1rem;" id="wildcard-result-label">0.0.0.63</strong>
+              </div>
+            </div>
+
+            <div style="margin-top:10px; background:rgba(0,0,0,0.25); padding:8px 12px; border-radius:var(--radius-sm); font-family:var(--font-mono); font-size:0.85rem;" id="wildcard-formula-label">
+              255.255.255.255<br>
+              <span style="color:var(--danger);">- 255.255.255.192</span><br>
+              <span style="border-top:1.5px solid var(--border-light); display:inline-block; margin-top:2px; font-weight:bold; color:var(--success);">= 0.0.0.63 (255 - 192 = 63)</span>
+            </div>
+
+            <div style="margin-top:10px; background:var(--bg-base); padding:10px; border-radius:var(--radius-sm); ">
+              <span style="font-size:0.75rem; color:var(--text-muted); font-weight:bold;">Sintaks Cisco OSPF Otomatis:</span>
+              <div style="font-family:var(--font-mono); color:var(--primary); font-size:0.88rem; margin-top:2px;" id="ospf-cmd-preview">
+                Router(config-router)# network 192.168.1.0 0.0.0.63 area 0
+              </div>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 24px;">4.2 Perintah CLI Cisco (Static Route vs OSPF):</h4>
+
+          <!-- Terminal Context 6 -->
+          <div class="terminal-banner">
+            <span class="terminal-banner__device">️ Perangkat: Router Cisco 2911 (Router Jakarta)</span>
+            <span class="terminal-banner__location"> Mode: Global Configuration (config)#</span>
+            <span class="terminal-banner__action"> Tujuan: Menetapkan Default Route ke Internet & OSPF Area 0</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">Router(config)# Static & OSPF Routing</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code><span style="color:var(--text-dim);">! 1. Menambahkan Static Default Route ke arah ISP Gateway:</span>
+Router(config)# <strong>ip route 0.0.0.0 0.0.0.0 203.0.113.1</strong>
+
+<span style="color:var(--text-dim);">! 2. Mengaktifkan Dynamic Routing OSPF Process ID 1:</span>
+Router(config)# <strong>router ospf 1</strong>
+Router(config-router)# <strong>router-id 1.1.1.1</strong>
+<span style="color:var(--text-dim);">! Deklarasikan interface LAN dan WAN ke dalam OSPF Area 0 (Backbone):</span>
+Router(config-router)# <strong>network 192.168.1.0 0.0.0.255 area 0</strong>
+Router(config-router)# <strong>network 10.10.10.0 0.0.0.3 area 0</strong>
+<span style="color:var(--text-dim);">! Redistribusikan rute internet default ke router tetangga:</span>
+Router(config-router)# <strong>default-information originate</strong>
+Router(config-router)# <strong>end</strong>
+
+<span style="color:var(--text-dim);">! 3. Verifikasi tetangga OSPF dan tabel rute:</span>
+Router# <strong>show ip ospf neighbor</strong>
+Router# <strong>show ip route ospf</strong></code></pre>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Bank Mandiri Regional - Floating Static Route vs OSPF</h4>
+            <span class="badge badge--success">Redundansi Tingkat Tinggi</span>
+          </div>
+          <p>
+            <strong>Latar Kasus:</strong> Bank memiliki Jalur Utama FO 100 Mbps (Sewa Mahal) dan Jalur Backup Seluler 4G LTE 10 Mbps (Sewa Murah berkuota). Bank ingin jalur backup HANYA dipakai jika jalur FO benar-benar putus.
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Solusi dengan Floating Static Route:</strong>
+              <p>Rute utama: <code>ip route 10.0.0.0 255.0.0.0 192.168.1.2</code> (AD default = 1).<br>
+              Rute backup: <code>ip route 10.0.0.0 255.0.0.0 192.168.2.2 50</code> (Diberi nilai AD = 50).</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Cara Kerjanya:</strong>
+              <p>Karena router selalu memprioritaskan rute dengan <em>Administrative Distance (AD) terkecil</em>, rute backup AD 50 disembunyikan dan tidur. Begitu kabel FO utama putus (interface mati), rute AD 1 hilang dari tabel dan rute AD 50 otomatis melompat aktif menggantikan!</p>
+            </div>
+          </div>
+          <div class="lesson-box">
+            <strong> Kunci Pemahaman AD:</strong> Makin KECIL angka Administrative Distance, makin DIPERCAYA rute tersebut oleh router (Connected: 0, Static: 1, OSPF: 110, RIP: 120).
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <!-- Quest 1.2.11 -->
+          <div class="quest-card" id="q1-2-11" data-quest-type="multiple-choice" data-answer="C">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.2.11 • Kalkulasi Wildcard Mask</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Sebuah subnet memiliki prefix <code>/28</code> (Subnet Mask: <code>255.255.255.240</code>). Berapakah nilai <strong>Wildcard Mask</strong> yang harus ditulis pada konfigurasi OSPF?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-11" value="A"> A. 0.0.0.240</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-11" value="B"> B. 0.0.0.255</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-11" value="C"> C. 0.0.0.15</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-11" value="D"> D. 255.255.255.0</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-2-11')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-2-11')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-2-11">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: C (0.0.0.15)</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Langkah Perhitungan Vertikal:</strong></p>
+                <pre style="font-family:var(--font-mono); font-size:0.9rem; color:var(--text);">
+  255 . 255 . 255 . 255
+- 255 . 255 . 255 . 240
+-----------------------
+    0 .   0 .   0 .  15 (255 - 240 = 15)</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quest 1.2.12 -->
+          <div class="quest-card" id="q1-2-12" data-quest-type="multiple-choice" data-answer="A">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.2.12 • Prioritas Administrative Distance</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Sebuah router menerima dua jalur rute menuju network <code>192.168.50.0/24</code>: Satu berasal dari <strong>Static Route (AD = 1)</strong> dan satu berasal dari protokol <strong>OSPF (AD = 110)</strong>. Rute mana yang akan dipasang dan aktif di dalam Routing Table?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-12" value="A"> A. Static Route (karena nilai AD 1 lebih kecil dan lebih dipercaya dibanding OSPF AD 110).</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-12" value="B"> B. OSPF (karena OSPF lebih modern dibanding Static Route).</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-12" value="C"> C. Keduanya dipasang bersamaan untuk load balancing 50:50.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-2-12" value="D"> D. Router akan crash karena terjadi konflik protokol.</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-2-12')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-2-12')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-2-12">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: A</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> Prinsip pemilihan rute Cisco: Jika ada rute ke tujuan subnet yang persis sama dari sumber berbeda, router selalu memilih rute dengan <strong>Administrative Distance (AD) TERKECIL</strong>. Static Route (AD 1) menang mutlak atas OSPF (AD 110).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak siswa mengira nilai <em>Metric Cost</em> OSPF dibandingkan langsung dengan <em>Metric Hop Count</em> RIP. <strong>Ini keliru!</strong> Router tidak pernah membandingkan metrik antar protokol yang berbeda. Router membandingkan <strong>Administrative Distance (AD)</strong> terlebih dahulu untuk memilih protokol mana yang menang.
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 30 Menit.</li>
+              <li><strong>Poin Kunci:</strong> Tunjukkan trik menghitung Wildcard mask dengan cara cepat: <code>256 - Ukuran Blok</code> atau <code>255 - Oktet Terakhir Mask</code>.</li>
+              <li><strong>Praktik Demo:</strong> Buat topologi 3 router OSPF di Packet Tracer. Putuskan satu kabel link utama dan minta peserta melihat tabel rute yang otomatis berpindah jalur dalam 2 detik.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           BAGIAN 6, 7, 8, 9, 10: RANGKUMAN, EVALUASI & MINI-PROYEK
+           ==================================================================== -->
+      <section class="section-card" id="evaluasi-modul">
+        <div class="section-header">
+          <span class="badge badge--success"> Evaluasi Komprehensif</span>
+          <h2>Rangkuman Modul 1.2 & Ujian Penguasaan Akhir</h2>
+        </div>
+
+        <!-- RANGKUMAN 10 GLOSARIUM KUNCI -->
+        <h3 style="margin-top: 10px; font-size:1.15rem;">10 Istilah Kunci Modul 1.2:</h3>
+        <div class="glossary-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-sm); margin-top: var(--space-sm);">
+          <div class="glossary-card">
+            <div class="glossary-term">1. CAM Table</div>
+            <div class="glossary-def">Tabel memori switch Layer 2 yang memetakan MAC Address perangkat fisik ke nomor port switch.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">2. Unknown Unicast Flooding</div>
+            <div class="glossary-def">Aksi switch menyalin frame ke semua port aktif saat Destination MAC belum terdaftar di CAM table.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">3. VLAN (Virtual LAN)</div>
+            <div class="glossary-def">Teknologi segmentasi broadcast domain Layer 2 secara logis di dalam satu atau lebih switch.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">4. Access Port</div>
+            <div class="glossary-def">Port switch yang hanya melayani 1 VLAN dan mengirim frame standar tanpa tag (Untagged) ke end device.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">5. Trunk Port (802.1Q)</div>
+            <div class="glossary-def">Link point-to-point antar-switch yang membawa lalu lintas banyak VLAN dengan tag 4-byte.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">6. Native VLAN</div>
+            <div class="glossary-def">VLAN khusus pada link trunk yang frame-nya dilewatkan tanpa disisipi tag (default VLAN 1).</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">7. Router-on-a-Stick (ROAS)</div>
+            <div class="glossary-def">Metode Inter-VLAN routing menggunakan 1 link trunk ke sub-interface virtual router (<code>g0/0.10</code>).</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">8. Hop-by-Hop MAC Rewrite</div>
+            <div class="glossary-def">Mekanisme penggantian MAC Address di setiap perhentian router, sementara IP asal & tujuan tetap utuh.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">9. Default Route (0.0.0.0/0)</div>
+            <div class="glossary-def">Rute sapu jagat untuk meneruskan semua paket yang tujuannya tidak ada di routing table ke gateway ISP.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">10. OSPF Dynamic Failover</div>
+            <div class="glossary-def">Kemampuan protokol OSPF mendeteksi link mati dan mengalihkan jalur secara otomatis dalam hitungan detik.</div>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR MODUL (6 SOAL BERAGAM) -->
+        <h3 style="margin-top: 36px; font-size:1.15rem;">Quest Akhir Modul 1.2 (Evaluasi Mandiri):</h3>
+        <p style="color:var(--text-muted); font-size:0.92rem;">
+          Uji pemahamanmu dengan 6 soal komprehensif berikut. Klik "Tampilkan Jawaban" untuk melihat analisis lengkapnya:
+        </p>
+
+        <!-- Final Quest 1 -->
+        <div class="quest-card" id="q-final-1" data-quest-type="multiple-choice" data-answer="B">
+          <div class="quest-header">
+            <span class="quest-badge">Soal 1 • Konsep Broadcast Domain</span>
+            <span class="quest-score"> 15 Poin</span>
+          </div>
+          <p class="quest-question">
+            Sebuah switch 24-port dikonfigurasi memuat <strong>VLAN 10 (8 port)</strong>, <strong>VLAN 20 (8 port)</strong>, dan <strong>VLAN 30 (8 port)</strong>. Ada berapa jumlah <em>Collision Domain</em> dan <em>Broadcast Domain</em> pada switch tersebut?
+          </p>
+          <div class="quest-options">
+            <label class="quest-opt"><input type="radio" name="opt-q-final-1" value="A"> A. 1 Collision Domain dan 1 Broadcast Domain</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-1" value="B"> B. 24 Collision Domain dan 3 Broadcast Domain</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-1" value="C"> C. 3 Collision Domain dan 24 Broadcast Domain</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-1" value="D"> D. 24 Collision Domain dan 24 Broadcast Domain</label>
+          </div>
+          <div class="quest-actions">
+            <button class="btn btn--primary" onclick="window.Core.checkQuest('q-final-1')">Kirim Jawaban</button>
+            <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q-final-1')">Tampilkan Jawaban</button>
+          </div>
+          <div class="quest-answer-panel" id="ans-q-final-1">
+            <div class="answer-status-bar answer-status--correct">
+              <span class="status-icon">v</span>
+              <strong>Jawaban Benar: B (24 Collision Domain & 3 Broadcast Domain)</strong>
+            </div>
+            <div class="answer-body">
+              <p><strong>Alasan:</strong> Pada switch, setiap port fisik adalah 1 Collision Domain terpisah (24 port = 24 Collision Domain). Setiap VLAN yang dibuat membentuk 1 Broadcast Domain mandiri (3 VLAN = 3 Broadcast Domain).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final Quest 2 -->
+        <div class="quest-card" id="q-final-2" data-quest-type="multiple-choice" data-answer="D">
+          <div class="quest-header">
+            <span class="quest-badge">Soal 2 • Native VLAN Behavior</span>
+            <span class="quest-score"> 15 Poin</span>
+          </div>
+          <p class="quest-question">
+            Apa yang terjadi jika sebuah frame dari <strong>Native VLAN</strong> melintasi kabel Trunk IEEE 802.1Q?
+          </p>
+          <div class="quest-options">
+            <label class="quest-opt"><input type="radio" name="opt-q-final-2" value="A"> A. Frame akan dienkripsi dengan password khusus.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-2" value="B"> B. Frame akan disisipkan tag 8-byte.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-2" value="C"> C. Frame akan langsung dibuang oleh switch.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-2" value="D"> D. Frame akan dilewatkan dalam bentuk UNTAGGED (tanpa tag 4-byte 802.1Q).</label>
+          </div>
+          <div class="quest-actions">
+            <button class="btn btn--primary" onclick="window.Core.checkQuest('q-final-2')">Kirim Jawaban</button>
+            <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q-final-2')">Tampilkan Jawaban</button>
+          </div>
+          <div class="quest-answer-panel" id="ans-q-final-2">
+            <div class="answer-status-bar answer-status--correct">
+              <span class="status-icon">v</span>
+              <strong>Jawaban Benar: D (Dilewatkan Untagged)</strong>
+            </div>
+            <div class="answer-body">
+              <p><strong>Pembahasan:</strong> Sesuai standar IEEE 802.1Q, Native VLAN dirancang untuk mendukung perangkat lawas yang tidak mengenal tagging. Semua lalu lintas milik Native VLAN dilewatkan tanpa tag di link trunk.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final Quest 3 -->
+        <div class="quest-card" id="q-final-3" data-quest-type="multiple-choice" data-answer="A">
+          <div class="quest-header">
+            <span class="quest-badge">Soal 3 • Longest Prefix Match</span>
+            <span class="quest-score"> 15 Poin</span>
+          </div>
+          <p class="quest-question">
+            Sebuah router memiliki 3 entri rute berikut di routing table-nya:<br>
+            1. <code>10.0.0.0/8 via 192.168.1.1</code><br>
+            2. <code>10.20.0.0/16 via 192.168.2.1</code><br>
+            3. <code>10.20.30.0/24 via 192.168.3.1</code><br>
+            Jika ada paket datang menuju IP <code>10.20.30.55</code>, rute manakah yang akan DIPILIH oleh router?
+          </p>
+          <div class="quest-options">
+            <label class="quest-opt"><input type="radio" name="opt-q-final-3" value="A"> A. Rute 3 (10.20.30.0/24) karena memiliki prefix terpanjang / paling spesifik.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-3" value="B"> B. Rute 1 (10.0.0.0/8) karena mencakup jangkauan paling besar.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-3" value="C"> C. Rute 2 (10.20.0.0/16) karena berada di tengah-tengah.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-3" value="D"> D. Router akan membagi paket menjadi 3 pecahan ke semua rute.</label>
+          </div>
+          <div class="quest-actions">
+            <button class="btn btn--primary" onclick="window.Core.checkQuest('q-final-3')">Kirim Jawaban</button>
+            <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q-final-3')">Tampilkan Jawaban</button>
+          </div>
+          <div class="quest-answer-panel" id="ans-q-final-3">
+            <div class="answer-status-bar answer-status--correct">
+              <span class="status-icon">v</span>
+              <strong>Jawaban Benar: A (Prinsip Longest Prefix Match)</strong>
+            </div>
+            <div class="answer-body">
+              <p><strong>Pembahasan:</strong> Prinsip utama pemilihan rute pada semua router adalah <strong>Longest Prefix Match</strong> (Makin panjang prefix bit-nya, misal /24 vs /16 vs /8, makin spesifik dan akurat rute tersebut). Router akan selalu memilih rute <code>/24</code>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final Quest 4: Debugging Tantangan -->
+        <div class="quest-card" id="q-final-4" data-quest-type="multiple-choice" data-answer="B">
+          <div class="quest-header">
+            <span class="quest-badge">Soal 4 • DEBUG TANTANGAN (Troubleshooting ROAS)</span>
+            <span class="quest-score"> 20 Poin</span>
+          </div>
+          <p class="quest-question">
+            Seorang siswa TKJ mengonfigurasi Router-on-a-Stick. Di PC klien VLAN 20, IP diisi <code>192.168.20.15</code>, Subnet Mask <code>255.255.255.0</code>, dan Gateway <code>192.168.20.1</code>. Namun PC tidak bisa ping gateway.<br>
+            Saat dicek konfigurasi sub-interface router tercantum:<br>
+            <code>interface GigabitEthernet0/0.20</code><br>
+            <code> encapsulation dot1Q 10</code><br>
+            <code> ip address 192.168.20.1 255.255.255.0</code><br>
+            Di manakah letak kesalahan konfigurasi siswa tersebut?
+          </p>
+          <div class="quest-options">
+            <label class="quest-opt"><input type="radio" name="opt-q-final-4" value="A"> A. Alamat IP sub-interface salah kelas.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-4" value="B"> B. Tag enkapsulasi salah ketik `dot1Q 10` padahal seharusnya `dot1Q 20` untuk melayani VLAN 20.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-4" value="C"> C. Nomor sub-interface tidak boleh memakai titik.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q-final-4" value="D"> D. Router Cisco tidak mendukung prefix /24 pada sub-interface.</label>
+          </div>
+          <div class="quest-actions">
+            <button class="btn btn--primary" onclick="window.Core.checkQuest('q-final-4')">Kirim Jawaban</button>
+            <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q-final-4')">Tampilkan Jawaban</button>
+          </div>
+          <div class="quest-answer-panel" id="ans-q-final-4">
+            <div class="answer-status-bar answer-status--correct">
+              <span class="status-icon">v</span>
+              <strong>Jawaban Benar: B (Enkapsulasi Mismatch)</strong>
+            </div>
+            <div class="answer-body">
+              <p><strong>Pembahasan:</strong> Nomor sub-interface (<code>.20</code>) hanyalah label penamaan internal di router. Yang <strong>SEBENARNYA MENENTUKAN</strong> VLAN mana yang diterima adalah angka pada perintah <code>encapsulation dot1Q &lt;ID&gt;</code>! Karena siswa mengetik <code>dot1Q 10</code>, router mengira sub-interface tersebut melayani VLAN 10, sehingga frame dari PC VLAN 20 diabaikan.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHECKLIST TUGAS & MINI-PROYEK -->
+        <h3 style="margin-top: 36px; font-size:1.15rem;">️ Checklist Tugas & Mini-Proyek (Cisco Packet Tracer):</h3>
+        <p style="color:var(--text-muted); font-size:0.92rem;">
+          Kerjakan tugas praktik ini langsung di software Cisco Packet Tracer di laptopmu. Centang setiap item jika sudah berhasil kamu buktikan:
+        </p>
+
+        <div class="project-checklist">
+          <label class="checklist-item">
+            <input type="checkbox" onchange="window.Core.saveTaskProgress('p1-2-task1', this.checked)">
+            <span><strong>Tugas 1:</strong> Buat 1 Switch dengan 3 VLAN (VLAN 10 Admin, VLAN 20 Guru, VLAN 30 Siswa). Buktikan bahwa PC sesama VLAN bisa ping, tapi beda VLAN TIDAK BISA ping.</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" onchange="window.Core.saveTaskProgress('p1-2-task2', this.checked)">
+            <span><strong>Tugas 2:</strong> Hubungkan 2 Switch dengan 1 kabel Trunk 802.1Q. Uji koneksi PC VLAN 10 di Switch 1 ke PC VLAN 10 di Switch 2 (Harus Reply Sukses).</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" onchange="window.Core.saveTaskProgress('p1-2-task3', this.checked)">
+            <span><strong>Tugas 3:</strong> Pasang 1 Router Cisco 2911 dan bangun <strong>Router-on-a-Stick (ROAS)</strong>. Verifikasi bahwa PC VLAN 10 sekarang BISA ping ke PC VLAN 20 melintasi gateway sub-interface router!</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" onchange="window.Core.saveTaskProgress('p1-2-task4', this.checked)">
+            <span><strong>Mini-Proyek Modul 1.2:</strong> Bangun Topologi Kantor 2 Lantai Lengkap: 2 Switch Trunked + 1 Router ROAS + 1 Router ISP Simulator dengan Static Default Route (<code>0.0.0.0/0</code>). Dokumentasikan tabel IP dan screenshot hasil ping ke GitHub!</span>
+          </label>
+        </div>
+
+        <!-- PANEL CATATAN MENTOR GLOBAL -->
+        <div class="mentor-panel" style="margin-top: 32px;">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Panduan Mentor Khusus Modul 1.2 (Untuk Ervan)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <p><strong>Rencana Alokasi Waktu Sesi (3-4 Minggu):</strong></p>
+            <ul>
+              <li><strong>Minggu 1:</strong> Switching dasar, CAM Table, dan konsep VLAN Access Port di Packet Tracer.</li>
+              <li><strong>Minggu 2:</strong> 802.1Q Trunking antar 2 switch dan Inter-VLAN Routing (ROAS).</li>
+              <li><strong>Minggu 3:</strong> Hop-by-Hop MAC Rewrite (buka Simulation Mode Packet Tracer) dan Static Routing / Default Route.</li>
+              <li><strong>Minggu 4:</strong> Dynamic Routing OSPF dasar, simulasi kabel putus (Failover), dan asistensi pengerjaan Mini-Proyek Kantor 2 Lantai.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- NAVIGASI BAWAH -->
+        <div class="module-nav-footer">
+          <a href="modul-1-1.html" class="btn btn--outline">← Modul 1.1: Dasar Jaringan</a>
+          <a href="index.html" class="btn btn--outline">Daftar Modul Fase 1</a>
+          <a href="modul-1-3.html" class="btn btn--primary">Lanjut: Modul 1.3 Multi-Vendor & MikroTik →</a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- JAVASCRIPT GLOBAL & MODUL -->
+  <script src="assets/js/anim-engine.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/modul-1-2.js"></script>
+</body>
+</html>

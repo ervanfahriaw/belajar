@@ -1,0 +1,1762 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modul 1.3 - Multi-Vendor & Simulasi Lanjutan (GNS3 & MikroTik) | Bahan Ajar Mentoring</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-module-id="modul-1-3">
+
+  <!-- ========================================================================
+       1. HEADER MODUL STICKY + PROGRESS BAR (BAGIAN 1 & 2)
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="header-main">
+      <div class="header-left">
+        <a href="index.html" class="btn-back">Daftar Modul</a>
+        <div class="header-title-box">
+          <h1>Modul 1.3 - Multi-Vendor & Simulasi Lanjutan</h1>
+          <span class="header-subtitle">Fase 1: Jaringan & Infrastruktur (GNS3, Cisco & MikroTik RouterOS)</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <span class="badge-meta">Estimasi: <strong>3-4 Minggu (150-180 Menit/Sesi)</strong></span>
+        <span class="badge-meta badge-meta--quest">Quest: <strong>0 / 16</strong></span>
+      </div>
+    </div>
+
+    <!-- Progress Bar Scroll Sticky -->
+    <div class="progress-container">
+      <div class="progress-bar" id="reading-progress"></div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. LAYOUT UTAMA (SIDEBAR STICKY + KONTEN)
+       ======================================================================== -->
+  <div class="layout-wrapper">
+
+    <!-- Sidebar Navigasi Sub-Topik (Desktop) -->
+    <aside class="sidebar-nav">
+      <div class="sidebar-title">Peta Perjalanan Modul 1.3</div>
+      <ul class="subtopic-nav-list">
+        <li class="subtopic-nav-item active">
+          <a href="#subtopik-1">
+            <span class="subtopic-nav-num">1</span>
+            <span>Simulator vs GNS3</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-2">
+            <span class="subtopic-nav-num">2</span>
+            <span>MikroTik & Winbox MNDP</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-3">
+            <span class="subtopic-nav-num">3</span>
+            <span>DHCP Server & DORA</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-4">
+            <span class="subtopic-nav-num">4</span>
+            <span>NAT & Masquerade (PAT)</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-5">
+            <span class="subtopic-nav-num">5</span>
+            <span>Multi-Vendor OSPF</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-6">
+            <span class="subtopic-nav-num">6</span>
+            <span>MikroTik Firewall Filter</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#evaluasi-modul">
+            <span class="subtopic-nav-num"></span>
+            <span>Rangkuman & Evaluasi</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Konten Utama Modul -->
+    <main class="main-content">
+
+      <!-- Dropdown Navigasi Cepat (Mobile) -->
+      <div class="mobile-nav-select-wrapper">
+        <select class="mobile-nav-select" id="mobile-topic-select" aria-label="Pilih Sub-topik">
+          <option value="#subtopik-1">1. Simulator vs Emulator (Packet Tracer vs GNS3)</option>
+          <option value="#subtopik-2">2. MikroTik RouterOS & Winbox MNDP Discovery</option>
+          <option value="#subtopik-3">3. DHCP Server & Alur 4 Langkah DORA</option>
+          <option value="#subtopik-4">4. NAT Masquerade & Port Address Translation (PAT)</option>
+          <option value="#subtopik-5">5. Interkoneksi Cisco ↔ MikroTik OSPF Peering</option>
+          <option value="#subtopik-6">6. Firewall Filter Rules (Input, Forward, Output Chain)</option>
+          <option value="#evaluasi-modul"> Rangkuman, Quest Akhir & Mini-Proyek</option>
+        </select>
+      </div>
+
+      <!-- ====================================================================
+           BAGIAN 3: TUJUAN PEMBELAJARAN
+           ==================================================================== -->
+      <section class="section-card" id="tujuan-pembelajaran">
+        <div class="section-header">
+          <span class="badge badge--primary">Target Kompetensi</span>
+          <h2>Apa yang Akan Kamu Kuasai di Modul 1.3 Ini?</h2>
+        </div>
+        <p>
+          Di sekolah kamu mungkin hanya diajarkan Cisco di Packet Tracer. Tapi di dunia kerja Indonesia (ISP, perkantoran, dan industri), **MikroTik RouterOS** memegang peranan sangat besar. Di modul ini kamu akan naik level menjadi Network Engineer Multi-Vendor:
+        </p>
+        <ul class="learning-goals-list">
+          <li><strong>Pindah ke Emulator Profesional (GNS3):</strong> Memahami kenapa engineer profesional menggunakan GNS3 dengan Real OS Binary dan live capture Wireshark.</li>
+          <li><strong>Menguasai MikroTik RouterOS & Winbox:</strong> Paham cara remote router baru via Layer 2 (MAC-Winbox & MNDP), penataan IP Address, dan manajemen interface.</li>
+          <li><strong>Membangun DHCP Server (Alur DORA):</strong> Menguasai proses *Discover, Offer, Request, Acknowledge* di MikroTik maupun Cisco, serta manajemen *Lease Time*.</li>
+          <li><strong>Mengonfigurasi NAT Masquerade (PAT):</strong> Mampu membagikan koneksi 1 IP Publik internet ke ratusan PC IP Privat lokal secara aman, serta *Port Forwarding (Dst-NAT)* untuk CCTV/Server.</li>
+          <li><strong>Menghubungkan Jaringan Multi-Vendor (Cisco + MikroTik):</strong> Membangun interkoneksi link `/30` dan pertukaran rute dinamis OSPF antar-vendor yang berbeda.</li>
+          <li><strong>Membangun Firewall Filter Rules Dasar:</strong> Membentengi router dari serangan hacker internet menggunakan *Input Chain*, serta mengatur akses internet LAN menggunakan *Forward Chain*.</li>
+        </ul>
+      </section>
+
+      <!-- ====================================================================
+           BAGIAN 4: PETA PERJALANAN MODUL
+           ==================================================================== -->
+      <section class="section-card" id="peta-modul">
+        <div class="section-header">
+          <span class="badge badge--outline">️ Peta Alur Belajar</span>
+          <h2>Alur Penguasaan: Dari Simulator Menuju Arsitektur Multi-Vendor</h2>
+        </div>
+        <div class="module-pathway">
+          <div class="pathway-step">
+            <div class="step-circle">1</div>
+            <div class="step-label">GNS3 Emulasi</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">2</div>
+            <div class="step-label">MikroTik Winbox</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">3</div>
+            <div class="step-label">DHCP DORA</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">4</div>
+            <div class="step-label">NAT Masquerade</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">5</div>
+            <div class="step-label">Cisco-MikroTik</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">6</div>
+            <div class="step-label">Firewall Filter</div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.3.1: SIMULATOR VS EMULATOR (PACKET TRACER VS GNS3)
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-1">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.3.1</span>
+          <h2>Simulator vs Emulator: Cisco Packet Tracer vs GNS3</h2>
+          <p class="subtopic-lead">
+            Mengapa engineer profesional dan peserta Lomba LKS beralih dari Packet Tracer ke emulator GNS3 / EVE-NG?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Di sekolah, kamu sangat mahir menggunakan Cisco Packet Tracer. Namun saat kamu mulai magang di ISP atau mencoba menghubungkan router Cisco dengan router MikroTik dan Server Debian nyata, kamu mendapati bahwa Packet Tracer <strong>TIDAK BISA</strong> menambahkan router MikroTik dan banyak perintah CLI memunculkan error <code>% Invalid command</code>.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Kenapa Packet Tracer memiliki batasan tersebut, dan mengapa para profesional menggunakan software seperti GNS3 atau EVE-NG untuk mendesain jaringan skala industri?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Perbedaannya terletak pada status: <strong>Packet Tracer adalah SIMULATOR buatan</strong>, sedangkan <strong>GNS3 adalah EMULATOR yang menjalankan Kernel OS Asli</strong>!
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Simulator vs Emulator:</div>
+            <p style="margin: 0;">
+              <strong>Network Simulator (Packet Tracer)</strong> adalah program perangkat lunak yang memprogram perilaku jaringan secara tiruan (sintetis). Software ini hanya membalas perintah-perintah yang sudah di-coding oleh pembuatnya.<br>
+              <strong>Network Emulator (GNS3 / EVE-NG)</strong> adalah platform virtualisasi perangkat keras (hardware virtualization via QEMU, KVM, Dynamips) yang memutar <strong>Image Sistem Operasi ASLI</strong> (Cisco IOS <code>.bin/qcow2</code>, MikroTik RouterOS <code>.vmdk</code>, Linux Kernel, Windows Server).
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Game Pesawat vs Simulator Kokpit Pilot Asli:</div>
+            <ul>
+              <li><strong>Packet Tracer</strong> = Game HP simulasi terbang. Grafiknya bagus dan mudah dimainkan pemula, tetapi jika ada tombol kokpit yang tidak diprogram pengembang game, tombol itu tidak bisa dipencet.</li>
+              <li><strong>GNS3 / EVE-NG</strong> = Ruang Simulator Kokpit Resmi Akademi Penerbangan. Di dalamnya dipasang instrumen pesawat asli dari pabrik Boeing/Airbus. Setiap saklar, tuas, dan respon instrumen bekerja 100% sama dengan pesawat asli di udara.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Amati perbandingan arsitektur Packet Tracer vs GNS3 dengan live capture Wireshark:
+          </p>
+
+          <div class="sim-container" id="sim-simulator-vs-emulator">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 340" preserveAspectRatio="xMidYMid meet">
+                <line x1="220" y1="180" x2="630" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+                <g id="gns-node-pt" data-cx="220" data-cy="180" transform="translate(155, 110)"></g>
+                <g id="gns-node-gns" data-cx="630" data-cy="180" transform="translate(565, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 3</span>
+              <p class="sim__text">Membandingkan model eksekusi Simulator vs Real Emulator...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Matriks Komparasi</span>
+
+          <div class="table-wrapper">
+            <table class="table-styled">
+              <thead>
+                <tr>
+                  <th>Fitur Kunci</th>
+                  <th>Cisco Packet Tracer</th>
+                  <th>GNS3 (Graphical Network Simulator 3)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Tipe Platform</strong></td>
+                  <td><span class="badge badge--warning">Simulator Sintetis</span></td>
+                  <td><span class="badge badge--success">Real Hardware Emulator (QEMU/KVM)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Dukungan Multi-Vendor</strong></td>
+                  <td>Hanya Cisco (Vendor Terkunci)</td>
+                  <td><strong>Bebas:</strong> Cisco, MikroTik, Juniper, Linux, Fortinet, pfSense</td>
+                </tr>
+                <tr>
+                  <td><strong>Sistem Operasi yang Jalan</strong></td>
+                  <td>Bukan OS asli (hanya emulasi respon)</td>
+                  <td><strong>Real Binary OS</strong> (RouterOS v7, Cisco IOU/IOSv, Ubuntu)</td>
+                </tr>
+                <tr>
+                  <td><strong>Integrasi Wireshark</strong></td>
+                  <td>Hanya visualizer internal sederhana</td>
+                  <td><strong>Wireshark Nyata</strong> menyadap paket bit demi bit</td>
+                </tr>
+                <tr>
+                  <td><strong>Kebutuhan RAM Laptop</strong></td>
+                  <td>Ringan (500 MB RAM)</td>
+                  <td>Sedang-Tinggi (Min. 8 GB RAM untuk VM GNS3)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Persiapan Menuju LKS IT Network Systems Administration</h4>
+            <span class="badge badge--primary">Pengalaman Lomba Siswa SMK</span>
+          </div>
+          <p>
+            <strong>Latar Kasus:</strong> Pada kompetisi LKS SMK tingkat kota/provinsi, soal tes menuntut peserta mengonfigurasi 1 Server Debian (DNS/Web), 1 Router MikroTik (NAT & Bandwidth Management), dan 1 Router Cisco (Inter-VLAN & OSPF).
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Kenapa Packet Tracer Gagal?</strong>
+              <p>Packet Tracer tidak bisa meng-import sistem operasi MikroTik RouterOS dan server Linux Debian secara penuh.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Solusi dengan GNS3:</strong>
+              <p>Siswa menginstal GNS3 VM dan mengunduh image gratis <em>MikroTik Cloud Hosted Router (CHR)</em> serta <em>Cisco IOSv</em>. Semua topologi multi-vendor bisa berjalan 100% sama dengan perangkat fisik yang ada di meja lomba!</p>
+            </div>
+          </div>
+          <div class="lesson-box">
+            <strong> Pelajaran:</strong> Menguasai GNS3 adalah tiket emas untuk memenangkan lomba jaringan dan lolos seleksi kerja di ISP telekomunikasi.
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <div class="quest-card" id="q1-3-1" data-quest-type="multiple-choice" data-answer="B">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.3.1 • Pilihan Ganda</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Manakah pernyataan yang paling tepat mengenai perbedaan utama antara Cisco Packet Tracer dan GNS3?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-1" value="A"> A. Packet Tracer hanya untuk laptop Windows, sedangkan GNS3 hanya untuk HP Android.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-1" value="B"> B. Packet Tracer menirukan perintah secara sintetis tanpa OS asli, sedangkan GNS3 menjalankan file binary Sistem Operasi asli (Real OS Image) di atas virtualisasi QEMU/Dynamips.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-1" value="C"> C. GNS3 tidak mendukung kabel LAN, hanya mendukung WiFi.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-1" value="D"> D. Packet Tracer berbayar jutaan rupiah, sedangkan GNS3 gratis buatan Cisco.</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-3-1')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-3-1')">Tampilkan Jawaban</button>
+            </div>
+
+            <!-- BLOK 7: JAWABAN BERANIMASI -->
+            <div class="quest-answer-panel" id="ans-q1-3-1">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: B</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> GNS3 adalah <em>Emulator</em> yang memutar OS asli (seperti MikroTik RouterOS atau Cisco IOS nyata), sehingga seluruh fitur, bug, dan protokol berperilaku 100% sama dengan perangkat fisik di dunia kerja.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak siswa mengira harus membuang Packet Tracer begitu belajar GNS3. <strong>Keduanya punya fungsi masing-masing:</strong> Packet Tracer sangat bagus untuk belajar konsep pemula secara cepat dan ringan, sedangkan GNS3 dipakai saat kamu butuh integrasi multi-vendor (MikroTik/Linux) dan simulasi ujian sertifikasi tingkat lanjut.
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 20 Menit.</li>
+              <li><strong>Poin Kunci:</strong> Kenalkan konsep file image <em>MikroTik CHR (Cloud Hosted Router)</em> yang bisa diunduh gratis dari situs resmi MikroTik.</li>
+              <li><strong>Praktek Cepat:</strong> Tunjukkan antarmuka GNS3 yang terhubung dengan Wireshark live capture.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.3.2: PENGENALAN MIKROTIK ROUTEROS & WINBOX MNDP
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-2">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.3.2</span>
+          <h2>Pengenalan MikroTik RouterOS & Winbox MNDP Discovery</h2>
+          <p class="subtopic-lead">
+            Bagaimana aplikasi Winbox dapat mendeteksi dan me-remote router MikroTik baru secara ajaib via Layer 2 MAC Address tanpa perlu setting IP?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Kamu baru saja membeli router MikroTik hEX (RB750Gr3) baru dari toko. Kamu mereset router tersebut ke pengaturan kosong (<em>No Default Configuration</em>). Router tersebut tidak memiliki alamat IP sama sekali (<code>0.0.0.0</code>). Laptopmu juga belum disetting IP statis.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Pada perangkat Cisco atau router biasa, kamu harus memasang kabel console serial khusus atau menyamakan IP subnet di laptopmu agar bisa masuk. Tapi kenapa pada MikroTik, kamu cukup membuka aplikasi Winbox dan router langsung terdeteksi dan bisa di-login hanya dalam 1 detik?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Rahasia luar biasa ini bernama <strong>MNDP (MikroTik Neighbor Discovery Protocol)</strong> dan fitur <strong>MAC-Winbox</strong> yang bekerja di Layer 2 (Data Link)!
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi RouterOS & Winbox MNDP:</div>
+            <p style="margin: 0;">
+              <strong>MikroTik RouterOS</strong> adalah sistem operasi berbasis Linux kernel yang dirancang khusus untuk mengubah komputer atau hardware RouterBOARD menjadi router jaringan enterprise yang kaya fitur (Routing, Firewall, Bandwidth Queue, Hotspot, VPN).<br>
+              <strong>Winbox</strong> adalah aplikasi administrasi GUI resmi berbasis Windows (bisa dijalankan di Linux/macOS via Wine) yang memiliki kemampuan <em>Layer 2 MAC-Telnet / MAC-Winbox</em> menggunakan protokol discovery <strong>MNDP (Port UDP 5678)</strong>.
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Memanggil Nama Teman di Ruangan Gelap:</div>
+            <ul>
+              <li><strong>Login via IP Address (Layer 3)</strong> = Menghubungi teman lewat nomor telepon resmi. Kamu harus tahu nomor teleponnya dan pulsamu harus aktif di jaringan yang sama.</li>
+              <li><strong>Login via MAC Address (Layer 2 MNDP)</strong> = Berada di ruangan yang sama dan berteriak: <em>"Halo, siapa saja router yang ada di sini?"</em>. MikroTik langsung menjawab dengan nomor KTP fisiknya (MAC Address), dan kamu bisa langsung mengajaknya bicara tanpa butuh nomor telepon (IP)!</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Perhatikan bagaimana Winbox mengirim broadcast MNDP dan mendeteksi RouterBOARD di tab Neighbors:
+          </p>
+
+          <div class="sim-container" id="sim-winbox-mac-discovery">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 340" preserveAspectRatio="xMidYMid meet">
+                <line x1="200" y1="180" x2="650" y2="180" stroke="var(--border-light)" stroke-width="3.5" stroke-linecap="round" />
+                <text x="425" y="165" text-anchor="middle" fill="var(--info)" font-size="10" font-family="var(--font-mono)">Kabel UTP ether2 (Layer 2 Broadcast)</text>
+                <g id="win-node-laptop" data-cx="200" data-cy="180" transform="translate(135, 110)"></g>
+                <g id="win-node-mikrotik" data-cx="650" data-cy="180" transform="translate(585, 110)"></g>
+              </svg>
+            </div>
+
+            <!-- Live Winbox Neighbors Table HUD -->
+            <div style="margin: 12px 16px 0; background: var(--bg-card); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: var(--space-sm);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="font-size:0.85rem; color:var(--text);">️ Winbox v3.40 - Tab Neighbors (Layer 2 Discovery):</strong>
+                <span class="badge badge--success" style="font-size:0.75rem;">MNDP UDP 5678</span>
+              </div>
+              <table class="table-styled" style="margin:0; font-size:0.82rem;">
+                <thead>
+                  <tr>
+                    <th>MAC Address</th>
+                    <th>IP Address</th>
+                    <th>Identity</th>
+                    <th>Board Name</th>
+                    <th>Version</th>
+                  </tr>
+                </thead>
+                <tbody id="winbox-neighbors-body">
+                  <tr>
+                    <td colspan="5" style="text-align:center; color:var(--text-dim); padding:10px;">(Klik "Putar" untuk memindai tetangga MikroTik...)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 4</span>
+              <p class="sim__text">Laptop Admin dicolok ke Port ether2 MikroTik baru...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Perbandingan Sintaks</span>
+
+          <h4>4.1 Komparasi Perintah Dasar: Cisco IOS vs MikroTik RouterOS:</h4>
+          <div class="table-wrapper">
+            <table class="table-styled">
+              <thead>
+                <tr>
+                  <th>Fungsi Konfigurasi</th>
+                  <th>Cisco IOS (CLI)</th>
+                  <th>MikroTik RouterOS (CLI)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Mengganti Nama Router</strong></td>
+                  <td><code>Router(config)# hostname R1-Arya</code></td>
+                  <td><code>/system identity set name=R1-Arya</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Memasang IP Address</strong></td>
+                  <td><code>interface g0/0<br>ip address 192.168.10.1 255.255.255.0</code></td>
+                  <td><code>/ip address add address=192.168.10.1/24 interface=ether2</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Melihat Daftar Interface</strong></td>
+                  <td><code>show ip interface brief</code></td>
+                  <td><code>/interface print</code> atau <code>/ip address print</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Melihat Tabel Routing</strong></td>
+                  <td><code>show ip route</code></td>
+                  <td><code>/ip route print</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Menyimpan Konfigurasi</strong></td>
+                  <td><code>write memory</code> atau <code>copy run start</code></td>
+                  <td><em>Otomatis tersimpan realtime di NVRAM</em></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Terminal Context 1 -->
+          <div class="terminal-banner" style="margin-top:20px;">
+            <span class="terminal-banner__device">️ Perangkat: MikroTik RouterOS v7.14</span>
+            <span class="terminal-banner__location"> Mode: CLI Terminal</span>
+            <span class="terminal-banner__action"> Tujuan: Initial setup identitas, IP LAN, dan default route</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">[admin@MikroTik] > Terminal</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code><span style="color:var(--text-dim);"># 1. Ganti nama identitas router</span>
+[admin@MikroTik] > <strong>/system identity set name=MikroTik-Arya</strong>
+
+<span style="color:var(--text-dim);"># 2. Pasang IP Address pada interface ether2 (LAN)</span>
+[admin@MikroTik-Arya] > <strong>/ip address add address=192.168.88.1/24 interface=ether2 comment="Gateway LAN"</strong>
+
+<span style="color:var(--text-dim);"># 3. Pasang IP Address pada interface ether1 (WAN ISP)</span>
+[admin@MikroTik-Arya] > <strong>/ip address add address=203.0.113.88/29 interface=ether1 comment="Link WAN ISP"</strong>
+
+<span style="color:var(--text-dim);"># 4. Tambahkan Default Route ke Gateway ISP</span>
+[admin@MikroTik-Arya] > <strong>/ip route add dst-address=0.0.0.0/0 gateway=203.0.113.89</strong>
+
+<span style="color:var(--text-dim);"># 5. Cek hasil konfigurasi</span>
+[admin@MikroTik-Arya] > <strong>/ip address print</strong>
+Flags: D - DYNAMIC
+Columns: ADDRESS, NETWORK, INTERFACE
+#   ADDRESS            NETWORK        INTERFACE
+0   192.168.88.1/24    192.168.88.0   ether2
+1   203.0.113.88/29    203.0.113.80   ether1</code></pre>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Fitur "Safe Mode" Penyelamat Teknisi Jarak Jauh</h4>
+            <span class="badge badge--success">Fitur Unggulan MikroTik</span>
+          </div>
+          <p>
+            <strong>Latar Kasus:</strong> Seorang teknisi me-remote router kantor cabang yang berjarak 50 km melalui internet. Teknisi ingin mengubah IP interface WAN. Jika teknisi salah mengetik satu angka saja, koneksi remote akan langsung putus dan teknisi harus naik motor 2 jam ke lokasi untuk memperbaikinya!
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Mengaktifkan Safe Mode:</strong>
+              <p>Di Winbox, teknisi menekan tombol <strong>Safe Mode</strong> (atau shortcut <code>Ctrl + X</code> di CLI) sebelum melakukan konfigurasi berisiko.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Rollback Otomatis:</strong>
+              <p>Jika terjadi salah konfigurasi dan koneksi terputus selama 10 detik, MikroTik secara otomatis <strong>MENGGAGALKAN (ROLLBACK)</strong> semua perubahan terakhir dan mengembalikan IP lama, sehingga router kembali online otomatis!</p>
+            </div>
+          </div>
+          <div class="lesson-box">
+            <strong> Tips Senior Engineer:</strong> Selalu biasakan menekan <code>Ctrl + X</code> (Safe Mode) saat mengonfigurasi router MikroTik jarak jauh via remote!
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <div class="quest-card" id="q1-3-3" data-quest-type="multiple-choice" data-answer="B">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.3.2 • Pilihan Ganda</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Mengapa aplikasi Winbox dapat mendeteksi dan melakukan login ke router MikroTik baru yang belum disetting IP Address sama sekali?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-3" value="A"> A. Karena Winbox menggunakan sinyal Bluetooth bawaan laptop.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-3" value="B"> B. Karena Winbox menggunakan protokol penemuan Layer 2 (MNDP) dan protokol komunikasi MAC-Winbox (Layer Data Link).</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-3" value="C"> C. Karena router MikroTik selalu terhubung ke server cloud di Latvia.</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-3" value="D"> D. Karena kabel LAN otomatis memberikan IP publik ke laptop.</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-3-3')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-3-3')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-3-3">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: B</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> MNDP (MikroTik Neighbor Discovery Protocol) bekerja di Layer 2 (Data Link) menggunakan broadcast frame. Karena bekerja di Layer 2, protokol ini tidak membutuhkan alamat IP Layer 3 sama sekali untuk saling menemukan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak siswa mengira login via MAC Address di Winbox bisa dilakukan melintasi router lain (lintas internet). <strong>MAC-Winbox HANYA BISA BEKERJA di 1 segmen Layer 2 (satu kabel fisik atau switch yang sama)</strong>. Jika ingin me-remote melintasi internet/router, kamu WAJIB login menggunakan IP Address publik/VPN.
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 25 Menit.</li>
+              <li><strong>Praktik Langsung:</strong> Minta adikmu membuka aplikasi Winbox di laptop. Buka tab <em>Neighbors</em> dan jelaskan arti setiap kolom (MAC, IP, Identity, Version).</li>
+              <li><strong>Eksperimen Seru:</strong> Tunjukkan shortcut <code>Ctrl + X</code> (Safe Mode) di terminal CLI MikroTik.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.3.3: DHCP SERVER & ALUR 4 LANGKAH DORA
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-3">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.3.3</span>
+          <h2>DHCP Server & Alur Negosiasi Otomatis DORA</h2>
+          <p class="subtopic-lead">
+            Bagaimana mekanisme Discover, Offer, Request, dan Acknowledge membagikan IP Address ke ratusan perangkat dalam hitungan milidetik?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Sebuah kafe kopi kekinian memiliki 200 pelanggan datang dan pergi setiap hari. Semua pelanggan ingin langsung terhubung ke WiFi kafe untuk membuka laptop dan smartphone.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Jika setiap kali pelanggan datang, barista kafe harus meminjam HP pelanggan untuk mengetikkan IP Address, Subnet Mask, Gateway, dan DNS secara manual, berapa lama antrean kafe akan macet? Dan apa yang terjadi jika ada dua pelanggan yang salah ketik IP yang sama (IP Conflict)?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Solusinya adalah mengaktifkan <strong>DHCP Server (Dynamic Host Configuration Protocol)</strong> yang menangani seluruh alokasi IP secara otomatis dan bebas tabrakan melalui siklus <strong>DORA</strong>!
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi DHCP & Siklus DORA:</div>
+            <p style="margin: 0;">
+              <strong>DHCP (Dynamic Host Configuration Protocol)</strong> adalah protokol jaringan client-server berbasis UDP (Port 67 Server / 68 Client) yang secara dinamis mendistribusikan konfigurasi IP Address, Subnet Mask, Default Gateway, dan DNS Server ke perangkat klien.<br>
+              <strong>Siklus DORA</strong> adalah 4 tahap jabat tangan (handshake) standar dalam negosiasi DHCP:
+              <br>1. <strong>Discover (Broadcast):</strong> Klien mencari keberadaan DHCP server di LAN.
+              <br>2. <strong>Offer (Unicast/Broadcast):</strong> Server menawarkan satu IP yang tersedia dari IP Pool.
+              <br>3. <strong>Request (Broadcast):</strong> Klien menyetujui tawaran IP tersebut.
+              <br>4. <strong>Acknowledge (Unicast/Broadcast):</strong> Server mengunci sewa (Lease) dan mengesahkan IP ke klien.
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Check-In Kamar Hotel:</div>
+            <ul>
+              <li><strong>1. Discover</strong> = Tamu baru masuk ke lobi hotel dan berteriak: <em>"Halo resepsionis, adakah kamar kosong untuk saya?"</em>.</li>
+              <li><strong>2. Offer</strong> = Resepsionis memeriksa daftar kamar dan berkata: <em>"Ada kamar No. 50 kosong untuk Anda!"</em>.</li>
+              <li><strong>3. Request</strong> = Tamu menjawab: <em>"Oke, saya setuju mengambil kamar No. 50 tersebut!"</em>.</li>
+              <li><strong>4. Acknowledge</strong> = Resepsionis menyerahkan kunci kamar, mencatat nama tamu di buku registrasi, dan menetapkan batas waktu sewa (Lease Time).</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Simulasi berikut memperlihatkan pertukaran 4 paket DORA antara Smartphone Siswa dan Router MikroTik:
+          </p>
+
+          <div class="sim-container" id="sim-dhcp-dora">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 340" preserveAspectRatio="xMidYMid meet">
+                <line x1="200" y1="180" x2="650" y2="180" stroke="var(--border-light)" stroke-width="3.5" stroke-linecap="round" />
+                <g id="dora-node-client" data-cx="200" data-cy="180" transform="translate(135, 110)"></g>
+                <g id="dora-node-server" data-cx="650" data-cy="180" transform="translate(585, 110)"></g>
+              </svg>
+            </div>
+
+            <!-- Live DORA HUD -->
+            <div id="dora-hud-container" style="margin: 12px 16px 0;"></div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 4</span>
+              <p class="sim__text">Smartphone baru terhubung ke jaringan dan mencari DHCP Server...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Perintah CLI</span>
+
+          <h4>4.1 Konfigurasi DHCP Server di MikroTik RouterOS vs Cisco IOS:</h4>
+
+          <!-- Terminal Context 2 -->
+          <div class="terminal-banner">
+            <span class="terminal-banner__device">️ Perangkat: MikroTik RouterOS & Cisco Router 2911</span>
+            <span class="terminal-banner__location"> Konfigurasi: IP Pool, Network, dan DHCP Server</span>
+            <span class="terminal-banner__action"> Tujuan: Membagikan IP 192.168.88.10-100 dengan Lease Time 1 Jam</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">CLI MikroTik vs Cisco DHCP Setup</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code><span style="color:var(--text-dim);">=== KONFIGURASI DI MIKROTIK ROUTEROS ===</span>
+<span style="color:var(--text-dim);"># 1. Buat rentang IP Pool</span>
+/ip pool add name=dhcp_pool_lan ranges=192.168.88.10-192.168.88.100
+
+<span style="color:var(--text-dim);"># 2. Definisikan informasi gateway & DNS</span>
+/ip dhcp-server network add address=192.168.88.0/24 gateway=192.168.88.1 dns-server=8.8.8.8,1.1.1.1
+
+<span style="color:var(--text-dim);"># 3. Aktifkan service DHCP Server pada interface ether2 dengan Lease Time 1 jam</span>
+/ip dhcp-server add name=dhcp_lan interface=ether2 address-pool=dhcp_pool_lan lease-time=1h disabled=no
+
+<span style="color:var(--text-dim);">=== KONFIGURASI DI CISCO IOS ===</span>
+Router(config)# <strong>ip dhcp excluded-address 192.168.88.1 192.168.88.9</strong>
+Router(config)# <strong>ip dhcp pool LAN_POOL</strong>
+Router(dhcp-config)# <strong>network 192.168.88.0 255.255.255.0</strong>
+Router(dhcp-config)# <strong>default-router 192.168.88.1</strong>
+Router(dhcp-config)# <strong>dns-server 8.8.8.8</strong>
+Router(dhcp-config)# <strong>lease 0 1 0</strong> <span style="color:var(--text-dim);">! (0 hari 1 jam 0 menit)</span></code></pre>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Bencana "IP Pool Exhaustion" di Kafe Mall</h4>
+            <span class="badge badge--danger">Troubleshooting Nyata</span>
+          </div>
+          <p>
+            <strong>Gejala:</strong> Sebuah kafe memiliki subnet <code>192.168.1.0/24</code> (Tersedia 250 IP). Pada jam 14.00 siang, pelanggan yang baru datang komplain bahwa HP mereka tidak bisa terhubung ke WiFi dan stuck di status <em>"Obtaining IP Address..."</em>, padahal pengunjung di dalam kafe hanya ada 30 orang.
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Penyebab (Root Cause):</strong>
+              <p>Saat dicek di <code>/ip dhcp-server lease print</code>, seluruh 250 IP penuh status <em>bound</em> karena nilai <strong>Lease Time diatur ke 3 Hari (3d)</strong>! Pelanggan yang kemarin sudah pulang masih menahan hak sewa IP tersebut di router.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Solusi Cepat:</strong>
+              <p>Teknisi mengubah Lease Time menjadi <strong>30 Menit (30m)</strong>. Begitu pengunjung pergi dan tidak memperbarui sewa, IP otomatis ditarik kembali ke pool untuk diberikan ke pengunjung baru!</p>
+            </div>
+          </div>
+          <div class="lesson-box">
+            <strong> Aturan Pemilihan Lease Time:</strong>
+            <br>• Hotspot Umum / Kafe / Bandara = <strong>15-30 Menit</strong> (Pengunjung dinamis).
+            <br>• Kantor Perusahaan = <strong>1-3 Hari</strong> (Karyawan tetap).
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <div class="quest-card" id="q1-3-5" data-quest-type="multiple-choice" data-answer="C">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.3.3 • Pilihan Ganda</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Manakah urutan kronologis yang <strong>BENAR</strong> dari 4 paket dalam proses negosiasi DHCP (DORA)?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-5" value="A"> A. Data -> Order -> Receive -> Accept</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-5" value="B"> B. Direct -> Open -> Read -> Apply</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-5" value="C"> C. Discover -> Offer -> Request -> Acknowledge</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-5" value="D"> D. Dynamic -> Option -> Route -> Address</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-3-5')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-3-5')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-3-5">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: C (Discover -> Offer -> Request -> Acknowledge)</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> Jembatan keledai untuk menghafal siklus DHCP adalah <strong>D-O-R-A</strong> (Discover dari client, Offer dari server, Request dari client, Acknowledge dari server).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak yang mengira paket DHCP Request dikirim secara unicast langsung ke server. <strong>DHCP Request tetap dikirim secara BROADCAST</strong> agar jika ada DHCP Server cadangan lain di jaringan yang sama, server cadangan tersebut tahu tawarannya ditolak dan bisa menarik kembali IP-nya.
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 25 Menit.</li>
+              <li><strong>Poin Kunci:</strong> Tunjukkan menu <em>IP -> DHCP Server -> Leases</em> di Winbox. Tunjukkan bagaimana ikon 'D' (Dynamic) muncul saat HP terhubung.</li>
+              <li><strong>Trik Praktis:</strong> Ajarkan cara membuat IP Static Binding (mengunci IP tertentu ke MAC PC printer agar IP-nya tidak berubah).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.3.4: NAT (NETWORK ADDRESS TRANSLATION) & MASQUERADE
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-4">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.3.4</span>
+          <h2>NAT (Network Address Translation) & Masquerade (PAT)</h2>
+          <p class="subtopic-lead">
+            Bagaimana ribuan perangkat ber-IP privat lokal bisa berselancar di internet secara bersamaan menggunakan 1 alamat IP publik?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Di seluruh dunia, alokasi total IPv4 hanya berjumlah 4,29 miliar alamat dan sudah resmi habis. Sebuah kantor memiliki 300 komputer dengan IP privat lokal <code>192.168.1.0/24</code>. Router ISP Telkom/IndiHome hanya menyewakan <strong>1 buah IP Publik</strong> (misal <code>203.0.113.88</code>).
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Alamat IP privat (seperti 192.168.x.x) mutlak DITOLAK dan DIBUANG oleh router internet publik. Bagaimana caranya agar ke-300 komputer tersebut bisa membuka YouTube, Google, dan Instagram secara serentak hanya dengan bermodalkan 1 IP publik tersebut?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Jawabannya adalah <strong>NAT Masquerade / PAT (Port Address Translation)</strong> yang meminjamkan nomor port Layer 4 untuk membedakan ribuan sesi lalu lintas!
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi NAT & Masquerade (PAT):</div>
+            <p style="margin: 0;">
+              <strong>NAT (Network Address Translation)</strong> adalah metode pemetaan alamat IP dengan mengubah informasi alamat IP sumber (Source IP) atau tujuan (Destination IP) pada header paket IP saat melintasi router.<br>
+              <strong>NAT Masquerade / PAT (Port Address Translation / Overload)</strong> adalah bentuk dinamis dari Source NAT (Src-NAT) yang memungkinkan ribuan perangkat IP privat berbagi 1 IP publik dinamis yang sama, dengan cara memetakan kombinasi unik <strong>[IP Privat : Port Asal] -> [IP Publik : Port NAT Baru]</strong> pada tabel pelacakan koneksi (<em>Connection Tracking Table</em>).
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Pesanan Barang Melalui Resepsionis Kantor:</div>
+            <ul>
+              <li><strong>300 Karyawan (IP Privat)</strong> = 300 karyawan di dalam gedung kantor. Kurir luar tidak boleh masuk ke dalam ruangan kantor demi keamanan.</li>
+              <li><strong>Alamat Kantor Resmi (IP Publik)</strong> = Alamat Gedung Menara Mandiri No. 88 (Hanya ada 1 alamat resmi di peta).</li>
+              <li><strong>Nomor Ekstensi / Loker (Port NAT)</strong> = Setiap kali Arya memesan barang, dia menulis alamat gedung + Ekstensi Meja #101. Saat Budi memesan barang, dia menulis alamat gedung + Ekstensi Meja #102.</li>
+              <li>Saat paket tiba dari kurir eksternal, resepsionis (Router NAT) membaca nomor ekstensi dan mengantarkannya ke meja karyawan yang tepat!</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Simulasi berikut memperlihatkan bagaimana Router mengganti Source IP privat menjadi IP publik + Port NAT, lalu menerjemahkannya kembali saat balasan tiba:
+          </p>
+
+          <div class="sim-container" id="sim-nat-masquerade">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 340" preserveAspectRatio="xMidYMid meet">
+                <line x1="160" y1="180" x2="425" y2="180" stroke="var(--border-light)" stroke-width="3" />
+                <line x1="425" y1="180" x2="690" y2="180" stroke="var(--info)" stroke-width="4" />
+                <text x="560" y="165" fill="var(--info)" font-size="10" font-weight="bold" font-family="var(--font-mono)">Link Internet Publik (WAN)</text>
+
+                <g id="nat-node-pc1" data-cx="160" data-cy="180" transform="translate(95, 110)"></g>
+                <g id="nat-node-router" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="nat-node-cloud" data-cx="690" data-cy="180" transform="translate(625, 110)"></g>
+              </svg>
+            </div>
+
+            <!-- Live NAT Table Inspector -->
+            <div style="margin: 12px 16px 0; background: var(--bg-card); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: var(--space-sm);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="font-size:0.85rem; color:var(--text);"> Live Router NAT Translation Table (Connection Tracking):</strong>
+                <span class="badge badge--warning" style="font-size:0.75rem;">Src-NAT / PAT</span>
+              </div>
+              <table class="table-styled" style="margin:0; font-size:0.82rem;">
+                <thead>
+                  <tr>
+                    <th>Proto</th>
+                    <th>Private Socket (Inside)</th>
+                    <th>Translated Public Socket (Outside)</th>
+                    <th>Destination Server</th>
+                  </tr>
+                </thead>
+                <tbody id="nat-hud-table">
+                  <tr>
+                    <td colspan="4" style="text-align:center; color:var(--text-dim); padding:10px;">(Tabel NAT Kosong - Klik "Putar" untuk memulai transmisi)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">PC-1 mengirim request browsing ke Web Server Google...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Perintah CLI</span>
+
+          <h4>4.1 Konfigurasi NAT Masquerade & Port Forwarding di MikroTik RouterOS:</h4>
+
+          <!-- Terminal Context 3 -->
+          <div class="terminal-banner">
+            <span class="terminal-banner__device">️ Perangkat: MikroTik RouterOS v7</span>
+            <span class="terminal-banner__location"> Menu: /ip firewall nat</span>
+            <span class="terminal-banner__action"> Tujuan: Mengaktifkan Masquerade Internet + Port Forwarding Dst-NAT CCTV (Port 8080 -> 80)</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">/ip firewall nat</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code><span style="color:var(--text-dim);"># 1. ATURAN MASQUERADE (Agar semua PC LAN bisa akses internet):</span>
+/ip firewall nat add chain=srcnat out-interface=ether1-wan action=masquerade comment="NAT Internet Masquerade"
+
+<span style="color:var(--text-dim);"># 2. ATURAN PORT FORWARDING / DST-NAT (Akses Web Server/CCTV Lokal dari Luar Internet):</span>
+/ip firewall nat add chain=dstnat in-interface=ether1-wan protocol=tcp dst-port=8080 action=dst-nat to-addresses=192.168.88.50 to-ports=80 comment="Forward Port 8080 ke Web Server Lokal"
+
+<span style="color:var(--text-dim);"># 3. Cek daftar tabel NAT yang aktif:</span>
+/ip firewall nat print</code></pre>
+          </div>
+
+          <!-- Widget Interaktif Tambah Sesi PAT -->
+          <div class="interactive-widget-box" style="margin-top:20px;">
+            <div class="widget-header">
+              <span class="widget-icon"></span>
+              <h4>Uji Pemetaan PAT (Port Address Translation):</h4>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:10px;">
+              Ketik IP dan Port privat klien baru, lalu klik "Simulasi Sesi Baru" untuk melihat alokasi port NAT publik:
+            </p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px;">
+              <input type="text" id="pat-priv-ip" value="192.168.88.35" style="padding:6px 10px; border-radius:var(--radius-sm); border:1px solid var(--border); background:var(--bg-base); color:var(--text); font-family:var(--font-mono); width:140px;">
+              <input type="text" id="pat-priv-port" value="5120" style="padding:6px 10px; border-radius:var(--radius-sm); border:1px solid var(--border); background:var(--bg-base); color:var(--text); font-family:var(--font-mono); width:80px;">
+              <button class="btn btn--primary" id="pat-btn-add" style="padding:6px 16px;">+ Tambah Sesi NAT</button>
+            </div>
+            <table class="table-styled" style="font-size:0.82rem; margin:0;">
+              <thead>
+                <tr>
+                  <th>Private Socket (LAN)</th>
+                  <th>NAT Public Socket (WAN)</th>
+                  <th>Destination Server</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="pat-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Akses Kamera CCTV Gudang dari Smartphone Pemilik via Dst-NAT</h4>
+            <span class="badge badge--success">Implementasi Praktik Industri</span>
+          </div>
+          <p>
+            <strong>Kebutuhan:</strong> Pemilik pabrik memiliki DVR CCTV di LAN kantor dengan IP <code>192.168.88.200:8000</code>. Pemilik ingin memantau CCTV dari HP saat sedang liburan di luar negeri.
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Solusi dengan Destination NAT (Dst-NAT):</strong>
+              <p>Router MikroTik dikonfigurasi: <code>/ip firewall nat add chain=dstnat in-interface=ether1 protocol=tcp dst-port=8000 action=dst-nat to-addresses=192.168.88.200 to-ports=8000</code>.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Hasil Akses:</strong>
+              <p>Pemilik membuka aplikasi CCTV di HP dengan memasukkan alamat IP Publik kantor <code>203.0.113.88:8000</code>. Router MikroTik secara mulus membelokkan paket masuk tersebut langsung ke DVR CCTV lokal!</p>
+            </div>
+          </div>
+          <div class="lesson-box">
+            <strong> Bedakan Src-NAT vs Dst-NAT:</strong>
+            <br>• <strong>Src-NAT (Masquerade):</strong> Mengubah IP Asal (Dipakai agar klien LAN bisa keluar ke internet).
+            <br>• <strong>Dst-NAT (Port Forwarding):</strong> Mengubah IP Tujuan (Dipakai agar orang luar internet bisa mengakses server di dalam LAN).
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <div class="quest-card" id="q1-3-7" data-quest-type="multiple-choice" data-answer="B">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.3.4 • Pilihan Ganda</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Jika sebuah kantor ingin mempublikasikan Server Web internal (IP <code>192.168.88.10:80</code>) agar bisa diakses oleh pelanggan dari seluruh dunia melalui IP Publik router, tipe NAT manakah yang harus dikonfigurasi?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-7" value="A"> A. Source NAT (Masquerade)</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-7" value="B"> B. Destination NAT (Dst-NAT / Port Forwarding)</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-7" value="C"> C. DHCP Client</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-7" value="D"> D. VLAN Tagging 802.1Q</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-3-7')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-3-7')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-3-7">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: B (Destination NAT / Dst-NAT)</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> Karena paket datang dari luar menuju IP Publik router, router harus mengubah <em>Destination IP</em> paket tersebut menjadi IP privat Server Web lokal (192.168.88.10). Ini adalah fungsi dari <strong>Destination NAT (Dst-NAT)</strong>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak pemula mengira perintah <code>action=masquerade</code> membutuhkan penulisan IP publik secara manual. <strong>Masquerade dirancang khusus untuk IP publik yang berubah-ubah (Dinamis)</strong>. Router akan otomatis mendeteksi IP publik mana yang sedang aktif di interface WAN tersebut.
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 30 Menit.</li>
+              <li><strong>Poin Kunci:</strong> Tunjukkan menu <em>IP -> Firewall -> Connections</em> di Winbox saat laptop membuka YouTube. Tunjukkan ribuan baris pemetaan IP:Port yang sedang berlangsung realtime.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.3.5: INTERKONEKSI CISCO ↔ MIKROTIK (OSPF PEERING)
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-5">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.3.5</span>
+          <h2>Interkoneksi Multi-Vendor: Cisco IOS ↔ MikroTik RouterOS</h2>
+          <p class="subtopic-lead">
+            Bagaimana membangun pertukaran rute otomatis OSPF antar dua router dari pabrikan raksasa yang berbeda?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Di ISP tempatmu bekerja, Router Core di Data Center menggunakan <strong>Cisco Catalyst / ASR Series</strong> karena keandalan hardware-nya yang tinggi. Namun di sisi pelanggan perumahan/kantor cabang, perusahaan memasang <strong>MikroTik Cloud Core Router (CCR)</strong> karena efisiensi biaya.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Kedua router memiliki sistem operasi yang sangat berbeda (Cisco IOS vs MikroTik RouterOS). Protokol routing dinamis apa yang bisa berjalan di antara keduanya tanpa terjadi bentrok bahasa vendor?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Kuncinya adalah menggunakan <strong>Standar Terbuka IETF (Open Standard)</strong> seperti <strong>OSPF (Open Shortest Path First)</strong>!
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Multi-Vendor Peering:</div>
+            <p style="margin: 0;">
+              <strong>Multi-Vendor Peering</strong> adalah proses interkoneksi dan pertukaran informasi routing antar perangkat jaringan dari manufaktur yang berbeda menggunakan protokol standar internasional yang disepakati bersama oleh konsorsium IETF/IEEE.<br>
+              <strong>Syarat Mutlak OSPF Multi-Vendor Adjacency:</strong>
+              <br>• <strong>Area ID</strong> harus sama persis (misal sama-sama <code>Area 0 / Backbone</code>).
+              <br>• <strong>Subnet Mask & Link IP</strong> harus berada di subnet yang sama (misal <code>10.10.10.0/30</code>).
+              <br>• <strong>Hello Interval & Dead Interval</strong> harus cocok (Default: 10s Hello, 40s Dead).
+              <br>• <strong>MTU Interface</strong> harus bernilai sama persis (Default Ethernet: 1500 bytes).
+            </p>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Simulasi berikut memperlihatkan OSPF Hello Handshake dan LSA Exchange hingga mencapai state FULL antara Cisco 2911 dan MikroTik CCR:
+          </p>
+
+          <div class="sim-container" id="sim-cisco-mikrotik-peering">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 340" preserveAspectRatio="xMidYMid meet">
+                <line x1="200" y1="180" x2="650" y2="180" stroke="#10B981" stroke-width="4" stroke-linecap="round" />
+                <text x="425" y="165" text-anchor="middle" fill="#10B981" font-size="10" font-weight="bold" font-family="var(--font-mono)">Link Interkoneksi /30 (10.10.10.0/30)</text>
+
+                <g id="peer-node-cisco" data-cx="200" data-cy="180" transform="translate(135, 110)"></g>
+                <g id="peer-node-mik" data-cx="650" data-cy="180" transform="translate(585, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 4</span>
+              <p class="sim__text">Cisco dan MikroTik terhubung pada link /30 dan mengaktifkan OSPF Area 0...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Skrip Konfigurasi Berpasangan</span>
+
+          <!-- Terminal Context 4 -->
+          <div class="terminal-banner">
+            <span class="terminal-banner__device">️ Sisi A: Router Cisco 2911 (10.10.10.1) & Sisi B: MikroTik CHR (10.10.10.2)</span>
+            <span class="terminal-banner__location"> OSPF Area 0 (Backbone)</span>
+            <span class="terminal-banner__action"> Tujuan: Membentuk OSPF Neighbor FULL dan saling bertukar tabel rute</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">Skrip Konfigurasi OSPF Multi-Vendor</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code><span style="color:var(--text-dim);">=== 1. KONFIGURASI DI SISI CISCO 2911 ===</span>
+Router(config)# <strong>interface gigabitEthernet 0/1</strong>
+Router(config-if)# <strong>ip address 10.10.10.1 255.255.255.252</strong>
+Router(config-if)# <strong>no shutdown</strong>
+Router(config)# <strong>router ospf 1</strong>
+Router(config-router)# <strong>router-id 1.1.1.1</strong>
+Router(config-router)# <strong>network 10.10.10.0 0.0.0.3 area 0</strong>
+Router(config-router)# <strong>network 192.168.1.0 0.0.0.255 area 0</strong>
+
+<span style="color:var(--text-dim);">=== 2. KONFIGURASI DI SISI MIKROTIK ROUTEROS V7 ===</span>
+/ip address add address=10.10.10.2/30 interface=ether1 comment="Link to Cisco"
+/routing ospf instance add name=ospf-inst router-id=2.2.2.2 disabled=no
+/routing ospf area add name=backbone instance=ospf-inst area-id=0.0.0.0
+/routing ospf interface-template add area=backbone networks=10.10.10.0/30
+/routing ospf interface-template add area=backbone networks=192.168.2.0/24
+
+<span style="color:var(--text-dim);">=== 3. VERIFIKASI HASIL DI KEDUA SISI ===</span>
+Cisco# <strong>show ip ospf neighbor</strong>
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+2.2.2.2           1   FULL/DR         00:00:34    10.10.10.2      Gi0/1</code></pre>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Masalah "OSPF Stuck in ExStart / Exchange" Karena MTU Mismatch</h4>
+            <span class="badge badge--danger">Troubleshooting Klasik Multi-Vendor</span>
+          </div>
+          <p>
+            <strong>Gejala:</strong> Teknisi menghubungkan Cisco dan MikroTik. Status OSPF tidak pernah bisa mencapai <code>FULL</code>, melainkan stuck di status <code>ExStart/Exchange</code>.
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Pemeriksaan Nilai MTU:</strong>
+              <p>Pada interface Cisco, MTU bernilai 1500 bytes. Namun pada port MikroTik SFP fiber optik, teknisi menyetel MTU 9000 bytes (Jumbo Frame).</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Solusi:</strong>
+              <p>OSPF menolak bertukar database topologi jika nilai MTU antar kedua ujung kabel berbeda. Samakan MTU MikroTik menjadi 1500 bytes (atau tambahkan <code>ip ospf mtu-ignore</code> di interface Cisco). Dalam 3 detik, status OSPF langsung melompat ke <strong>FULL</strong>!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <div class="quest-card" id="q1-3-9" data-quest-type="multiple-choice" data-answer="B">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.3.5 • Pilihan Ganda</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Manakah yang <strong>BUKAN</strong> merupakan syarat mutlak agar router Cisco dan router MikroTik bisa membentuk OSPF Neighbor Adjacency (State FULL)?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-9" value="A"> A. Area ID harus sama (misal sama-sama Area 0)</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-9" value="B"> B. Kedua router harus memiliki merk dan sistem operasi yang sama persis</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-9" value="C"> C. Nilai Hello Interval dan Dead Interval harus cocok</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-9" value="D"> D. Interface kedua router harus berada dalam satu subnet IP yang sama</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-3-9')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-3-9')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-3-9">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: B</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> OSPF adalah <em>Open Standard Protocol</em>. OSPF dirancang secara sengaja agar perangkat beda merk (Cisco, MikroTik, Huawei, Juniper) bisa saling berkomunikasi asalkan parameter teknisnya (Area, Timer, Subnet, MTU) cocok.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Banyak siswa mencoba menjalankan protokol <strong>EIGRP</strong> antara Cisco dan MikroTik lalu heran kenapa tidak jalan. EIGRP adalah protokol eksklusif (proprietary) milik Cisco, sehingga tidak didukung oleh sebagian besar vendor router lain. Gunakan OSPF untuk koneksi multi-vendor.
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 30 Menit.</li>
+              <li><strong>Poin Kunci:</strong> Tunjukkan perintah <code>/routing ospf neighbor print</code> di MikroTik dan <code>show ip ospf neighbor</code> di Cisco. Tunjukkan kolom <em>State</em>.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.3.6: FIREWALL FILTER RULES DASAR DI MIKROTIK
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-6">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.3.6</span>
+          <h2>Firewall Filter Rules Dasar di MikroTik RouterOS</h2>
+          <p class="subtopic-lead">
+            Bagaimana memahami Input Chain vs Forward Chain untuk mengunci router dari serangan hacker luar sekaligus mengamankan LAN?
+          </p>
+        </div>
+
+        <!-- BLOK 1: HOOK / MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Begitu router MikroTik kantor diberi IP Publik internet, dalam waktu kurang dari 5 menit log routermu (<code>/log print</code>) akan dibanjiri ribuan percobaan login gagal dari robot hacker di internet yang menembak port SSH (22), Telnet (23), dan Winbox (8291).
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Jika router tidak dilindungi firewall, CPU router akan mencapai 100% dan hacker bisa membajak routermu. Bagaimana cara memblokir semua serangan hacker dari internet menuju router, tanpa mengganggu karyawan LAN yang sedang browsing internet?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Kuncinya adalah memahami perbedaan fundamental antara <strong>Input Chain (Menuju Router)</strong> dan <strong>Forward Chain (Melintasi Router)</strong>!
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi 3 Default Filter Chains di MikroTik:</div>
+            <p style="margin: 0;">
+              <strong>1. Input Chain:</strong> Menyaring paket data yang <strong>DITUJUKAN KE ROUTER ITU SENDIRI</strong> (misal: login Winbox, SSH, WebFig, ping ke IP router).<br>
+              <strong>2. Forward Chain:</strong> Menyaring paket data yang <strong>MELINTASI ROUTER</strong> dari satu jaringan ke jaringan lain (misal: PC LAN membuka website YouTube di internet).<br>
+              <strong>3. Output Chain:</strong> Menyaring paket data yang <strong>DIBUAT OLEH ROUTER DAN KELUAR</strong> (misal: router melakukan ping diagnostik atau sinkronisasi jam NTP).
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Gerbang Masuk Istana Kerajaan:</div>
+            <ul>
+              <li><strong>Input Chain</strong> = Tamu yang ingin masuk ke dalam <strong>Kamar Pribadi Raja (Router)</strong>. Penjagaan harus super ketat (Drop semua orang asing, hanya izinkan menteri/admin terpercaya).</li>
+              <li><strong>Forward Chain</strong> = Pedagang rakyat yang hanya ingin <strong>Melintasi Jalan Raya Istana</strong> menuju pasar seberang (Internet). Asalkan barangnya sah, pedagang diizinkan lewat (Accept).</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Perhatikan bagaimana Firewall memblokir serangan hacker di Input Chain, sementara meloloskan browsing karyawan di Forward Chain:
+          </p>
+
+          <div class="sim-container" id="sim-firewall-chains">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 340" preserveAspectRatio="xMidYMid meet">
+                <line x1="160" y1="180" x2="425" y2="180" stroke="var(--danger)" stroke-width="3" stroke-dasharray="6,4" />
+                <line x1="425" y1="180" x2="690" y2="180" stroke="var(--success)" stroke-width="3" />
+
+                <g id="fw-node-hacker" data-cx="160" data-cy="180" transform="translate(95, 110)"></g>
+                <g id="fw-node-router" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="fw-node-lan" data-cx="690" data-cy="180" transform="translate(625, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 4</span>
+              <p class="sim__text">Bot hacker dari internet mencoba login brute force ke port Winbox router...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Skrip Firewall Baku</span>
+
+          <h4>4.1 Aturan Emas Stateful Firewall (FastTrack & Connection State):</h4>
+
+          <!-- Terminal Context 5 -->
+          <div class="terminal-banner">
+            <span class="terminal-banner__device">️ Perangkat: MikroTik RouterOS v7</span>
+            <span class="terminal-banner__location"> Menu: /ip firewall filter</span>
+            <span class="terminal-banner__action"> Tujuan: Menerapkan Template Firewall Standar Industri (Mencegah Brute Force)</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots"><div class="terminal__dot"></div><div class="terminal__dot"></div><div class="terminal__dot"></div></div>
+              <span class="terminal__title">/ip firewall filter (Baku)</span>
+              <button class="terminal__copy" onclick="window.Core.copyTerminal(this)">Salin</button>
+            </div>
+            <pre class="terminal__body"><code><span style="color:var(--text-dim);"># === ATURAN INPUT CHAIN (MELINDUNGI ROUTER) ===</span>
+<span style="color:var(--text-dim);"># 1. Izinkan koneksi yang sudah sah (Established & Related) - Hemat CPU:</span>
+/ip firewall filter add chain=input connection-state=established,related action=accept comment="Accept Established/Related"
+
+<span style="color:var(--text-dim);"># 2. Buang paket rusak (Invalid):</span>
+/ip firewall filter add chain=input connection-state=invalid action=drop comment="Drop Invalid"
+
+<span style="color:var(--text-dim);"># 3. Izinkan ICMP Ping untuk diagnostik:</span>
+/ip firewall filter add chain=input protocol=icmp action=accept comment="Accept Ping"
+
+<span style="color:var(--text-dim);"># 4. BLOKIR SEMUA AKSES LAIN DARI INTERNET WAN MENUJU ROUTER:</span>
+/ip firewall filter add chain=input in-interface=ether1-wan action=drop comment="Drop All Other from WAN"
+
+<span style="color:var(--text-dim);"># === ATURAN FORWARD CHAIN (MELINDUNGI JARINGAN LAN) ===</span>
+/ip firewall filter add chain=forward connection-state=established,related action=accept
+/ip firewall filter add chain=forward connection-state=invalid action=drop
+/ip firewall filter add chain=forward connection-nat-state=dstnat action=accept comment="Izinkan Dst-NAT Port Forward"</code></pre>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-header">
+            <h4>Kasus: Mengatasi Kesalahan "Salah Pasang Drop di Forward Chain"</h4>
+            <span class="badge badge--warning">Analisis Kesalahan Siswa</span>
+          </div>
+          <p>
+            <strong>Masalah:</strong> Seorang siswa ingin memblokir hacker agar tidak bisa membobol password Winbox router. Siswa tersebut mengetik perintah: <code>/ip firewall filter add chain=forward in-interface=ether1 action=drop</code>. Akibatnya, seluruh komputer di lab kantor tidak bisa browsing internet sama sekali!
+          </p>
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div>
+              <strong>Mengapa Internet Kantor Mati?</strong>
+              <p>Paket browsing balasan dari Google datang dari <code>ether1</code> (WAN) melintasi router menuju PC LAN. Karena siswa memasang drop di <em>Forward Chain</em>, paket balasan internet karyawan ikut terbunuh!</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div>
+              <strong>Perbaikan yang Benar:</strong>
+              <p>Untuk mengamankan login router, ubah chain-nya menjadi <strong>chain=input</strong>, bukan forward!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest">
+          <span class="block-badge">Blok 6 - Quest Uji Pemahaman</span>
+
+          <div class="quest-card" id="q1-3-11" data-quest-type="multiple-choice" data-answer="A">
+            <div class="quest-header">
+              <span class="quest-badge">Quest 1.3.6 • Pilihan Ganda</span>
+              <span class="quest-score"> 10 Poin</span>
+            </div>
+            <p class="quest-question">
+              Jika administrator jaringan ingin memblokir akses remote SSH (Port 22) menuju router MikroTik dari arah internet publik WAN, chain manakah yang <strong>WAJIB</strong> digunakan pada rule firewall filter?
+            </p>
+            <div class="quest-options">
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-11" value="A"> A. Chain Input</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-11" value="B"> B. Chain Forward</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-11" value="C"> C. Chain Output</label>
+              <label class="quest-opt"><input type="radio" name="opt-q1-3-11" value="D"> D. Chain Src-NAT</label>
+            </div>
+            <div class="quest-actions">
+              <button class="btn btn--primary" onclick="window.Core.checkQuest('q1-3-11')">Kirim Jawaban</button>
+              <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q1-3-11')">Tampilkan Jawaban</button>
+            </div>
+
+            <div class="quest-answer-panel" id="ans-q1-3-11">
+              <div class="answer-status-bar answer-status--correct">
+                <span class="status-icon">v</span>
+                <strong>Jawaban Benar: A (Chain Input)</strong>
+              </div>
+              <div class="answer-body">
+                <p><strong>Pembahasan:</strong> Karena paket SSH ditujukan <strong>KE ROUTER ITU SENDIRI</strong> sebagai tujuan akhir, lalu lintas tersebut masuk ke <strong>Chain Input</strong>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Umum):</div>
+          <p>
+            Urutan baris pada Firewall Filter di MikroTik sangat menentukan! MikroTik membaca rule dari <strong>ATAS KE BAWAH</strong>. Jika kamu menaruh rule <code>drop all</code> di baris nomor 0 paling atas, semua rule di bawahnya tidak akan pernah dibaca dan router langsung terkunci.
+          </p>
+        </div>
+
+        <!-- MENTOR PANEL -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Catatan Mentor (Klik untuk Buka/Tutup)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <ul>
+              <li><strong>Estimasi Waktu:</strong> 25 Menit.</li>
+              <li><strong>Poin Kunci:</strong> Tunjukkan counter <em>Packets / Bytes</em> yang bertambah di menu Firewall Winbox saat rule memblokir serangan.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           BAGIAN 6, 7, 8, 9, 10: RANGKUMAN, EVALUASI & MINI-PROYEK
+           ==================================================================== -->
+      <section class="section-card" id="evaluasi-modul">
+        <div class="section-header">
+          <span class="badge badge--success"> Evaluasi Komprehensif</span>
+          <h2>Rangkuman Modul 1.3 & Ujian Penguasaan Akhir</h2>
+        </div>
+
+        <!-- RANGKUMAN 10 GLOSARIUM KUNCI -->
+        <h3 style="margin-top: 10px; font-size:1.15rem;">10 Istilah Kunci Modul 1.3:</h3>
+        <div class="glossary-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-sm); margin-top: var(--space-sm);">
+          <div class="glossary-card">
+            <div class="glossary-term">1. GNS3 Emulator</div>
+            <div class="glossary-def">Platform virtualisasi yang menjalankan Sistem Operasi Asli (Cisco IOS & MikroTik RouterOS) di atas QEMU.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">2. Winbox MNDP</div>
+            <div class="glossary-def">Protokol penemuan Layer 2 MikroTik untuk mendeteksi dan me-remote router via MAC Address.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">3. DHCP DORA</div>
+            <div class="glossary-def">4 tahap negosiasi otomatis IP: Discover (Client) -> Offer (Server) -> Request (Client) -> Ack (Server).</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">4. Lease Time</div>
+            <div class="glossary-def">Durasi masa sewa alamat IP yang diberikan oleh DHCP Server sebelum IP ditarik kembali.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">5. NAT Masquerade (PAT)</div>
+            <div class="glossary-def">Translasi dinamis ribuan IP privat berbagi 1 IP publik dengan membedakan nomor port Layer 4.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">6. Dst-NAT (Port Forwarding)</div>
+            <div class="glossary-def">Membelokkan paket dari IP publik internet menuju server/CCTV lokal di dalam jaringan LAN.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">7. Multi-Vendor OSPF</div>
+            <div class="glossary-def">Pertukaran rute dinamis standar terbuka antara router Cisco IOS dan MikroTik RouterOS.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">8. Input Chain</div>
+            <div class="glossary-def">Rantai firewall untuk menyaring semua paket yang ditujukan langsung ke router itu sendiri.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">9. Forward Chain</div>
+            <div class="glossary-def">Rantai firewall untuk menyaring paket yang melintasi router dari LAN menuju internet.</div>
+          </div>
+          <div class="glossary-card">
+            <div class="glossary-term">10. Safe Mode (Ctrl+X)</div>
+            <div class="glossary-def">Fitur rollback otomatis MikroTik yang membatalkan konfigurasi jika koneksi remote terputus.</div>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR MODUL (4 SOAL KOMPREHENSIF) -->
+        <h3 style="margin-top: 36px; font-size:1.15rem;">Quest Akhir Modul 1.3 (Evaluasi Mandiri):</h3>
+
+        <!-- Final Quest 1 -->
+        <div class="quest-card" id="q3-final-1" data-quest-type="multiple-choice" data-answer="B">
+          <div class="quest-header">
+            <span class="quest-badge">Soal 1 • DORA Process Port UDP</span>
+            <span class="quest-score"> 15 Poin</span>
+          </div>
+          <p class="quest-question">
+            Protokol DHCP berjalan di atas protokol transport UDP. Nomor port berapakah yang digunakan oleh <strong>DHCP Server</strong> dan <strong>DHCP Client</strong>?
+          </p>
+          <div class="quest-options">
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-1" value="A"> A. Port 80 (Server) dan Port 443 (Client)</label>
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-1" value="B"> B. Port 67 (Server) dan Port 68 (Client)</label>
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-1" value="C"> C. Port 21 (Server) dan Port 22 (Client)</label>
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-1" value="D"> D. Port 53 (Server) dan Port 53 (Client)</label>
+          </div>
+          <div class="quest-actions">
+            <button class="btn btn--primary" onclick="window.Core.checkQuest('q3-final-1')">Kirim Jawaban</button>
+            <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q3-final-1')">Tampilkan Jawaban</button>
+          </div>
+          <div class="quest-answer-panel" id="ans-q3-final-1">
+            <div class="answer-status-bar answer-status--correct">
+              <span class="status-icon">v</span>
+              <strong>Jawaban Benar: B (UDP Port 67 Server & Port 68 Client)</strong>
+            </div>
+            <div class="answer-body">
+              <p><strong>Alasan:</strong> Sesuai standar RFC 2131, DHCP Server selalu mendengarkan (listen) di port UDP 67, dan pesan balasan dikirimkan ke port UDP 68 milik klien.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final Quest 2 -->
+        <div class="quest-card" id="q3-final-2" data-quest-type="multiple-choice" data-answer="A">
+          <div class="quest-header">
+            <span class="quest-badge">Soal 2 • NAT Port Allocation</span>
+            <span class="quest-score"> 15 Poin</span>
+          </div>
+          <p class="quest-question">
+            Pada NAT Masquerade (PAT), jika dua laptop di jaringan LAN (Laptop A port 4000 dan Laptop B port 4000) membuka situs web yang sama persis secara bersamaan, bagaimana router membedakan data balasan dari internet?
+          </p>
+          <div class="quest-options">
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-2" value="A"> A. Router memetakan masing-masing laptop ke nomor Port NAT Publik yang BERBEDA (misal port 10001 untuk Laptop A dan port 10002 untuk Laptop B).</label>
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-2" value="B"> B. Router akan menolak koneksi Laptop B karena portnya kembar.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-2" value="C"> C. Router akan meminta ISP menambah 1 IP publik baru.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-2" value="D"> D. Router mengirimkan data balasan ke kedua laptop sekaligus.</label>
+          </div>
+          <div class="quest-actions">
+            <button class="btn btn--primary" onclick="window.Core.checkQuest('q3-final-2')">Kirim Jawaban</button>
+            <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q3-final-2')">Tampilkan Jawaban</button>
+          </div>
+          <div class="quest-answer-panel" id="ans-q3-final-2">
+            <div class="answer-status-bar answer-status--correct">
+              <span class="status-icon">v</span>
+              <strong>Jawaban Benar: A (Port Address Translation)</strong>
+            </div>
+            <div class="answer-body">
+              <p><strong>Pembahasan:</strong> Inilah kehebatan Port Address Translation (PAT). Router secara dinamis mengalokasikan port unik di sisi WAN publik, sehingga ratusan sesi dengan port privat yang sama tidak akan pernah tertukar.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final Quest 3: Debugging Skenario Multi-Vendor -->
+        <div class="quest-card" id="q3-final-3" data-quest-type="multiple-choice" data-answer="C">
+          <div class="quest-header">
+            <span class="quest-badge">Soal 3 • DEBUG TANTANGAN (OSPF Multi-Vendor MTU Mismatch)</span>
+            <span class="quest-score"> 20 Poin</span>
+          </div>
+          <p class="quest-question">
+            Seorang teknisi menghubungkan Router Cisco 2911 ke Router MikroTik CCR. IP sudah bisa saling ping, konfigurasi network OSPF sudah benar di Area 0, namun status OSPF tetangga stuck di status <code>ExStart</code> dan tidak pernah menjadi <code>FULL</code>.<br>
+            Saat dicek, interface Cisco MTU-nya 1500 bytes, sedangkan port SFP MikroTik MTU-nya disetting 9000 bytes.<br>
+            Apa yang harus dilakukan agar status OSPF menjadi FULL?
+          </p>
+          <div class="quest-options">
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-3" value="A"> A. Mengganti kabel fiber optik dengan kabel tembaga.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-3" value="B"> B. Menghapus OSPF dan menggantinya dengan RIP.</label>
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-3" value="C"> C. Menyamakan nilai MTU di kedua interface menjadi 1500 bytes (atau menambahkan ip ospf mtu-ignore pada interface Cisco).</label>
+            <label class="quest-opt"><input type="radio" name="opt-q3-final-3" value="D"> D. Mengubah Area ID menjadi Area 10.</label>
+          </div>
+          <div class="quest-actions">
+            <button class="btn btn--primary" onclick="window.Core.checkQuest('q3-final-3')">Kirim Jawaban</button>
+            <button class="btn btn--outline" onclick="window.Core.toggleAnswer('q3-final-3')">Tampilkan Jawaban</button>
+          </div>
+          <div class="quest-answer-panel" id="ans-q3-final-3">
+            <div class="answer-status-bar answer-status--correct">
+              <span class="status-icon">v</span>
+              <strong>Jawaban Benar: C (MTU Mismatch Fix)</strong>
+            </div>
+            <div class="answer-body">
+              <p><strong>Pembahasan:</strong> OSPF memverifikasi nilai MTU di dalam paket DBD (Database Description). Jika MTU tidak cocok, router akan menolak bertukar rute dan tertahan di state ExStart/Exchange.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHECKLIST TUGAS & MINI-PROYEK -->
+        <h3 style="margin-top: 36px; font-size:1.15rem;">️ Checklist Tugas & Mini-Proyek Multi-Vendor:</h3>
+        <p style="color:var(--text-muted); font-size:0.92rem;">
+          Kerjakan tugas praktik ini di Cisco Packet Tracer / GNS3. Centang setiap item setelah diverifikasi:
+        </p>
+
+        <div class="project-checklist">
+          <label class="checklist-item">
+            <input type="checkbox" onchange="window.Core.saveTaskProgress('p1-3-task1', this.checked)">
+            <span><strong>Tugas 1:</strong> Setup DHCP Server di MikroTik / Cisco dengan pool 30 alamat dan verifikasi PC klien mendapatkan IP otomatis melalui alur DORA.</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" onchange="window.Core.saveTaskProgress('p1-3-task2', this.checked)">
+            <span><strong>Tugas 2:</strong> Konfigurasikan NAT Masquerade pada interface WAN dan buktikan PC LAN bisa ping ke Server Internet Simulator (8.8.8.8).</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" onchange="window.Core.saveTaskProgress('p1-3-task3', this.checked)">
+            <span><strong>Tugas 3:</strong> Pasang Firewall Filter Rule di Input Chain untuk memblokir ping dari interface WAN ke router, namun tetap meloloskan browsing LAN.</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" onchange="window.Core.saveTaskProgress('p1-3-task4', this.checked)">
+            <span><strong>Mini-Proyek Modul 1.3:</strong> Bangun Jaringan Heterogen Lengkap: 1 Router Cisco (Core) terhubung ke 1 Router MikroTik (Distribusi) via OSPF Area 0 + DHCP Server LAN + NAT Masquerade ke Internet. Dokumentasikan topologi ke GitHub!</span>
+          </label>
+        </div>
+
+        <!-- PANEL CATATAN MENTOR GLOBAL -->
+        <div class="mentor-panel" style="margin-top: 32px;">
+          <div class="mentor-panel__header" onclick="window.Core.toggleMentorPanel(this)">
+            <span> Panduan Mentor Khusus Modul 1.3 (Untuk Ervan)</span>
+            <span class="mentor-toggle-icon">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <p><strong>Rencana Alokasi Waktu Sesi (3-4 Minggu):</strong></p>
+            <ul>
+              <li><strong>Minggu 1:</strong> Pengenalan GNS3, import image MikroTik CHR, dan eksplorasi Winbox MNDP Layer 2 discovery.</li>
+              <li><strong>Minggu 2:</strong> Konfigurasi DHCP Server dan alur 4 tahap DORA (cek di Wireshark).</li>
+              <li><strong>Minggu 3:</strong> NAT Masquerade & Port Forwarding Dst-NAT (simulasikan akses web server lokal).</li>
+              <li><strong>Minggu 4:</strong> Interkoneksi Cisco + MikroTik OSPF Peering, Firewall Filter Rules, dan penyelesaian Mini-Proyek Jaringan Heterogen.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- NAVIGASI BAWAH -->
+        <div class="module-nav-footer">
+          <a href="modul-1-2.html" class="btn btn--outline">← Modul 1.2: Routing & Switching</a>
+          <a href="index.html" class="btn btn--outline">Daftar Modul Fase 1</a>
+          <a href="modul-1-4.html" class="btn btn--primary">Lanjut: Modul 1.4 Keamanan Jaringan & Wireless →</a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- JAVASCRIPT GLOBAL & MODUL -->
+  <script src="assets/js/anim-engine.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/modul-1-3.js"></script>
+</body>
+</html>

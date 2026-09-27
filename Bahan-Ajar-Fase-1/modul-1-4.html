@@ -1,0 +1,1711 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modul 1.4 - Keamanan Jaringan Dasar & Wireless | Bahan Ajar Mentoring</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-module-id="modul-1-4">
+
+  <!-- ========================================================================
+       1. HEADER MODUL STICKY + PROGRESS BAR
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="header-main">
+      <div class="header-left">
+        <a href="index.html" class="btn-back">Daftar Modul</a>
+        <div class="header-title-box">
+          <h1>Modul 1.4 - Keamanan Jaringan Dasar & Wireless</h1>
+          <span class="header-subtitle">Fase 1: Jaringan & Infrastruktur (ACL, WiFi Security, WPA2/3, VPN)</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <span class="badge-meta">Estimasi: <strong>2-3 Minggu (120-150 Menit/Sesi)</strong></span>
+        <span class="badge-meta badge-meta--quest">Quest: <strong>0 / 15</strong></span>
+      </div>
+    </div>
+
+    <!-- Progress Bar Scroll Sticky -->
+    <div class="progress-container">
+      <div class="progress-bar" id="reading-progress"></div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. LAYOUT UTAMA (SIDEBAR STICKY + KONTEN)
+       ======================================================================== -->
+  <div class="layout-wrapper">
+
+    <!-- Sidebar Navigasi Sub-Topik (Desktop) -->
+    <aside class="sidebar-nav">
+      <div class="sidebar-title">Peta Perjalanan Modul 1.4</div>
+      <ul class="subtopic-nav-list">
+        <li class="subtopic-nav-item active">
+          <a href="#subtopik-1">
+            <span class="subtopic-nav-num">1</span>
+            <span>ACL - Access Control List</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-2">
+            <span class="subtopic-nav-num">2</span>
+            <span>Keamanan Wireless & Channel</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-3">
+            <span class="subtopic-nav-num">3</span>
+            <span>WPA2 vs WPA3 Encryption</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-4">
+            <span class="subtopic-nav-num">4</span>
+            <span>VPN - Virtual Private Network</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-5">
+            <span class="subtopic-nav-num">5</span>
+            <span>Desain Keamanan Jaringan</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#evaluasi-modul">
+            <span class="subtopic-nav-num"></span>
+            <span>Rangkuman & Evaluasi</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Konten Utama Modul -->
+    <main class="main-content">
+
+      <!-- Dropdown Navigasi Cepat (Mobile) -->
+      <div class="mobile-nav-select-wrapper">
+        <select class="mobile-nav-select" id="mobile-topic-select" aria-label="Pilih Sub-topik">
+          <option value="#subtopik-1">1. ACL - Access Control List (Standard & Extended)</option>
+          <option value="#subtopik-2">2. Keamanan Wireless - Frekuensi, Channel & Interferensi</option>
+          <option value="#subtopik-3">3. Enkripsi Wireless - WPA2 vs WPA3</option>
+          <option value="#subtopik-4">4. VPN - Virtual Private Network</option>
+          <option value="#subtopik-5">5. Studi Kasus Terintegrasi - Desain Keamanan Jaringan Sekolah</option>
+          <option value="#evaluasi-modul"> Rangkuman, Quest Akhir & Mini-Proyek</option>
+        </select>
+      </div>
+
+      <!-- ====================================================================
+           BAGIAN 3: TUJUAN PEMBELAJARAN
+           ==================================================================== -->
+      <section class="section-card" id="tujuan-pembelajaran">
+        <div class="section-header">
+          <span class="badge badge--primary">Target Kompetensi</span>
+          <h2>Apa yang Akan Kamu Kuasai di Modul 1.4 Ini?</h2>
+        </div>
+        <p>
+          Di modul sebelumnya, kamu sudah bisa membangun jaringan multi-vendor lengkap dengan routing, VLAN, dan NAT. Tapi jaringan tanpa keamanan seperti <strong>rumah tanpa kunci pintu</strong> - siapa saja bisa masuk. Di modul ini, kamu akan belajar cara <strong>membentengi</strong> jaringan yang sudah kamu bangun:
+        </p>
+        <ul class="learning-goals-list">
+          <li><strong>Memahami & Menerapkan ACL (Access Control List):</strong> Menyaring lalu lintas jaringan berdasarkan IP asal, tujuan, dan port - baik Standard maupun Extended ACL di Cisco dan MikroTik.</li>
+          <li><strong>Memahami Keamanan WiFi:</strong> Mengerti cara kerja frekuensi 2.4GHz vs 5GHz, pemilihan channel non-overlap, dan masalah interferensi sinyal di lingkungan nyata.</li>
+          <li><strong>Membandingkan WPA2 vs WPA3:</strong> Mengetahui kelemahan WPA2-PSK dan bagaimana WPA3-SAE memperbaikinya, serta pentingnya Management Frame Protection.</li>
+          <li><strong>Memahami Konsep VPN:</strong> Menguasai prinsip tunneling, enkripsi end-to-end, dan perbedaan IPSec vs SSL VPN untuk menghubungkan kantor cabang secara aman melewati internet publik.</li>
+          <li><strong>Merancang Keamanan Jaringan Sekolah:</strong> Menggabungkan semua konsep (VLAN + ACL + WiFi + Firewall) dalam satu desain keamanan jaringan terintegrasi.</li>
+        </ul>
+        <div class="callout callout--info" style="margin-top: var(--space-4);">
+          <strong> Koneksi dengan Modul Sebelumnya:</strong> Ingat firewall filter rules di Modul 1.3? ACL adalah konsep yang sama tetapi dari sisi <strong>Cisco IOS</strong>. VLAN yang kamu konfigurasi di Modul 1.2 akan jadi pondasi segmentasi keamanan di sini. Semua saling terhubung!
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           BAGIAN 4: PETA PERJALANAN MODUL
+           ==================================================================== -->
+      <section class="section-card" id="peta-modul">
+        <div class="section-header">
+          <span class="badge badge--outline">️ Peta Alur Belajar</span>
+          <h2>Alur Penguasaan: Dari Penyaringan Dasar Menuju Desain Keamanan Utuh</h2>
+        </div>
+        <div class="module-pathway">
+          <div class="pathway-step">
+            <div class="step-circle">1</div>
+            <div class="step-label">ACL Filtering</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">2</div>
+            <div class="step-label">WiFi & Channel</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">3</div>
+            <div class="step-label">WPA2 vs WPA3</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">4</div>
+            <div class="step-label">VPN Tunnel</div>
+          </div>
+          <div class="pathway-arrow">•</div>
+          <div class="pathway-step">
+            <div class="step-circle">5</div>
+            <div class="step-label">Desain Terpadu</div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.4.1: ACCESS CONTROL LIST (ACL) - STANDARD & EXTENDED
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-1">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.4.1</span>
+          <h2>Access Control List (ACL) - Penjaga Gerbang Lalu Lintas Jaringan</h2>
+          <p class="subtopic-lead">
+            Cara router memfilter paket data: siapa yang boleh lewat dan siapa yang harus dibuang.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH NYATA -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Bayangkan kamu adalah admin jaringan di sebuah kantor yang sudah punya VLAN Keuangan, VLAN Produksi, dan VLAN Tamu. Semua VLAN bisa berkomunikasi melalui Inter-VLAN Routing yang kamu konfigurasi di Modul 1.2. Masalahnya?
+          </p>
+          <div class="hook-question">
+            <strong>Masalah:</strong> Perangkat di VLAN Tamu (WiFi tamu) ternyata bisa <strong>mengakses server keuangan</strong> dan <strong>men-scan seluruh jaringan internal</strong>! Data gaji karyawan bisa dilihat siapa saja yang terhubung ke WiFi kantor.
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Inter-VLAN routing membuat semua segmen jaringan bisa saling bicara. Tapi tidak semua segmen <em>boleh</em> saling bicara. Kamu butuh sebuah <strong>daftar aturan penyaringan</strong> di router yang menentukan: "paket dari sini boleh lewat, paket dari sana dibuang." Itulah <strong>Access Control List (ACL)</strong>.
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Access Control List (ACL):</div>
+            <p style="margin: 0;">
+              <strong>ACL (Access Control List)</strong> adalah daftar aturan berurutan yang dipasang pada <strong>interface router</strong> untuk memfilter paket yang melewatinya. Setiap aturan berisi <em>kondisi pencocokan</em> (match condition) dan <em>tindakan</em> (<code>permit</code> = boleh lewat, <code>deny</code> = buang). Router membaca aturan dari atas ke bawah - <strong>aturan pertama yang cocok langsung dijalankan</strong>, sisanya diabaikan.
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Satpam Gedung Berlapis:</div>
+            <ul>
+              <li><strong>Standard ACL</strong> = Satpam di gerbang depan yang hanya mengecek <strong>KTP (alamat asal)</strong>. "Yang dari departemen ini boleh masuk, yang lain tidak."</li>
+              <li><strong>Extended ACL</strong> = Satpam di pintu ruangan yang mengecek <strong>KTP (asal) + Tujuan + Alasan berkunjung (port/protokol)</strong>. "Orang dari departemen A boleh masuk ke ruangan B untuk urusan HTTP, tapi tidak boleh masuk ke ruangan C untuk urusan SSH."</li>
+              <li><strong>Implicit Deny</strong> = Di akhir daftar aturan, selalu ada aturan tak tertulis: "Kalau tidak ada aturan yang cocok, <em>tolak semua</em>." Ini seperti kebijakan gedung: "jika tidak terdaftar, Anda tidak boleh masuk."</li>
+            </ul>
+          </div>
+
+          <div class="callout callout--warning">
+            <strong>Sering Keliru:</strong> Banyak yang mengira ACL memfilter lalu lintas <em>di dalam</em> VLAN yang sama. <strong>Bukan.</strong> ACL bekerja di <strong>router</strong> (Layer 3), hanya menyaring paket yang <em>melewati interface router</em>. Paket antar PC dalam satu VLAN/subnet yang sama tidak melewati router, jadi ACL tidak menyentuhnya.
+          </div>
+
+          <p><strong>Dua jenis utama ACL di Cisco:</strong></p>
+          <table class="data-table" style="margin-top: var(--space-3);">
+            <thead>
+              <tr><th>Aspek</th><th>Standard ACL</th><th>Extended ACL</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Nomor</td><td>1-99 atau 1300-1999</td><td>100-199 atau 2000-2699</td></tr>
+              <tr><td>Yang Diperiksa</td><td>Hanya IP <strong>asal</strong></td><td>IP asal, IP tujuan, protokol, <strong>port</strong></td></tr>
+              <tr><td>Dipasang di</td><td><strong>Dekat tujuan</strong> (agar tidak memblokir lalu lintas lain)</td><td><strong>Dekat asal</strong> (agar paket langsung dibuang seawal mungkin)</td></tr>
+              <tr><td>Contoh Kasus</td><td>"Blokir semua dari VLAN 30 ke mana pun"</td><td>"Izinkan VLAN 10 akses HTTP ke server, tapi blokir SSH"</td></tr>
+            </tbody>
+          </table>
+
+          <p style="margin-top: var(--space-3);">
+            <strong>Arah Pemasangan ACL pada Interface:</strong>
+          </p>
+          <ul>
+            <li><code>in</code> (inbound) - memfilter paket yang <strong>masuk</strong> ke interface router (sebelum router memproses routing)</li>
+            <li><code>out</code> (outbound) - memfilter paket yang <strong>keluar</strong> dari interface router (setelah routing selesai, sebelum dikirim ke kabel)</li>
+          </ul>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Amati bagaimana router dengan ACL memfilter paket dari VLAN Tamu yang mencoba mengakses Server Keuangan:
+          </p>
+
+          <div class="sim-container" id="sim-acl-filter">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Kabel Backbone -->
+                <line x1="130" y1="180" x2="350" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+                <line x1="500" y1="180" x2="720" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+                <!-- VLAN Labels -->
+                <rect x="30" y="290" width="120" height="24" rx="12" fill="var(--danger-soft)" stroke="var(--danger)" stroke-width="1.5" />
+                <text x="90" y="306" text-anchor="middle" fill="var(--danger)" font-size="9" font-weight="bold" font-family="var(--font-mono)">VLAN 30 - Tamu</text>
+                <rect x="600" y="290" width="150" height="24" rx="12" fill="var(--success-soft)" stroke="var(--success)" stroke-width="1.5" />
+                <text x="675" y="306" text-anchor="middle" fill="var(--success)" font-size="9" font-weight="bold" font-family="var(--font-mono)">VLAN 10 - Keuangan</text>
+                <!-- Router + ACL Badge -->
+                <rect x="360" y="120" width="130" height="30" rx="15" fill="var(--danger-soft)" stroke="var(--danger)" stroke-width="2" />
+                <text x="425" y="140" text-anchor="middle" fill="var(--danger)" font-size="9.5" font-weight="bold" font-family="var(--font-mono)"> ACL: DENY Tamu</text>
+                <!-- Device Nodes -->
+                <g id="acl-node-tamu" data-cx="130" data-cy="180" transform="translate(65, 110)"></g>
+                <g id="acl-node-router" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="acl-node-server" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Seorang tamu terhubung ke WiFi VLAN 30 dan mencoba mengakses server keuangan...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis Lengkap</span>
+
+          <h3>4.1 Cara Router Memproses ACL - Alur Top-Down</h3>
+          <p>Ketika sebuah paket masuk/keluar dari interface yang dipasangi ACL, router melakukan pencocokan dari <strong>aturan pertama ke terakhir</strong>:</p>
+
+          <div class="step-card">
+            <div class="step-number">①</div>
+            <div class="step-body">
+              <div class="step-title">Baca aturan pertama di daftar ACL</div>
+              <div class="step-why"><strong>Kenapa:</strong> ACL diproses secara berurutan (sequential), bukan acak. Aturan yang paling spesifik harus ditaruh di atas.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">②</div>
+            <div class="step-body">
+              <div class="step-title">Cocokkan kondisi paket dengan aturan (match?)</div>
+              <div class="step-why"><strong>Kenapa:</strong> Kondisi pencocokan tergantung jenis ACL - Standard hanya IP asal, Extended bisa IP asal+tujuan+port+protokol.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">③</div>
+            <div class="step-body">
+              <div class="step-title">Jika cocok → jalankan tindakan (permit/deny), BERHENTI</div>
+              <div class="step-why"><strong>Kenapa:</strong> First-match principle. Begitu ada aturan yang cocok, router tidak memeriksa aturan di bawahnya lagi. Ini kritis - salah urutan = ACL tidak bekerja.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">④</div>
+            <div class="step-body">
+              <div class="step-title">Jika tidak cocok → lanjut ke aturan berikutnya</div>
+              <div class="step-why"><strong>Kenapa:</strong> Paket terus dicocokkan ke bawah sampai menemukan match atau sampai akhir daftar.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">⑤</div>
+            <div class="step-body">
+              <div class="step-title">Jika semua aturan tidak cocok → IMPLICIT DENY (paket dibuang)</div>
+              <div class="step-why"><strong>Kenapa:</strong> Cisco menambahkan aturan tak terlihat <code>deny any</code> di akhir setiap ACL. Jika kamu tidak menambahkan <code>permit any</code> di akhir, semua lalu lintas yang tidak ter-match akan <strong>diblokir total</strong>.</div>
+            </div>
+          </div>
+
+          <h3 style="margin-top: var(--space-5);">4.2 Konfigurasi Standard ACL (Cisco IOS)</h3>
+          <p>Standard ACL hanya memeriksa <strong>IP sumber</strong>. Dipasang <strong>dekat tujuan</strong>.</p>
+
+          <div class="terminal">
+            <div class="terminal__bar">
+              <span class="terminal__dot terminal__dot--red"></span>
+              <span class="terminal__dot terminal__dot--yellow"></span>
+              <span class="terminal__dot terminal__dot--green"></span>
+              <span class="terminal__title">Router-Cisco - Console (Standard ACL)</span>
+            </div>
+            <div class="terminal__body">
+<pre>
+Router(config)# <strong>access-list 10 deny 192.168.30.0 0.0.0.255</strong>
+  ! Blokir semua paket dari subnet VLAN 30 (192.168.30.0/24)
+  ! Wildcard 0.0.0.255 berarti "cocokkan oktet 1-3 persis, oktet 4 boleh berapapun"
+  ! Ingat: Wildcard = kebalikan Subnet Mask (255.255.255.0 → 0.0.0.255)
+
+Router(config)# <strong>access-list 10 permit any</strong>
+  ! Izinkan semua lalu lintas lain yang tidak ter-match di atas
+  ! WAJIB ditambahkan, karena tanpa ini → implicit deny memblokir SEMUA
+
+Router(config)# <strong>interface GigabitEthernet0/0.10</strong>
+  ! Masuk ke sub-interface VLAN 10 (Keuangan) - target yang dilindungi
+
+Router(config-subif)# <strong>ip access-group 10 out</strong>
+  ! Pasang ACL nomor 10 pada arah keluar (outbound) interface ini
+  ! "out" karena paket dari VLAN 30 akan KELUAR dari interface VLAN 10
+</pre>
+            </div>
+          </div>
+
+          <h3 style="margin-top: var(--space-5);">4.3 Konfigurasi Extended ACL (Cisco IOS)</h3>
+          <p>Extended ACL bisa memeriksa <strong>IP asal, IP tujuan, protokol, dan port</strong>. Dipasang <strong>dekat asal</strong>.</p>
+
+          <div class="terminal">
+            <div class="terminal__bar">
+              <span class="terminal__dot terminal__dot--red"></span>
+              <span class="terminal__dot terminal__dot--yellow"></span>
+              <span class="terminal__dot terminal__dot--green"></span>
+              <span class="terminal__title">Router-Cisco - Console (Extended ACL)</span>
+            </div>
+            <div class="terminal__body">
+<pre>
+Router(config)# <strong>access-list 110 permit tcp 192.168.10.0 0.0.0.255 host 192.168.20.100 eq 80</strong>
+  ! Izinkan VLAN 10 (Keuangan) mengakses Server 192.168.20.100 di port 80 (HTTP)
+  ! "tcp" = protokol, "eq 80" = destination port 80
+
+Router(config)# <strong>access-list 110 permit tcp 192.168.10.0 0.0.0.255 host 192.168.20.100 eq 443</strong>
+  ! Izinkan juga HTTPS (port 443)
+
+Router(config)# <strong>access-list 110 deny ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255</strong>
+  ! Blokir SEMUA akses lain dari VLAN 10 ke VLAN 20
+
+Router(config)# <strong>access-list 110 permit ip any any</strong>
+  ! Izinkan semua lalu lintas lain (jangan lupa!)
+
+Router(config)# <strong>interface GigabitEthernet0/0.10</strong>
+Router(config-subif)# <strong>ip access-group 110 in</strong>
+  ! Pasang di arah masuk (inbound) sub-interface VLAN 10 - dekat asal paket
+</pre>
+            </div>
+          </div>
+
+          <h3 style="margin-top: var(--space-5);">4.4 ACL di MikroTik (Firewall Filter - Recap dari 1.3)</h3>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <span class="terminal__dot terminal__dot--red"></span>
+              <span class="terminal__dot terminal__dot--yellow"></span>
+              <span class="terminal__dot terminal__dot--green"></span>
+              <span class="terminal__title">MikroTik - Terminal (Firewall Filter = Extended ACL)</span>
+            </div>
+            <div class="terminal__body">
+<pre>
+[admin@MikroTik] > <strong>/ip firewall filter add chain=forward \
+   src-address=192.168.30.0/24 dst-address=192.168.10.0/24 \
+   action=drop comment="Blokir Tamu ke Keuangan"</strong>
+  ! chain=forward karena lalu lintas melintasi router
+  ! Ini setara Extended ACL deny di Cisco
+
+[admin@MikroTik] > <strong>/ip firewall filter add chain=forward \
+   src-address=192.168.30.0/24 dst-address=0.0.0.0/0 \
+   out-interface=ether1-WAN action=accept comment="Tamu boleh internet"</strong>
+  ! Tamu hanya boleh ke internet, TIDAK ke LAN internal
+</pre>
+            </div>
+          </div>
+
+          <div class="callout callout--tip">
+            <strong> Aturan Emas Penempatan ACL:</strong>
+            <ul style="margin: 6px 0 0 0;">
+              <li><strong>Standard ACL → dekat TUJUAN</strong> (karena hanya cek IP asal, kalau ditaruh dekat asal bisa memblokir akses ke tujuan lain yang seharusnya diizinkan)</li>
+              <li><strong>Extended ACL → dekat ASAL</strong> (karena sudah spesifik, paket dibuang seawal mungkin agar tidak membebani jaringan)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+
+          <div class="case-context">
+            <h3>Kasus: Kantor PT Maju Bersama - Keamanan Antar-VLAN</h3>
+            <p>PT Maju Bersama memiliki 3 VLAN:</p>
+            <table class="data-table">
+              <thead><tr><th>VLAN</th><th>Subnet</th><th>Keterangan</th></tr></thead>
+              <tbody>
+                <tr><td>VLAN 10</td><td>192.168.10.0/24</td><td>Keuangan (Data sensitif gaji & laporan)</td></tr>
+                <tr><td>VLAN 20</td><td>192.168.20.0/24</td><td>Produksi (Server aplikasi, port 80 & 443)</td></tr>
+                <tr><td>VLAN 30</td><td>192.168.30.0/24</td><td>Tamu (WiFi publik, hanya boleh internet)</td></tr>
+              </tbody>
+            </table>
+            <p>Server web produksi berada di <code>192.168.20.100</code>. Kebijakan keamanan:</p>
+            <ul>
+              <li>VLAN Keuangan boleh akses HTTP/HTTPS ke server produksi</li>
+              <li>VLAN Tamu <strong>hanya boleh internet</strong>, tidak boleh akses jaringan internal manapun</li>
+              <li>VLAN Produksi bebas mengakses sesama jaringan internal</li>
+            </ul>
+          </div>
+
+          <div class="case-solution">
+            <h4>Solusi - Langkah Demi Langkah:</h4>
+
+            <div class="step-card">
+              <div class="step-number">①</div>
+              <div class="step-body">
+                <div class="step-title">Extended ACL untuk VLAN 30 (Tamu) - hanya internet</div>
+                <div class="step-why"><code>access-list 130 deny ip 192.168.30.0 0.0.0.255 192.168.0.0 0.0.255.255</code> → Blokir ke semua jaringan internal (range 192.168.x.x)<br><code>access-list 130 permit ip any any</code> → Izinkan internet (via NAT)</div>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">②</div>
+              <div class="step-body">
+                <div class="step-title">Extended ACL untuk VLAN 10 (Keuangan) - akses terbatas ke server</div>
+                <div class="step-why"><code>access-list 110 permit tcp 192.168.10.0 0.0.0.255 host 192.168.20.100 eq 80</code><br><code>access-list 110 permit tcp ... eq 443</code><br><code>access-list 110 permit ip 192.168.10.0 0.0.0.255 any</code> (izinkan internet)</div>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">③</div>
+              <div class="step-body">
+                <div class="step-title">Pasang ACL di interface yang tepat</div>
+                <div class="step-why">ACL 130 → <code>ip access-group 130 in</code> pada sub-interface Gi0/0.30 (dekat asal, karena Extended)<br>ACL 110 → <code>ip access-group 110 in</code> pada sub-interface Gi0/0.10</div>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">④</div>
+              <div class="step-body">
+                <div class="step-title">Verifikasi</div>
+                <div class="step-why"><code>show access-lists</code> → Lihat jumlah match di tiap aturan<br><code>ping</code> dari PC Tamu ke Server Keuangan → harus gagal Tidak<br><code>ping</code> dari PC Tamu ke 8.8.8.8 → harus berhasil v</div>
+              </div>
+            </div>
+
+            <div class="case-lesson">
+              <strong>Pelajaran yang diambil:</strong> Extended ACL yang dipasang di arah <em>inbound</em> dekat sumber lalu lintas memberikan kontrol granular tanpa memblokir traffic yang sah. Urutan aturan sangat penting - spesifik dulu, umum di bawah.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-4-1" data-quest-id="quest-1-4-1" data-anim-answer="sim-acl-quest-answer">
+          <span class="block-badge">Blok 6 - Quest: Tantangan ACL</span>
+
+          <div class="quest-body">
+            <p><strong>Quest 1 (Kasus Debug):</strong> Seorang teknisi membuat ACL berikut di router Cisco:</p>
+            <div class="terminal" style="margin: 10px 0;">
+              <div class="terminal__bar">
+                <span class="terminal__dot terminal__dot--red"></span>
+                <span class="terminal__dot terminal__dot--yellow"></span>
+                <span class="terminal__dot terminal__dot--green"></span>
+                <span class="terminal__title">Router - ACL yang bermasalah</span>
+              </div>
+              <div class="terminal__body">
+<pre>access-list 100 permit ip any any
+access-list 100 deny tcp 192.168.30.0 0.0.0.255 host 192.168.10.5 eq 22
+</pre>
+              </div>
+            </div>
+            <p>Dia ingin memblokir VLAN 30 agar tidak bisa SSH ke server 192.168.10.5, tapi saat diuji, <strong>VLAN 30 tetap bisa SSH</strong>. Apa kesalahannya?</p>
+
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q141" value="a"> A. Nomor ACL 100 salah, seharusnya pakai Standard ACL nomor 10</label>
+              <label class="quest-option"><input type="radio" name="q141" value="b"> B. Urutan salah - <code>permit any any</code> di atas cocok duluan, sehingga aturan deny di bawahnya tidak pernah tercapai</label>
+              <label class="quest-option"><input type="radio" name="q141" value="c"> C. Seharusnya pakai <code>deny udp</code> bukan <code>deny tcp</code></label>
+              <label class="quest-option"><input type="radio" name="q141" value="d"> D. ACL belum dipasang di interface apapun</label>
+            </div>
+
+            <button class="quest-hint-toggle"> Buka Petunjuk</button>
+            <div class="quest-hint-content" style="display:none;">
+              Ingat prinsip ACL: <em>first-match wins</em>. Router membaca dari aturan pertama dan berhenti begitu menemukan yang cocok. Coba baca aturan dari atas ke bawah - apa yang terjadi ketika paket SSH dari VLAN 30 masuk?
+            </div>
+          </div>
+
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Urutan Salah (permit any any di atas)</h4>
+            <p>
+              Ini adalah kesalahan klasik ACL yang paling sering terjadi. Router membaca dari atas:
+            </p>
+            <ol>
+              <li>Aturan 1: <code>permit ip any any</code> → Paket SSH dari VLAN 30 <strong>cocok</strong> dengan ini (karena "any any" cocok dengan semua paket)</li>
+              <li>Router langsung mengizinkan (permit) dan <strong>BERHENTI</strong></li>
+              <li>Aturan 2 (deny SSH) <strong>tidak pernah diperiksa</strong></li>
+            </ol>
+            <p><strong>Perbaikan:</strong> Balik urutannya! Taruh deny (yang spesifik) di ATAS, permit (yang umum) di BAWAH:</p>
+            <div class="terminal" style="margin: 10px 0;">
+              <div class="terminal__bar">
+                <span class="terminal__dot terminal__dot--red"></span>
+                <span class="terminal__dot terminal__dot--yellow"></span>
+                <span class="terminal__dot terminal__dot--green"></span>
+                <span class="terminal__title">Router - ACL yang BENAR</span>
+              </div>
+              <div class="terminal__body">
+<pre>access-list 100 deny tcp 192.168.30.0 0.0.0.255 host 192.168.10.5 eq 22
+access-list 100 permit ip any any
+</pre>
+              </div>
+            </div>
+            <p>Sekarang paket SSH dari VLAN 30 akan cocok dengan aturan deny dulu → dibuang. Semua paket lain tetap diizinkan.</p>
+
+            <div class="callout callout--warning">
+              <strong>Sering Keliru:</strong> Opsi D (ACL belum dipasang) juga bisa benar di situasi nyata - tapi soal ini sudah menyebutkan bahwa ACL sudah aktif. Selalu cek <code>show running-config</code> untuk memastikan ACL terpasang di interface!
+            </div>
+
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN + ANIMASI -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan Beranimasi</span>
+
+          <div class="sim-container" id="sim-acl-quest-answer">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 340" preserveAspectRatio="xMidYMid meet">
+                <line x1="130" y1="180" x2="425" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+                <line x1="425" y1="180" x2="720" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+                <!-- ACL Labels -->
+                <rect x="350" y="100" width="150" height="50" rx="8" fill="#11172C" stroke="var(--info)" stroke-width="1.5" />
+                <text x="425" y="118" text-anchor="middle" fill="var(--info)" font-size="8" font-weight="bold" font-family="var(--font-mono)">ACL 100 (SALAH):</text>
+                <text x="425" y="132" text-anchor="middle" fill="var(--success)" font-size="7.5" font-family="var(--font-mono)">1. permit ip any any</text>
+                <text x="425" y="144" text-anchor="middle" fill="var(--danger)" font-size="7.5" font-family="var(--font-mono)">2. deny tcp SSH ← tidak tercapai!</text>
+                <!-- Devices -->
+                <g id="aclqa-node-attacker" data-cx="130" data-cy="180" transform="translate(65, 110)"></g>
+                <g id="aclqa-node-router" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="aclqa-node-server" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 4</span>
+              <p class="sim__text">Paket SSH dari VLAN Tamu menuju server keuangan...</p>
+            </div>
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 45-60 menit untuk sub-topik ini.</p>
+            <p><strong>Poin kunci:</strong> First-match principle dan implicit deny. Siswa sering lupa bahwa urutan aturan menentukan segalanya.</p>
+            <p><strong>Naskah pembuka:</strong> "Coba bayangkan kamu jadi satpam gedung. Kalau bos bilang 'semua orang boleh masuk', lalu bilang 'kecuali si Andi', kamu sudah membolehkan Andi duluan! Urutan perintah menentukan hasilnya."</p>
+            <p><strong> Pertanyaan pemantik:</strong> "Apa yang terjadi kalau kita lupa menaruh <code>permit any any</code> di akhir ACL? Siapa saja yang kena dampak?"</p>
+            <p><strong>Miskonsepsi umum:</strong> Siswa sering mengira ACL bisa memfilter lalu lintas di dalam VLAN yang sama (Layer 2). ACL hanya bekerja di Layer 3 (router interface).</p>
+            <p><strong> Cara menjelaskan ulang:</strong> Gunakan analogy gerbang tol: mobil yang sudah masuk jalan tol (dalam VLAN) tidak diperiksa lagi. Pemeriksaan hanya terjadi di gerbang keluar/masuk (router interface).</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.4.2: KEAMANAN WIRELESS - FREKUENSI, CHANNEL & INTERFERENSI
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-2">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.4.2</span>
+          <h2>Keamanan Wireless - Frekuensi, Channel & Interferensi</h2>
+          <p class="subtopic-lead">
+            Mengapa WiFi di sekolah sering lambat, dan bagaimana memilih channel yang tepat agar sinyal tidak saling mengganggu.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Sekolahmu punya 5 Access Point (AP) yang tersebar di gedung. Semua AP sudah diatur ke SSID yang sama agar siswa bisa berpindah ruangan tanpa perlu reconnect (roaming). Tapi di jam-jam sibuk, WiFi menjadi <strong>sangat lambat</strong> meskipun sinyal penuh.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Sinyal penuh tapi lambat - kalau bukan masalah sinyal, apa penyebabnya?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Jawabannya adalah <strong>interferensi channel</strong>. Kelima AP menggunakan channel yang sama atau berdekatan, sehingga sinyal mereka saling bertabrakan seperti 5 orang bicara bersamaan di ruangan kecil. Memahami frekuensi dan channel adalah kunci membangun WiFi yang andal.
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Frekuensi & Channel WiFi:</div>
+            <p style="margin: 0;">
+              <strong>WiFi (Wireless Fidelity)</strong> adalah teknologi jaringan nirkabel berstandar <strong>IEEE 802.11</strong> yang menggunakan gelombang radio untuk mengirim data.<br><br>
+              <strong>Frekuensi</strong> adalah jumlah osilasi gelombang per detik (diukur dalam Hertz). WiFi menggunakan dua pita frekuensi utama: <strong>2.4 GHz</strong> dan <strong>5 GHz</strong>.<br><br>
+              <strong>Channel</strong> adalah irisan kecil dari pita frekuensi yang digunakan oleh satu AP untuk berkomunikasi. Setiap channel menempati lebar tertentu (biasanya 20-40 MHz). Jika dua AP berdekatan menggunakan channel yang tumpang tindih, sinyal mereka saling mengganggu (interferensi).
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Radio FM:</div>
+            <ul>
+              <li><strong>Frekuensi 2.4 GHz</strong> = Pita radio FM yang sempit dengan hanya 3 stasiun yang tidak saling mengganggu (channel 1, 6, 11)</li>
+              <li><strong>Frekuensi 5 GHz</strong> = Pita radio AM yang luas dengan 24+ stasiun yang tidak saling bertabrakan</li>
+              <li><strong>Interferensi</strong> = Dua stasiun radio yang menyiarkan terlalu dekat frekuensinya - pendengar mendengar dua siaran bercampur (kresek-kresek)</li>
+              <li><strong>Channel width 20 MHz vs 40 MHz</strong> = Bandwidth FM mono (hemat) vs stereo (lebih jernih tapi lebih boros ruang frekuensi)</li>
+            </ul>
+          </div>
+
+          <p><strong>Perbandingan 2.4 GHz vs 5 GHz:</strong></p>
+          <table class="data-table">
+            <thead>
+              <tr><th>Aspek</th><th>2.4 GHz</th><th>5 GHz</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Jangkauan</td><td>Lebih jauh (≈70m indoor)</td><td>Lebih pendek (≈35m indoor)</td></tr>
+              <tr><td>Kecepatan</td><td>Lebih lambat (≈150 Mbps)</td><td>Lebih cepat (≈1 Gbps+)</td></tr>
+              <tr><td>Channel non-overlap</td><td>Hanya <strong>3</strong> (1, 6, 11)</td><td><strong>24+</strong> channel</td></tr>
+              <tr><td>Interferensi</td><td>Tinggi (banyak perangkat pakai 2.4G)</td><td>Rendah (lebih sedikit kompetitor)</td></tr>
+              <tr><td>Menembus dinding</td><td>Bagus</td><td>Kurang bagus</td></tr>
+            </tbody>
+          </table>
+
+          <div class="callout callout--warning">
+            <strong>Sering Keliru:</strong> "5 GHz selalu lebih bagus dari 2.4 GHz." <strong>Tidak selalu.</strong> 5 GHz lebih cepat tapi jangkauannya pendek dan susah menembus tembok tebal. Untuk perangkat IoT yang jauh dari AP (misalnya sensor di gudang), 2.4 GHz masih lebih tepat.
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Amati bagaimana pemilihan channel yang tepat (1, 6, 11) menghilangkan interferensi antar AP:
+          </p>
+
+          <div class="sim-container" id="sim-wifi-channel">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- 3 AP nodes -->
+                <g id="wifi-ap1" data-cx="170" data-cy="180" transform="translate(105, 110)"></g>
+                <g id="wifi-ap2" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="wifi-ap3" data-cx="680" data-cy="180" transform="translate(615, 110)"></g>
+                <!-- Interference zones -->
+                <circle id="wifi-zone1" cx="170" cy="140" r="100" fill="var(--danger)" opacity="0" />
+                <circle id="wifi-zone2" cx="425" cy="140" r="100" fill="var(--warning)" opacity="0" />
+                <circle id="wifi-zone3" cx="680" cy="140" r="100" fill="var(--info)" opacity="0" />
+                <!-- Channel labels -->
+                <rect id="wifi-ch1" x="130" y="290" width="80" height="24" rx="12" fill="var(--danger-soft)" stroke="var(--danger)" stroke-width="1.5" opacity="0" />
+                <text id="wifi-ch1-txt" x="170" y="306" text-anchor="middle" fill="var(--danger)" font-size="10" font-weight="bold" font-family="var(--font-mono)" opacity="0">CH 1</text>
+                <rect id="wifi-ch2" x="385" y="290" width="80" height="24" rx="12" fill="var(--warning-soft)" stroke="var(--warning)" stroke-width="1.5" opacity="0" />
+                <text id="wifi-ch2-txt" x="425" y="306" text-anchor="middle" fill="var(--warning)" font-size="10" font-weight="bold" font-family="var(--font-mono)" opacity="0">CH 6</text>
+                <rect id="wifi-ch3" x="640" y="290" width="80" height="24" rx="12" fill="var(--info-soft)" stroke="var(--info)" stroke-width="1.5" opacity="0" />
+                <text id="wifi-ch3-txt" x="680" y="306" text-anchor="middle" fill="var(--info)" font-size="10" font-weight="bold" font-family="var(--font-mono)" opacity="0">CH 11</text>
+              </svg>
+            </div>
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Tiga Access Point sekolah ditempatkan bersebelahan...</p>
+            </div>
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis Lengkap</span>
+
+          <h3>4.1 Peta Channel 2.4 GHz - Kenapa Hanya 1, 6, 11?</h3>
+          <p>Pita 2.4 GHz dibagi menjadi 14 channel (di Indonesia hanya 1-13 yang legal). Setiap channel memiliki lebar <strong>22 MHz</strong>, tapi jarak antar-channel pusat hanya <strong>5 MHz</strong>. Ini berarti channel yang berdekatan saling <strong>tumpang tindih</strong>!</p>
+
+          <div style="background: var(--bg-dark); border-radius: var(--radius-md); padding: var(--space-4); margin: var(--space-3) 0; overflow-x: auto;">
+            <p style="text-align:center; margin-bottom: 8px; font-weight: bold; color: var(--info);">Diagram Tumpang Tindih Channel 2.4 GHz</p>
+<pre style="color: var(--text); font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.6;">
+  CH 1     CH 2   CH 3   CH 4   CH 5     CH 6     CH 7   CH 8   CH 9   CH 10    CH 11
+  ├──────────┤                           ├──────────┤                           ├──────────┤
+  2401    2423 MHz                    2426    2448 MHz                    2451    2473 MHz
+  
+   NON-OVERLAP: Channel 1, 6, 11 (jarak masing-masing 25 MHz, cukup!)
+  
+  OVERLAP: Channel 1 & 3 (hanya beda 10 MHz, lebar masing-masing 22 MHz → tabrakan!)
+</pre>
+          </div>
+
+          <p><strong>Aturan emas:</strong> Di gedung, selalu gunakan kombinasi channel <strong>1, 6, dan 11</strong> untuk AP-AP yang berdekatan. Susun secara bergantian seperti pola <em>honey-comb</em>.</p>
+
+          <h3 style="margin-top: var(--space-5);">4.2 Standar WiFi Modern</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>Standar</th><th>Nama Dagang</th><th>Frekuensi</th><th>Max Speed</th><th>Tahun</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>802.11n</td><td>WiFi 4</td><td>2.4 + 5 GHz</td><td>600 Mbps</td><td>2009</td></tr>
+              <tr><td>802.11ac</td><td>WiFi 5</td><td>5 GHz saja</td><td>3.5 Gbps</td><td>2013</td></tr>
+              <tr><td>802.11ax</td><td>WiFi 6/6E</td><td>2.4 + 5 + 6 GHz</td><td>9.6 Gbps</td><td>2020</td></tr>
+            </tbody>
+          </table>
+
+          <h3 style="margin-top: var(--space-5);">4.3 Sumber Interferensi di Kehidupan Nyata</h3>
+          <ul>
+            <li><strong>Microwave oven:</strong> Bekerja persis di 2.45 GHz - bisa mengganggu WiFi 2.4 GHz saat digunakan</li>
+            <li><strong>Bluetooth:</strong> Juga di 2.4 GHz tapi menggunakan <em>frequency hopping</em> sehingga dampaknya kecil</li>
+            <li><strong>AP tetangga:</strong> Penyebab terbesar interferensi di perumahan - puluhan AP pada channel yang sama</li>
+            <li><strong>Dinding beton & kaca:</strong> Mengurangi kekuatan sinyal 5 GHz secara signifikan</li>
+          </ul>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+
+          <div class="case-context">
+            <h3>Kasus: WiFi Lambat di Lab Komputer SMK Nusantara</h3>
+            <p>SMK Nusantara memasang 3 AP di gedung 2 lantai. Keluhan: WiFi lambat meskipun sinyal penuh.</p>
+            <p>Setelah diperiksa menggunakan tool <strong>WiFi Analyzer</strong> (gratis di Android), ditemukan:</p>
+            <ul>
+              <li>AP Lantai 1 → <strong>Channel 6</strong></li>
+              <li>AP Lantai 2 → <strong>Channel 6</strong></li>
+              <li>AP Lab Komputer → <strong>Channel 5</strong></li>
+            </ul>
+            <p>Ketiga AP berada di pita <strong>2.4 GHz</strong> dan saling tumpang tindih!</p>
+          </div>
+
+          <div class="case-solution">
+            <h4>Solusi:</h4>
+            <div class="step-card">
+              <div class="step-number">①</div>
+              <div class="step-body">
+                <div class="step-title">Ubah channel ke pola non-overlap: 1, 6, 11</div>
+                <div class="step-why">AP Lantai 1 → Channel 1, AP Lab → Channel 6, AP Lantai 2 → Channel 11</div>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">②</div>
+              <div class="step-body">
+                <div class="step-title">Turunkan TX Power jika AP terlalu dekat</div>
+                <div class="step-why">Daya kirim yang terlalu besar membuat cakupan AP saling overlap berlebihan. Kurangi ke 50-75%.</div>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">③</div>
+              <div class="step-body">
+                <div class="step-title">Aktifkan Band Steering (2.4G → 5G)</div>
+                <div class="step-why">Perangkat modern yang mendukung 5 GHz otomatis diarahkan ke pita 5 GHz yang lebih lapang.</div>
+              </div>
+            </div>
+
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> Sinyal kuat ≠ kualitas bagus. Yang menentukan kualitas WiFi di area padat adalah <strong>perencanaan channel yang tepat</strong> dan manajemen daya pancar. Tool WiFi Analyzer gratis bisa membantu deteksi masalah ini.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-4-2" data-quest-id="quest-1-4-2">
+          <span class="block-badge">Blok 6 - Quest: Channel WiFi</span>
+          <div class="quest-body">
+            <p><strong>Quest 2:</strong> Sebuah kantor memiliki 4 AP di satu lantai, menggunakan frekuensi 2.4 GHz. Konfigurasi channel mana yang <strong>paling optimal</strong> agar tidak terjadi interferensi?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q142" value="a"> A. Channel 1, 2, 3, 4</label>
+              <label class="quest-option"><input type="radio" name="q142" value="b"> B. Channel 1, 6, 11, 1</label>
+              <label class="quest-option"><input type="radio" name="q142" value="c"> C. Channel 1, 5, 9, 13</label>
+              <label class="quest-option"><input type="radio" name="q142" value="d"> D. Channel 6, 6, 6, 6</label>
+            </div>
+            <button class="quest-hint-toggle"> Buka Petunjuk</button>
+            <div class="quest-hint-content" style="display:none;">
+              Di 2.4 GHz hanya ada 3 channel non-overlap: 1, 6, dan 11. Jika butuh lebih dari 3 AP, channel harus diulang - tapi pastikan AP yang menggunakan channel sama saling berjauhan secara fisik.
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Channel 1, 6, 11, 1</h4>
+            <p>Karena hanya 3 channel non-overlap (1, 6, 11), AP ke-4 harus mengulang channel. Atur agar AP ke-4 (channel 1) ditempatkan <strong>sejauh mungkin</strong> dari AP pertama (juga channel 1) agar tumpang tindih minimal.</p>
+            <p><strong>Kenapa bukan C?</strong> Channel 1, 5, 9, 13 - jarak antar channel hanya 4 channel (20 MHz), sedangkan lebar sinyal 22 MHz. Terjadi overlap parsial yang menyebabkan <em>co-channel interference</em> yang lebih sulit diatasi daripada <em>same-channel interference</em>.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan Beranimasi</span>
+          <p>Pembahasan quest di atas menjelaskan mengapa pola non-overlap <strong>1-6-11</strong> menjadi standar industri. Pola ini memaksimalkan penggunaan spektrum 2.4 GHz tanpa ada saling ganggu. Ketika jumlah AP melebihi 3, kunci utamanya adalah <strong>tata letak fisik</strong> - AP dengan channel sama harus ditempatkan sejauh mungkin.</p>
+
+          <div class="callout callout--tip">
+            <strong> Tips Lapangan:</strong> Gunakan aplikasi <strong>WiFi Analyzer</strong> (Android) atau <strong>Acrylic WiFi</strong> (Windows) untuk memetakan channel AP di sekitar lokasi sebelum melakukan instalasi. Ini yang dilakukan engineer profesional sebelum memasang WiFi di gedung besar.
+          </div>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 30-40 menit.</p>
+            <p><strong>Naskah pembuka:</strong> "Coba buka HP kalian, masuk ke Settings > WiFi. Lihat ada berapa banyak jaringan WiFi yang muncul? Semuanya itu bersaing di frekuensi yang sama seperti orang-orang berteriak di satu ruangan."</p>
+            <p><strong> Pertanyaan pemantik:</strong> "Kalau kamu jadi admin WiFi sekolah, apa langkah pertama sebelum menambah AP baru?"</p>
+            <p><strong>Miskonsepsi umum:</strong> "Makin banyak AP = makin bagus WiFi." Salah jika channel-nya sama. Bisa justru lebih buruk karena interferensi.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.4.3: ENKRIPSI WIRELESS - WPA2 vs WPA3
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-3">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.4.3</span>
+          <h2>Enkripsi Wireless - WPA2 vs WPA3 & Jebakan Keamanan WiFi</h2>
+          <p class="subtopic-lead">
+            Dari WEP yang bisa dibobol dalam 5 menit hingga WPA3-SAE yang tahan serangan brute-force.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            WiFi di sebuah kafe menggunakan password <code>kopi1234</code> yang ditempel di dinding. Seorang pelanggan yang paham teknis menggunakan tool bernama <strong>Wireshark</strong> untuk menangkap (capture) semua paket WiFi di udara. Ternyata, meskipun WiFi menggunakan WPA2-PSK, pelanggan tadi bisa <strong>mendekripsi semua lalu lintas WiFi pengguna lain</strong> yang menggunakan password yang sama!
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Bukankah WiFi sudah di-enkripsi? Kenapa orang lain bisa membaca lalu lintas kita?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Ini kelemahan fundamental WPA2-PSK: semua pengguna yang mengetahui password WiFi bisa mendekripsi sesi satu sama lain jika berhasil menangkap proses <em>4-Way Handshake</em>. WPA3-SAE dirancang untuk mengatasi masalah ini secara mendasar.
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Enkripsi WiFi:</div>
+            <p style="margin: 0;">
+              <strong>Enkripsi WiFi</strong> adalah proses mengacak (encrypt) data yang dikirim melalui gelombang radio sehingga hanya perangkat yang memiliki kunci dekripsi yang bisa membacanya. Tanpa enkripsi, siapapun dengan antena WiFi bisa membaca data yang melintas di udara - seperti mengirim surat tanpa amplop.
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Kunci Rumah:</div>
+            <ul>
+              <li><strong>WEP (Wired Equivalent Privacy)</strong> = Gembok plastik mainan. Bisa dibuka siapa saja dalam hitungan detik menggunakan tool gratis. <strong>Jangan pernah dipakai</strong> - sudah resmi ditinggalkan sejak 2004.</li>
+              <li><strong>WPA2-PSK (Pre-Shared Key)</strong> = Gembok baja kuat, tapi <em>semua penghuni satu komplek pakai kunci yang sama</em>. Jika seorang pencuri tahu kunci itu, dia bisa membuat salinan untuk semua pintu.</li>
+              <li><strong>WPA3-SAE (Simultaneous Authentication of Equals)</strong> = Setiap pintu rumah punya kunci unik masing-masing, meskipun password utamanya sama. Pencuri yang tahu password pintu depan tetap tidak bisa membuka pintu belakang rumah orang lain.</li>
+            </ul>
+          </div>
+
+          <p><strong>Evolusi Keamanan WiFi:</strong></p>
+          <table class="data-table">
+            <thead>
+              <tr><th>Protokol</th><th>Enkripsi</th><th>Keamanan</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>WEP</td><td>RC4 (64/128-bit)</td><td style="color:var(--danger);">Bobol dalam menit</td><td>Ditinggalkan</td></tr>
+              <tr><td>WPA</td><td>TKIP</td><td style="color:var(--warning);">️ Lemah</td><td>Ditinggalkan</td></tr>
+              <tr><td>WPA2-PSK</td><td>AES-CCMP (128-bit)</td><td style="color:var(--info);">v Cukup kuat</td><td>Masih dipakai</td></tr>
+              <tr><td>WPA3-SAE</td><td>AES-GCMP (192-bit)</td><td style="color:var(--success);"> Paling kuat</td><td>Standar baru</td></tr>
+            </tbody>
+          </table>
+
+          <div class="callout callout--warning">
+            <strong>Sering Keliru:</strong> "WPA2 sudah cukup aman." WPA2-PSK memang cukup kuat untuk rumah/kafe kecil, tapi di jaringan publik di mana banyak orang berbagi password yang sama, WPA2-PSK rentan terhadap <em>decryption by known PSK</em>. Untuk enterprise/sekolah sebaiknya gunakan <strong>WPA2-Enterprise (802.1X)</strong> yang memberikan setiap user username+password unik.
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Amati perbedaan cara WPA2-PSK vs WPA3-SAE menangani koneksi client - dan kenapa WPA3 lebih aman:
+          </p>
+
+          <div class="sim-container" id="sim-wpa-compare">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Kabel -->
+                <line x1="130" y1="180" x2="425" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+                <line x1="425" y1="180" x2="720" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+                <!-- Device Nodes -->
+                <g id="wpa-node-client" data-cx="130" data-cy="180" transform="translate(65, 110)"></g>
+                <g id="wpa-node-ap" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="wpa-node-hacker" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 6</span>
+              <p class="sim__text">Client terhubung ke WiFi menggunakan WPA2-PSK...</p>
+            </div>
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis Lengkap</span>
+
+          <h3>4.1 Cara Kerja WPA2-PSK (4-Way Handshake)</h3>
+          <p>Saat perangkat terhubung ke WiFi WPA2-PSK, terjadi proses 4-Way Handshake:</p>
+          <div class="step-card">
+            <div class="step-number">①</div>
+            <div class="step-body">
+              <div class="step-title">AP mengirim ANonce (nomor acak) ke client</div>
+              <div class="step-why">ANonce adalah "tantangan" dari AP agar kedua pihak bisa menghasilkan kunci sesi.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">②</div>
+            <div class="step-body">
+              <div class="step-title">Client membuat PTK dari PSK + ANonce + SNonce, kirim SNonce ke AP</div>
+              <div class="step-why">PTK (Pairwise Transient Key) adalah kunci enkripsi sesi. Dibuat dari password WiFi (PSK) + nomor-nomor acak.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">③</div>
+            <div class="step-body">
+              <div class="step-title">AP memverifikasi dan mengirim GTK (kunci group) ke client</div>
+              <div class="step-why">GTK digunakan untuk mengenkripsi broadcast/multicast traffic.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">④</div>
+            <div class="step-body">
+              <div class="step-title">Client mengonfirmasi, koneksi terenkripsi aktif</div>
+              <div class="step-why">Mulai titik ini, semua data dienkripsi dengan AES-CCMP menggunakan PTK unik per-sesi.</div>
+            </div>
+          </div>
+
+          <p style="margin-top: var(--space-4);"><strong>Kelemahannya:</strong> Jika penyerang menangkap 4-Way Handshake ini <strong>DAN</strong> mengetahui PSK (password WiFi), mereka bisa menghitung PTK yang sama → mendekripsi seluruh sesi.</p>
+
+          <h3 style="margin-top: var(--space-5);">4.2 Cara WPA3-SAE Memperbaikinya</h3>
+          <p>WPA3 mengganti 4-Way Handshake dengan protokol <strong>SAE (Dragonfly Key Exchange)</strong> yang memberikan perlindungan <strong>Forward Secrecy</strong>:</p>
+          <ul>
+            <li>Setiap koneksi menghasilkan kunci unik yang <strong>tidak bisa dihitung ulang</strong> meskipun password diketahui</li>
+            <li>Jika satu sesi berhasil dibobol, sesi-sesi lain tetap aman (forward secrecy)</li>
+            <li>Tahan terhadap <strong>offline dictionary attack</strong> (brute-force password)</li>
+            <li>Menambahkan <strong>PMF (Protected Management Frames)</strong> yang mencegah <em>deauthentication attack</em></li>
+          </ul>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Kasus: Serangan KRACK (Key Reinstallation Attack) - 2017</h3>
+            <p>Pada tahun 2017, peneliti keamanan menemukan kerentanan bernama <strong>KRACK</strong> yang mempengaruhi <em>semua</em> implementasi WPA2 di dunia. Penyerang bisa memaksa client menginstal ulang kunci enkripsi yang sudah dipakai → memungkinkan dekripsi paket data.</p>
+            <p>Serangan ini menunjukkan bahwa bahkan standar yang dianggap "cukup aman" pun bisa memiliki kelemahan fundamental. Inilah salah satu motivasi utama dibuatnya WPA3.</p>
+          </div>
+          <div class="case-solution">
+            <h4>Apa yang bisa dilakukan saat ini:</h4>
+            <ul>
+              <li>Update firmware semua AP dan perangkat ke versi terbaru (patch KRACK)</li>
+              <li>Gunakan WPA3 jika perangkat sudah mendukung</li>
+              <li>Untuk jaringan sekolah/kantor: gunakan <strong>WPA2-Enterprise (802.1X)</strong> yang memberikan credential unik per-user</li>
+              <li>Selalu gunakan HTTPS saat browsing - ini memberikan enkripsi tambahan di atas WiFi</li>
+            </ul>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> Keamanan berlapis (defense in depth) lebih baik daripada mengandalkan satu lapisan. WiFi encryption + HTTPS + VPN = 3 lapis perlindungan yang saling backup.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-4-3" data-quest-id="quest-1-4-3">
+          <span class="block-badge">Blok 6 - Quest: WPA2 vs WPA3</span>
+          <div class="quest-body">
+            <p><strong>Quest 3:</strong> Di sebuah kafe, semua tamu berbagi password WiFi "kopi1234" (WPA2-PSK). Seorang tamu jahat menggunakan Wireshark untuk menangkap paket data. Manakah pernyataan yang BENAR?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q143" value="a"> A. Data aman karena sudah dienkripsi WPA2</label>
+              <label class="quest-option"><input type="radio" name="q143" value="b"> B. Tamu jahat bisa mendekripsi data tamu lain karena mengetahui PSK dan bisa menangkap 4-Way Handshake</label>
+              <label class="quest-option"><input type="radio" name="q143" value="c"> C. Hanya data broadcast yang bisa dibaca, unicast tetap aman</label>
+              <label class="quest-option"><input type="radio" name="q143" value="d"> D. WPA2-PSK sama amannya dengan WPA3-SAE di skenario ini</label>
+            </div>
+            <button class="quest-hint-toggle"> Buka Petunjuk</button>
+            <div class="quest-hint-content" style="display:none;">
+              Ingat bahwa WPA2-PSK menggunakan PSK (password) yang sama untuk menghitung kunci sesi semua client. Jika penyerang tahu PSK dan menangkap 4-Way Handshake...
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B</h4>
+            <p>Pada WPA2-PSK, semua client menggunakan password yang sama untuk menghasilkan kunci sesi (PTK). Jika penyerang:</p>
+            <ol>
+              <li>Mengetahui password WiFi (ditempel di dinding kafe), dan</li>
+              <li>Berhasil menangkap 4-Way Handshake korban (bisa dengan memaksa deauthentication)</li>
+            </ol>
+            <p>Maka penyerang bisa menghitung PTK korban dan mendekripsi seluruh sesi. Inilah mengapa <strong>WPA3-SAE</strong> dirancang - setiap sesi menghasilkan kunci yang tidak bisa dihitung ulang bahkan dengan PSK yang sama (forward secrecy).</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>Quest ini menegaskan pentingnya memahami <em>model ancaman</em> (threat model) - keamanan yang cukup untuk rumah pribadi belum tentu cukup untuk kafe publik. Di lingkungan publik dengan password bersama, WPA2-PSK memiliki kelemahan mendasar yang hanya bisa diatasi oleh WPA3-SAE atau WPA2-Enterprise.</p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 35-45 menit.</p>
+            <p><strong>Naskah pembuka:</strong> "Pernah denger berita WiFi dibobol? Itu bukan mitos. Sekarang kita belajar kenapa bisa terjadi dan apa yang bisa kita lakukan."</p>
+            <p><strong>Miskonsepsi umum:</strong> Siswa sering mengira password WiFi yang panjang otomatis aman. Panjang password membantu menahan brute-force, tapi tidak mengatasi masalah shared PSK di WPA2.</p>
+            <p><strong> Cara menjelaskan ulang:</strong> "Bayangkan seluruh kelas pakai kunci loker yang sama. Siapapun yang tahu kunci itu bisa buka loker teman lain. WPA3 membuat setiap loker punya kunci unik meskipun password masternya sama."</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.4.4: VPN - VIRTUAL PRIVATE NETWORK
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-4">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.4.4</span>
+          <h2>VPN - Virtual Private Network: Terowongan Rahasia di Internet Publik</h2>
+          <p class="subtopic-lead">
+            Bagaimana dua kantor bisa berkomunikasi secara aman melewati internet yang tidak aman.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            PT Maju Bersama memiliki kantor pusat di Jakarta dan kantor cabang di Surabaya. Kedua kantor butuh akses ke server database yang sama. Jika mengirim data melalui internet biasa, data melewati <strong>puluhan router publik</strong> yang bisa melihat isi data - termasuk data keuangan, gaji, dan informasi sensitif perusahaan.
+          </p>
+          <div class="hook-question">
+            Pertanyaan: Bagaimana cara membuat "jalur privat" antara Jakarta dan Surabaya melewati internet publik, tanpa menyewa kabel sendiri yang biayanya miliaran rupiah?
+          </div>
+          <p style="margin-top: 12px; color: var(--text-muted);">
+            Jawabannya: <strong>VPN (Virtual Private Network)</strong>. VPN membuat "terowongan" terenkripsi di atas internet publik, sehingga data yang melintas tidak bisa dibaca oleh siapapun yang bukan penerima - meskipun datanya melewati jaringan publik yang bisa diakses siapa saja.
+          </p>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti & Definisi</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi VPN:</div>
+            <p style="margin: 0;">
+              <strong>VPN (Virtual Private Network)</strong> adalah teknologi yang membuat koneksi jaringan <strong>privat dan terenkripsi</strong> melalui infrastruktur jaringan publik (internet). VPN bekerja dengan membungkus (encapsulate) paket data asli ke dalam paket baru yang dienkripsi, lalu mengirimnya melalui "terowongan" (tunnel) yang hanya bisa dibuka oleh kedua ujung VPN.
+            </p>
+          </div>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Jasa Pengiriman Rahasia:</div>
+            <ul>
+              <li><strong>Internet tanpa VPN</strong> = Mengirim surat terbuka (kartu pos) lewat pos umum. Setiap tukang pos di setiap kantor pos bisa membaca isinya.</li>
+              <li><strong>Internet dengan VPN</strong> = Memasukkan surat ke dalam <em>brankas kecil yang terkunci</em>, lalu mengirim brankas itu lewat pos umum. Tukang pos bisa membawa brankasnya, tapi tidak bisa membuka isinya. Hanya penerima yang punya kunci untuk membuka.</li>
+              <li><strong>Tunneling</strong> = Proses memasukkan surat ke brankas (membungkus paket asli ke dalam paket terenkripsi).</li>
+            </ul>
+          </div>
+
+          <p><strong>Dua jenis VPN utama:</strong></p>
+          <table class="data-table">
+            <thead>
+              <tr><th>Jenis</th><th>IPSec VPN (Site-to-Site)</th><th>SSL/TLS VPN (Remote Access)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Kegunaan</td><td>Menghubungkan 2 <strong>jaringan kantor</strong></td><td>Menghubungkan <strong>1 orang</strong> ke jaringan kantor</td></tr>
+              <tr><td>Perangkat</td><td>Router/Firewall ke Router/Firewall</td><td>Laptop/HP ke Server VPN</td></tr>
+              <tr><td>Layer</td><td>Layer 3 (Network)</td><td>Layer 4-7 (Transport/Application)</td></tr>
+              <tr><td>Software client</td><td>Tidak perlu (transparan)</td><td>Perlu (OpenVPN, WireGuard, dll)</td></tr>
+              <tr><td>Contoh nyata</td><td>Jakarta ↔ Surabaya kantor cabang</td><td>Karyawan WFH akses server kantor</td></tr>
+            </tbody>
+          </table>
+
+          <div class="callout callout--warning">
+            <strong>Sering Keliru:</strong> "VPN membuat saya anonim di internet." <strong>Tidak sepenuhnya benar.</strong> VPN mengenkripsi data antara kamu dan server VPN, tapi server VPN tetap bisa melihat ke mana kamu pergi setelahnya. VPN komersial (NordVPN, ExpressVPN) bukan untuk keamanan jaringan perusahaan - mereka untuk privasi browsing. Yang kamu pelajari di sini adalah VPN korporat (IPSec/OpenVPN) untuk menghubungkan jaringan.
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Amati bagaimana data dari kantor cabang Surabaya melewati internet publik dengan aman melalui tunnel VPN IPSec:
+          </p>
+
+          <div class="sim-container" id="sim-vpn-tunnel">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Internet Cloud Background -->
+                <rect x="250" y="70" width="350" height="60" rx="30" fill="#182344" stroke="var(--warning)" stroke-width="1.5" opacity="0.4" />
+                <text x="425" y="105" text-anchor="middle" fill="var(--warning)" font-size="11" font-weight="bold"> Internet Publik (Tidak Aman)</text>
+                <!-- Kabel ke cloud -->
+                <line x1="130" y1="180" x2="300" y2="130" stroke="var(--border-light)" stroke-width="2" stroke-dasharray="4,3" />
+                <line x1="550" y1="130" x2="720" y2="180" stroke="var(--border-light)" stroke-width="2" stroke-dasharray="4,3" />
+                <!-- VPN Tunnel -->
+                <line x1="130" y1="210" x2="720" y2="210" stroke="var(--success)" stroke-width="4" stroke-dasharray="10,5" opacity="0.6" />
+                <line x1="130" y1="202" x2="720" y2="202" stroke="var(--success)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.3" />
+                <line x1="130" y1="218" x2="720" y2="218" stroke="var(--success)" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.3" />
+                <rect x="340" y="225" width="170" height="22" rx="11" fill="#133834" stroke="var(--success)" stroke-width="1.5" />
+                <text x="425" y="240" text-anchor="middle" fill="var(--success)" font-size="9" font-weight="bold" font-family="var(--font-mono)"> IPSec VPN Tunnel</text>
+                <!-- Hacker di cloud -->
+                <g id="vpn-node-hacker" data-cx="425" data-cy="60" transform="translate(360, -15)"></g>
+                <!-- Device Nodes -->
+                <g id="vpn-node-cabang" data-cx="130" data-cy="180" transform="translate(65, 110)"></g>
+                <g id="vpn-node-pusat" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 6</span>
+              <p class="sim__text">Kantor cabang Surabaya ingin mengirim data sensitif ke server Jakarta...</p>
+            </div>
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis Lengkap</span>
+
+          <h3>4.1 Komponen IPSec VPN</h3>
+          <ul>
+            <li><strong>IKE (Internet Key Exchange):</strong> Protokol negosiasi untuk membuat kunci enkripsi bersama. Fase 1 = membuat tunnel aman untuk negosiasi. Fase 2 = membuat kunci sesi untuk data.</li>
+            <li><strong>ESP (Encapsulating Security Payload):</strong> Protokol yang mengenkripsi data asli + menambah header autentikasi. Ini yang membuat data tidak bisa dibaca di perjalanan.</li>
+            <li><strong>SA (Security Association):</strong> "Kontrak" antara 2 perangkat VPN tentang algoritma enkripsi, kunci, dan lifetime yang akan digunakan.</li>
+          </ul>
+
+          <h3 style="margin-top: var(--space-5);">4.2 Konfigurasi VPN IPSec (MikroTik)</h3>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <span class="terminal__dot terminal__dot--red"></span>
+              <span class="terminal__dot terminal__dot--yellow"></span>
+              <span class="terminal__dot terminal__dot--green"></span>
+              <span class="terminal__title">MikroTik-Jakarta - Console (IPSec Site-to-Site VPN)</span>
+            </div>
+            <div class="terminal__body">
+<pre>
+[admin@MikroTik-JKT] > <strong>/ip ipsec peer add address=203.0.113.50/32 \
+   secret="VpN$3cur3K3y!" exchange-mode=main</strong>
+  ! Mendaftarkan peer (router Surabaya) dengan IP publik 203.0.113.50
+  ! secret = pre-shared key yang harus SAMA di kedua sisi
+
+[admin@MikroTik-JKT] > <strong>/ip ipsec policy add \
+   sa-src-address=103.10.20.1 sa-dst-address=203.0.113.50 \
+   src-address=192.168.10.0/24 dst-address=192.168.20.0/24 \
+   tunnel=yes action=encrypt</strong>
+  ! Tentukan: traffic dari LAN Jakarta (10.0/24) ke LAN Surabaya (20.0/24)
+  ! harus dienkripsi dan dikirim melalui tunnel IPSec
+</pre>
+            </div>
+          </div>
+
+          <h3 style="margin-top: var(--space-5);">4.3 WireGuard - VPN Modern yang Ringan</h3>
+          <p>WireGuard adalah protokol VPN modern (2020) yang semakin populer karena:</p>
+          <ul>
+            <li><strong>Kode sumber sangat kecil</strong> (~4.000 baris vs OpenVPN ~100.000 baris) → lebih sedikit celah keamanan</li>
+            <li><strong>Performa tinggi</strong> → lebih cepat dari IPSec dan OpenVPN</li>
+            <li><strong>Konfigurasi sederhana</strong> → hanya butuh public/private key pair</li>
+            <li>Sudah terintegrasi di <strong>MikroTik RouterOS v7+</strong></li>
+          </ul>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Kasus: Karyawan WFH Tidak Bisa Akses Server Kantor</h3>
+            <p>Seorang teknisi jaringan di PT Maju Bersama mengonfigurasi VPN agar karyawan WFH bisa akses server kantor. Setelah VPN terhubung, karyawan bisa ping ke server (192.168.10.100), tapi <strong>tidak bisa browsing internet</strong> sama sekali.</p>
+          </div>
+          <div class="case-solution">
+            <h4>Analisis:</h4>
+            <p>Masalah ini disebut <strong>Full Tunnel vs Split Tunnel</strong>:</p>
+            <ul>
+              <li><strong>Full Tunnel:</strong> SEMUA lalu lintas (termasuk browsing internet) dikirim melalui VPN → internet menjadi lambat karena harus lewat kantor dulu → jika routing di kantor tidak dikonfigurasi untuk mengembalikan traffic internet, browsing tidak bisa.</li>
+              <li><strong>Split Tunnel:</strong> Hanya lalu lintas ke jaringan kantor yang dikirim melalui VPN, browsing internet tetap langsung dari ISP rumah → lebih cepat, tapi kurang aman.</li>
+            </ul>
+            <p><strong>Solusi:</strong> Konfigurasi Split Tunnel - hanya route <code>192.168.10.0/24</code> yang dikirim melalui VPN, sisanya langsung ke internet.</p>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> VPN bukan solusi "pasang dan jalan". Konfigurasi routing menentukan apakah VPN membantu atau justru mengganggu produktivitas. Split tunnel memberikan keseimbangan antara keamanan dan kenyamanan.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-4-4" data-quest-id="quest-1-4-4">
+          <span class="block-badge">Blok 6 - Quest: VPN</span>
+          <div class="quest-body">
+            <p><strong>Quest 4:</strong> Sebuah perusahaan ingin menghubungkan kantor Jakarta dan Surabaya agar jaringan LAN keduanya bisa saling berkomunikasi secara aman melewati internet. Jenis VPN apa yang paling tepat?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q144" value="a"> A. SSL VPN (Remote Access) di laptop setiap karyawan</label>
+              <label class="quest-option"><input type="radio" name="q144" value="b"> B. IPSec Site-to-Site VPN antara router Jakarta dan router Surabaya</label>
+              <label class="quest-option"><input type="radio" name="q144" value="c"> C. VPN komersial (NordVPN) di setiap PC</label>
+              <label class="quest-option"><input type="radio" name="q144" value="d"> D. Tarik kabel fiber optic sendiri dari Jakarta ke Surabaya</label>
+            </div>
+            <button class="quest-hint-toggle"> Buka Petunjuk</button>
+            <div class="quest-hint-content" style="display:none;">
+              Pikirkan: yang ingin dihubungkan adalah dua <em>jaringan</em>, bukan satu <em>orang</em> ke jaringan. SSL VPN cocok untuk individu, IPSec cocok untuk...
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - IPSec Site-to-Site VPN</h4>
+            <p>IPSec Site-to-Site VPN menghubungkan <strong>dua router</strong> secara permanen, membuat kedua LAN seolah-olah berada di satu jaringan. Semua perangkat di kedua kantor otomatis bisa saling berkomunikasi tanpa perlu software client.</p>
+            <p><strong>Kenapa bukan A?</strong> SSL VPN cocok untuk karyawan WFH individual, bukan untuk menghubungkan dua jaringan secara permanen.</p>
+            <p><strong>Kenapa bukan C?</strong> VPN komersial dirancang untuk privasi browsing, bukan untuk menghubungkan jaringan perusahaan.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>VPN adalah jembatan yang membuat jarak fisik tidak relevan bagi jaringan. Dalam dunia nyata, hampir semua perusahaan yang memiliki lebih dari satu lokasi menggunakan Site-to-Site VPN. Untuk karyawan remote, SSL VPN atau WireGuard menjadi pilihan yang semakin populer karena kemudahan deploymentnya.</p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 40-50 menit.</p>
+            <p><strong>Naskah pembuka:</strong> "Pernah dengar VPN? Mungkin kalian pakai untuk buka situs yang diblokir. Tapi VPN sebenarnya jauh lebih penting dari itu - perusahaan-perusahaan pakai VPN untuk melindungi data senilai miliaran rupiah."</p>
+            <p><strong> Pertanyaan pemantik:</strong> "Apa bedanya menyewa jalur privat (leased line) dari ISP vs membuat VPN di atas internet publik? Mana yang lebih murah?"</p>
+            <p><strong>Miskonsepsi umum:</strong> "VPN = browsing anonim." VPN korporat dan VPN komersial berbeda tujuannya.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.4.5: DESAIN KEAMANAN JARINGAN SEKOLAH (INTEGRASI)
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-5">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.4.5</span>
+          <h2>Studi Kasus Terintegrasi - Desain Keamanan Jaringan Sekolah</h2>
+          <p class="subtopic-lead">
+            Menggabungkan VLAN, ACL, WiFi Security, dan Firewall dalam satu desain jaringan sekolah yang aman.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            SMK Nusantara baru saja mendapat anggaran untuk membangun ulang jaringan sekolah. Saat ini jaringannya <strong>flat</strong> - semua perangkat (PC lab, WiFi guru, WiFi siswa, CCTV, server) berada di satu jaringan besar tanpa segmentasi. Hasilnya:
+          </p>
+          <ul>
+            <li>Siswa bisa mengakses CCTV dan melihat rekaman koridor</li>
+            <li>WiFi lambat karena broadcast dari 200+ perangkat membanjiri jaringan</li>
+            <li>Tidak ada cara membedakan akses guru dan siswa</li>
+          </ul>
+          <div class="hook-question">
+            Tantangan: Rancang ulang jaringan SMK Nusantara agar aman, cepat, dan terkelola - menggunakan semua yang sudah kamu pelajari dari Modul 1.1 sampai 1.4!
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Defense in Depth</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Prinsip Defense in Depth (Pertahanan Berlapis):</div>
+            <p style="margin: 0;">
+              Keamanan jaringan bukan soal satu teknologi yang "sempurna". Keamanan yang kuat berasal dari <strong>banyak lapisan pertahanan</strong> yang saling backup. Jika satu lapisan berhasil ditembus, lapisan berikutnya masih melindungi:
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">L1</div>
+            <div class="step-body">
+              <div class="step-title">Segmentasi VLAN (Layer 2)</div>
+              <div class="step-why">Memisahkan broadcast domain. PC lab, WiFi guru, WiFi siswa, CCTV, dan server masing-masing di VLAN berbeda.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">L2</div>
+            <div class="step-body">
+              <div class="step-title">ACL / Firewall Rules (Layer 3)</div>
+              <div class="step-why">Mengontrol VLAN mana yang boleh berkomunikasi dengan VLAN mana. Siswa tidak boleh akses CCTV atau server.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">L3</div>
+            <div class="step-body">
+              <div class="step-title">WiFi Security - WPA2-Enterprise + Channel Plan</div>
+              <div class="step-why">Guru dan siswa login dengan credential masing-masing. Channel AP diatur non-overlap.</div>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">L4</div>
+            <div class="step-body">
+              <div class="step-title">NAT + Firewall di Edge Router</div>
+              <div class="step-why">Hanya traffic yang diizinkan yang bisa keluar/masuk dari internet. Port-port berbahaya diblokir.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Amati bagaimana desain keamanan berlapis bekerja - siswa mencoba mengakses CCTV dan diblokir oleh ACL:
+          </p>
+
+          <div class="sim-container" id="sim-defense-depth">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Network Lines -->
+                <line x1="130" y1="180" x2="340" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+                <line x1="510" y1="180" x2="720" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+                <!-- VLAN Labels -->
+                <rect x="30" y="290" width="130" height="24" rx="12" fill="var(--info-soft)" stroke="var(--info)" stroke-width="1.5" />
+                <text x="95" y="306" text-anchor="middle" fill="var(--info)" font-size="9" font-weight="bold" font-family="var(--font-mono)">VLAN 40 - Siswa</text>
+                <rect x="610" y="290" width="140" height="24" rx="12" fill="var(--danger-soft)" stroke="var(--danger)" stroke-width="1.5" />
+                <text x="680" y="306" text-anchor="middle" fill="var(--danger)" font-size="9" font-weight="bold" font-family="var(--font-mono)">VLAN 50 - CCTV</text>
+                <!-- Firewall badge on Router -->
+                <rect x="350" y="110" width="160" height="30" rx="15" fill="var(--danger-soft)" stroke="var(--danger)" stroke-width="2" />
+                <text x="430" y="130" text-anchor="middle" fill="var(--danger)" font-size="9" font-weight="bold" font-family="var(--font-mono)"> ACL: DENY Siswa→CCTV</text>
+                <!-- Nodes -->
+                <g id="dd-node-siswa" data-cx="130" data-cy="180" transform="translate(65, 110)"></g>
+                <g id="dd-node-fw" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="dd-node-cctv" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Siswa terhubung ke WiFi sekolah via VLAN 40...</p>
+            </div>
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Rancangan Teknis Jaringan SMK Nusantara</span>
+
+          <h3>Rancangan VLAN:</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>VLAN ID</th><th>Nama</th><th>Subnet</th><th>Prefix</th><th>Jumlah Host</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>10</td><td>Guru & Staff</td><td>192.168.10.0</td><td>/25</td><td>126</td></tr>
+              <tr><td>20</td><td>Lab Komputer</td><td>192.168.20.0</td><td>/26</td><td>62</td></tr>
+              <tr><td>30</td><td>Server</td><td>192.168.30.0</td><td>/28</td><td>14</td></tr>
+              <tr><td>40</td><td>WiFi Siswa</td><td>192.168.40.0</td><td>/24</td><td>254</td></tr>
+              <tr><td>50</td><td>CCTV / IoT</td><td>192.168.50.0</td><td>/27</td><td>30</td></tr>
+              <tr><td>99</td><td>Management</td><td>192.168.99.0</td><td>/28</td><td>14</td></tr>
+            </tbody>
+          </table>
+
+          <h3 style="margin-top: var(--space-5);">Matriks Kebijakan Akses (ACL):</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>Dari ↓ / Ke →</th><th>Guru</th><th>Lab</th><th>Server</th><th>WiFi Siswa</th><th>CCTV</th><th>Internet</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Guru</strong></td><td>v</td><td>v</td><td>v</td><td>Tidak</td><td>v</td><td>v</td></tr>
+              <tr><td><strong>Lab</strong></td><td>Tidak</td><td>v</td><td>HTTP saja</td><td>Tidak</td><td>Tidak</td><td>v</td></tr>
+              <tr><td><strong>Server</strong></td><td>Response</td><td>Response</td><td>v</td><td>Tidak</td><td>Tidak</td><td>v</td></tr>
+              <tr><td><strong>WiFi Siswa</strong></td><td>Tidak</td><td>Tidak</td><td>Tidak</td><td>v</td><td>Tidak</td><td>v</td></tr>
+              <tr><td><strong>CCTV</strong></td><td>Tidak</td><td>Tidak</td><td>NVR saja</td><td>Tidak</td><td>v</td><td>Tidak</td></tr>
+            </tbody>
+          </table>
+
+          <h3 style="margin-top: var(--space-5);">WiFi Channel Plan:</h3>
+          <ul>
+            <li>AP Lantai 1 (Aula): <strong>2.4G Ch1, 5G Ch36</strong></li>
+            <li>AP Lantai 2 (Koridor): <strong>2.4G Ch6, 5G Ch44</strong></li>
+            <li>AP Lab Komputer: <strong>2.4G Ch11, 5G Ch52</strong></li>
+            <li>AP Ruang Guru: <strong>2.4G Ch1, 5G Ch60</strong> (jauh dari AP Lantai 1)</li>
+          </ul>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Implementasi Bertahap</span>
+          <div class="case-context">
+            <h3>Implementasi dalam 4 Tahap:</h3>
+          </div>
+          <div class="case-solution">
+            <div class="step-card">
+              <div class="step-number">①</div>
+              <div class="step-body">
+                <div class="step-title">Minggu 1: Konfigurasi VLAN & Trunking</div>
+                <div class="step-why">Buat semua VLAN di switch, atur port access, dan konfigurasi trunk ke router/MikroTik.</div>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">②</div>
+              <div class="step-body">
+                <div class="step-title">Minggu 2: Inter-VLAN Routing + ACL</div>
+                <div class="step-why">Konfig sub-interface di router, terapkan ACL sesuai matriks kebijakan di atas.</div>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">③</div>
+              <div class="step-body">
+                <div class="step-title">Minggu 3: WiFi - Channel Plan & Security</div>
+                <div class="step-why">Atur channel non-overlap, aktifkan WPA2-Enterprise jika AP mendukung, atau minimal WPA2-PSK dengan password berbeda per SSID.</div>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">④</div>
+              <div class="step-body">
+                <div class="step-title">Minggu 4: Testing & Dokumentasi</div>
+                <div class="step-why">Uji dari setiap VLAN - pastikan akses sesuai matriks. Buat diagram topologi lengkap. Upload ke GitHub sebagai portofolio.</div>
+              </div>
+            </div>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> Desain keamanan jaringan bukan pekerjaan satu hari. Implementasi bertahap + pengujian menyeluruh + dokumentasi adalah cara engineer profesional bekerja.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-4-5" data-quest-id="quest-1-4-5">
+          <span class="block-badge">Blok 6 - Quest: Desain Keamanan</span>
+          <div class="quest-body">
+            <p><strong>Quest 5 (Debug):</strong> Setelah implementasi, seorang guru mengeluh tidak bisa mengakses rekaman CCTV dari laptopnya. Setelah diperiksa, ACL-nya tertulis:</p>
+            <div class="terminal" style="margin: 10px 0;">
+              <div class="terminal__bar">
+                <span class="terminal__dot terminal__dot--red"></span>
+                <span class="terminal__dot terminal__dot--yellow"></span>
+                <span class="terminal__dot terminal__dot--green"></span>
+                <span class="terminal__title">Router - ACL yang bermasalah</span>
+              </div>
+              <div class="terminal__body">
+<pre>access-list 150 deny ip 192.168.40.0 0.0.0.255 192.168.50.0 0.0.0.255
+access-list 150 deny ip 192.168.20.0 0.0.0.255 192.168.50.0 0.0.0.255
+access-list 150 deny ip any 192.168.50.0 0.0.0.255
+access-list 150 permit ip any any</pre>
+              </div>
+            </div>
+            <p>ACL ini dipasang pada sub-interface menuju VLAN CCTV (<code>out</code>). Kenapa guru tidak bisa akses CCTV?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q145" value="a"> A. Aturan ke-3 (<code>deny ip any</code>) memblokir SEMUA traffic ke VLAN CCTV, termasuk dari Guru</label>
+              <label class="quest-option"><input type="radio" name="q145" value="b"> B. Seharusnya ACL dipasang pada arah <code>in</code> bukan <code>out</code></label>
+              <label class="quest-option"><input type="radio" name="q145" value="c"> C. ACL hanya memblokir ICMP, bukan HTTP</label>
+              <label class="quest-option"><input type="radio" name="q145" value="d"> D. VLAN Guru tidak terdaftar di router</label>
+            </div>
+            <button class="quest-hint-toggle"> Buka Petunjuk</button>
+            <div class="quest-hint-content" style="display:none;">
+              Baca aturan ke-3 dengan teliti: <code>deny ip any 192.168.50.0</code>. "any" artinya <em>dari mana saja</em>. Apakah traffic dari subnet Guru (192.168.10.0) termasuk "any"?
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: A</h4>
+            <p>Aturan ke-3 (<code>deny ip any 192.168.50.0 0.0.0.255</code>) memblokir traffic dari <strong>sumber manapun</strong> ke VLAN CCTV - termasuk VLAN Guru! Karena ACL diproses top-down:</p>
+            <ol>
+              <li>Traffic dari Guru (192.168.10.x) ke CCTV (192.168.50.x) → tidak cocok dengan aturan 1 (bukan dari .40.x)</li>
+              <li>Tidak cocok aturan 2 (bukan dari .20.x)</li>
+              <li><strong>Cocok</strong> aturan 3 (<code>any</code> termasuk guru) → <strong>DENY!</strong></li>
+            </ol>
+            <p><strong>Perbaikan:</strong> Tambahkan permit untuk Guru SEBELUM aturan deny any:</p>
+            <div class="terminal" style="margin: 10px 0;">
+              <div class="terminal__bar">
+                <span class="terminal__dot terminal__dot--red"></span>
+                <span class="terminal__dot terminal__dot--yellow"></span>
+                <span class="terminal__dot terminal__dot--green"></span>
+                <span class="terminal__title">Router - ACL yang BENAR</span>
+              </div>
+              <div class="terminal__body">
+<pre>access-list 150 <strong>permit ip 192.168.10.0 0.0.0.255 192.168.50.0 0.0.0.255</strong>
+access-list 150 deny ip 192.168.40.0 0.0.0.255 192.168.50.0 0.0.0.255
+access-list 150 deny ip 192.168.20.0 0.0.0.255 192.168.50.0 0.0.0.255
+access-list 150 deny ip any 192.168.50.0 0.0.0.255
+access-list 150 permit ip any any</pre>
+              </div>
+            </div>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>Quest ini menguji pemahaman menyeluruh tentang <strong>urutan ACL</strong> dan <strong>efek kata kunci <code>any</code></strong>. Dalam desain keamanan nyata, aturan permit (whitelist) untuk pihak yang sah selalu harus ditempatkan <em>sebelum</em> aturan deny (blacklist) yang luas. Prinsipnya: <strong>"Izinkan yang sah dulu, baru blokir sisanya."</strong></p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 50-60 menit (sub-topik terberat karena integrasi).</p>
+            <p><strong>Naskah pembuka:</strong> "Ini sub-topik terakhir sekaligus paling menantang. Kamu harus menggabungkan SEMUA yang sudah dipelajari. Kalau ada yang lupa, boleh buka modul sebelumnya."</p>
+            <p><strong> Pertanyaan pemantik:</strong> "Kalau kamu jadi admin IT sekolah kita, segmen mana yang pertama kali kamu pisahkan dan kenapa?"</p>
+            <p><strong> Cara menjelaskan ulang:</strong> Gambar tabel matriks akses di papan tulis. Setiap sel yang bertanda Tidak adalah satu aturan ACL deny. Minta siswa menyusun urutannya sendiri.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           BAGIAN 9: RANGKUMAN & EVALUASI AKHIR MODUL
+           ==================================================================== -->
+      <section class="subtopic-section" id="evaluasi-modul">
+        <div class="subtopic-header">
+          <span class="subtopic-number"> Evaluasi</span>
+          <h2>Rangkuman & Quest Akhir Modul 1.4</h2>
+        </div>
+
+        <div class="block-card">
+          <span class="block-badge">Rangkuman Modul 1.4</span>
+          <table class="data-table">
+            <thead><tr><th>Sub-Topik</th><th>Konsep Kunci</th><th>Skill yang Didapat</th></tr></thead>
+            <tbody>
+              <tr><td>ACL</td><td>First-match, implicit deny, Standard vs Extended</td><td>Konfigurasi ACL di Cisco & MikroTik</td></tr>
+              <tr><td>WiFi Channel</td><td>2.4G vs 5G, non-overlap 1-6-11, interferensi</td><td>Perencanaan channel AP</td></tr>
+              <tr><td>WPA2 vs WPA3</td><td>PSK vs SAE, 4-Way Handshake, Forward Secrecy</td><td>Memilih standar keamanan WiFi</td></tr>
+              <tr><td>VPN</td><td>IPSec vs SSL, tunneling, split vs full tunnel</td><td>Memahami arsitektur VPN korporat</td></tr>
+              <tr><td>Desain Terpadu</td><td>Defense in Depth, matriks kebijakan akses</td><td>Merancang keamanan jaringan dari nol</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- QUEST AKHIR 1 -->
+        <div class="block-card block--quest" id="quest-akhir-1" data-quest-id="quest-akhir-1">
+          <span class="block-badge">Quest Akhir 1</span>
+          <div class="quest-body">
+            <p>Sebuah Extended ACL berisi 5 aturan. Paket yang masuk cocok dengan aturan ke-3 (<code>deny</code>) DAN aturan ke-5 (<code>permit</code>). Apa yang terjadi pada paket?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qf1" value="a"> A. Diizinkan (permit), karena aturan ke-5 lebih spesifik</label>
+              <label class="quest-option"><input type="radio" name="qf1" value="b"> B. Dibuang (deny), karena aturan ke-3 cocok duluan (first-match wins)</label>
+              <label class="quest-option"><input type="radio" name="qf1" value="c"> C. Tergantung arah ACL (in/out)</label>
+              <label class="quest-option"><input type="radio" name="qf1" value="d"> D. Router mengirimkan pesan error ke pengirim</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - First-match wins</h4>
+            <p>ACL diproses secara berurutan dari atas ke bawah. Begitu aturan ke-3 cocok (deny), paket langsung dibuang. Aturan ke-5 <strong>tidak pernah diperiksa</strong>. Ini prinsip paling fundamental ACL.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR 2 -->
+        <div class="block-card block--quest" id="quest-akhir-2" data-quest-id="quest-akhir-2">
+          <span class="block-badge">Quest Akhir 2</span>
+          <div class="quest-body">
+            <p>Sebuah gedung memiliki 5 AP WiFi 2.4 GHz. Channel mana yang PALING BURUK untuk dipasang pada AP yang bersebelahan?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qf2" value="a"> A. Channel 1 dan Channel 11</label>
+              <label class="quest-option"><input type="radio" name="qf2" value="b"> B. Channel 6 dan Channel 6 (sama)</label>
+              <label class="quest-option"><input type="radio" name="qf2" value="c"> C. Channel 3 dan Channel 5</label>
+              <label class="quest-option"><input type="radio" name="qf2" value="d"> D. Channel 1 dan Channel 6</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: C - Channel 3 dan 5</h4>
+            <p>Channel 3 dan 5 berdekatan (overlap parsial) - ini menyebabkan <strong>Adjacent Channel Interference (ACI)</strong> yang lebih buruk daripada co-channel interference (sama persis).</p>
+            <p>Paradoksnya: dua AP dengan channel <strong>yang sama</strong> (opsi B) sebenarnya bisa koordinasi via CSMA/CA, sehingga dampaknya lebih bisa diantisipasi. Tapi channel yang <strong>sebagian overlap</strong> tidak bisa dikoordinasi - sinyal saling mengganggu tanpa bisa dihindari.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR 3 -->
+        <div class="block-card block--quest" id="quest-akhir-3" data-quest-id="quest-akhir-3">
+          <span class="block-badge">Quest Akhir 3</span>
+          <div class="quest-body">
+            <p>Keunggulan utama WPA3-SAE dibandingkan WPA2-PSK adalah:</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qf3" value="a"> A. WPA3 mendukung frekuensi 6 GHz</label>
+              <label class="quest-option"><input type="radio" name="qf3" value="b"> B. WPA3 memberikan Forward Secrecy - kunci sesi unik per koneksi yang tidak bisa dihitung ulang</label>
+              <label class="quest-option"><input type="radio" name="qf3" value="c"> C. WPA3 menggunakan password yang lebih panjang</label>
+              <label class="quest-option"><input type="radio" name="qf3" value="d"> D. WPA3 tidak membutuhkan password sama sekali</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B</h4>
+            <p><strong>Forward Secrecy</strong> adalah keunggulan kriptografis terpenting WPA3-SAE. Setiap sesi menghasilkan kunci unik yang tidak bisa dihitung ulang meskipun penyerang mengetahui password. Jika satu sesi berhasil dikompromikan, sesi lain tetap aman.</p>
+            <p>Opsi A memang benar (WiFi 6E mendukung 6 GHz), tapi itu fitur WiFi 6E, bukan keunggulan <em>keamanan</em> WPA3.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR 4 (Debug) -->
+        <div class="block-card block--quest" id="quest-akhir-4" data-quest-id="quest-akhir-4">
+          <span class="block-badge">Quest Akhir 4 (Debug)</span>
+          <div class="quest-body">
+            <p>Kantor cabang terhubung VPN ke kantor pusat. Karyawan bisa ping server pusat (192.168.10.100) tapi tidak bisa browsing internet. Penyebab paling mungkin?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qf4" value="a"> A. VPN menggunakan Full Tunnel - semua traffic termasuk internet dikirim ke pusat, tapi routing internet di pusat tidak dikonfigurasi</label>
+              <label class="quest-option"><input type="radio" name="qf4" value="b"> B. DNS server tidak dikonfigurasi</label>
+              <label class="quest-option"><input type="radio" name="qf4" value="c"> C. VPN hanya mendukung protokol ICMP</label>
+              <label class="quest-option"><input type="radio" name="qf4" value="d"> D. Firewall memblokir semua traffic VPN</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: A - Full Tunnel tanpa routing internet di pusat</h4>
+            <p>Pada konfigurasi Full Tunnel, <strong>semua</strong> lalu lintas (termasuk browsing) dikirim melalui VPN. Jika router pusat tidak dikonfigurasi untuk meneruskan traffic internet dari client VPN, maka browsing akan gagal - meskipun koneksi ke jaringan internal berfungsi normal.</p>
+            <p>Solusi: konfigurasikan <strong>Split Tunnel</strong> agar hanya traffic ke subnet kantor (192.168.10.0/24) yang melewati VPN, sisanya langsung lewat internet lokal cabang.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- Mini-Proyek -->
+        <div class="block-card" style="border-color: var(--primary);">
+          <span class="block-badge" >Mini-Proyek Modul 1.4</span>
+          <h3>Proyek: Simulasi Jaringan Aman dengan ACL</h3>
+          <p>Buat topologi di Cisco Packet Tracer atau GNS3 yang memiliki:</p>
+          <ul>
+            <li>3 VLAN (Kantor, Lab, Tamu) dengan Inter-VLAN Routing</li>
+            <li>Extended ACL yang memblokir VLAN Tamu dari mengakses jaringan internal</li>
+            <li>VLAN Kantor hanya boleh akses HTTP/HTTPS ke server</li>
+            <li>Dokumentasi lengkap: topologi, tabel ACL, hasil ping test</li>
+          </ul>
+          <p><strong>Unggah ke GitHub</strong> sebagai bagian portofolio!</p>
+        </div>
+
+        <!-- Navigasi Modul -->
+        <div class="block-card" style="text-align: center; border-color: var(--primary-soft);">
+          <a href="modul-1-3.html" class="btn-sim" style="margin-right: 8px;">← Modul 1.3: Multi-Vendor</a>
+          <a href="index.html" class="btn-sim" style="margin-right: 8px;">Daftar Modul</a>
+          <a href="modul-1-5.html" class="btn-sim btn-sim--primary">Modul 1.5: Antrian & Telco -></a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="assets/js/anim-engine.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/modul-1-4.js"></script>
+
+</body>
+</html>

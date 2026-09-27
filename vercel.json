@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/Bahan-Ajar-Fase-1/index.html" },
+    { "source": "/assets/(.*)", "destination": "/Bahan-Ajar-Fase-1/assets/$1" },
+    { "source": "/(.*)", "destination": "/Bahan-Ajar-Fase-1/$1" }
+  ]
+}

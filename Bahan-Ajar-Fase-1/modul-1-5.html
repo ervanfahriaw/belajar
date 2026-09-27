@@ -1,0 +1,1352 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modul 1.5 - Pengantar Sistem Antrian & Telco Dasar | Bahan Ajar Mentoring</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-module-id="modul-1-5">
+
+  <!-- ========================================================================
+       1. HEADER MODUL STICKY + PROGRESS BAR
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="header-main">
+      <div class="header-left">
+        <a href="index.html" class="btn-back">Daftar Modul</a>
+        <div class="header-title-box">
+          <h1>Modul 1.5 - Pengantar Sistem Antrian & Telco Dasar</h1>
+          <span class="header-subtitle">Fase 1: Jaringan & Infrastruktur (QoS, VoIP, SIP/RTP, Erlang B, Queuing)</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <span class="badge-meta">Estimasi: <strong>1-2 Minggu (120-150 Menit/Sesi)</strong></span>
+        <span class="badge-meta badge-meta--quest">Quest: <strong>0 / 12</strong></span>
+      </div>
+    </div>
+
+    <!-- Progress Bar Scroll Sticky -->
+    <div class="progress-container">
+      <div class="progress-bar" id="reading-progress"></div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. LAYOUT UTAMA (SIDEBAR STICKY + KONTEN)
+       ======================================================================== -->
+  <div class="layout-wrapper">
+
+    <!-- Sidebar Navigasi Sub-Topik (Desktop) -->
+    <aside class="sidebar-nav">
+      <div class="sidebar-title">Peta Perjalanan Modul 1.5</div>
+      <ul class="subtopic-nav-list">
+        <li class="subtopic-nav-item active">
+          <a href="#subtopik-1">
+            <span class="subtopic-nav-num">1</span>
+            <span>Metrik QoS Jaringan</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-2">
+            <span class="subtopic-nav-num">2</span>
+            <span>Mekanisme Antrian & Bufferbloat</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-3">
+            <span class="subtopic-nav-num">3</span>
+            <span>Voice over IP (VoIP & SIP/RTP)</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-4">
+            <span class="subtopic-nav-num">4</span>
+            <span>Teori Trafik & Erlang B</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-5">
+            <span class="subtopic-nav-num">5</span>
+            <span>Desain Jaringan Multi-Layanan</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#evaluasi-akhir">
+            <span class="subtopic-nav-num"></span>
+            <span>Evaluasi & Mini-Proyek</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Konten Utama Modul -->
+    <main class="content-area">
+
+      <!-- HERO SECTION -->
+      <section class="modul-hero">
+        <span class="modul-hero__eyebrow">PENGAYAAN LAB KHUSUS TELEKOMUNIKASI</span>
+        <h2 class="modul-hero__title">Dari Pipa Data Menuju Layanan Suara & Analisis Antrian</h2>
+        <p class="modul-hero__desc">
+          Di modul sebelumnya (1.1 s.d. 1.4), kamu telah menguasai bagaimana paket data diberi alamat, diarahkan melewati router, dan diamankan dengan firewall. Sekarang saatnya melangkah lebih jauh: <strong>bagaimana jika jaringan harus melayani panggilan suara real-time (VoIP) dan ribuan pengguna sekaligus tanpa putus?</strong> Di modul ini kamu akan mempelajari metrik kualitas layanan (QoS), arsitektur telepon internet (SIP/RTP), dan pengantar teori rekayasa trafik Erlang B!
+        </p>
+
+        <div class="modul-meta-grid">
+          <div class="meta-card">
+            <div class="meta-card__icon"></div>
+            <div class="meta-card__body">
+              <div class="meta-card__label">Target Kompetensi</div>
+              <div class="meta-card__value">Menganalisis Throughput, Latency, Jitter, Packet Loss, Arsitektur VoIP SIP/RTP, & Dimensi Saluran Erlang B</div>
+            </div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-card__icon"></div>
+            <div class="meta-card__body">
+              <div class="meta-card__label">Alokasi Belajar</div>
+              <div class="meta-card__value">1-2 Minggu (1 Sesi Teori & Simulasi + 1 Sesi Praktik Asterisk/QoS)</div>
+            </div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-card__icon"></div>
+            <div class="meta-card__body">
+              <div class="meta-card__label">Tools yang Digunakan</div>
+              <div class="meta-card__value">Wireshark (RTP Stream Analysis), Asterisk/FreePBX, MikroTik Simple Queue & Queue Tree</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.5.1: METRIK KUALITAS LAYANAN JARINGAN (QOS)
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-1">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.5.1</span>
+          <h2>Kualitas Layanan Jaringan (QoS) & 4 Metrik Kritis</h2>
+          <p class="subtopic-lead">
+            Mengapa bandwidth besar 100 Mbps tetap bisa membuat game online lag dan suara telepon robotik? Membedakan Bandwidth, Throughput, Latency/Delay, Jitter, dan Packet Loss.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Bayangkan Arya sedang bermain game kompetitif (Valorant/Mobile Legends) atau sedang mengikuti wawancara Zoom di rumah. Langganan internet rumahnya sangat cepat: <strong>100 Mbps</strong>. Namun, tiba-tiba adik Arya mulai men-download update game sebesar 50 GB.
+          </p>
+          <p>
+            Seketika karakter game Arya mengalami <em>teleporting / rubberbanding</em>, dan suara di Zoom menjadi patah-patah seperti robot. Arya komplain ke ISP: <em>"Saya bayar 100 Mbps, kenapa internet lemot?!"</em>
+          </p>
+          <div class="hook-question">
+            Jika pipa internetnya 100 Mbps dan penggunaan total baru 40 Mbps, kenapa panggilan suara dan game online tetap hancur?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Bandwidth vs Throughput vs Delay vs Jitter vs Packet Loss</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Kualitas Layanan (Quality of Service - QoS):</div>
+            <p style="margin: 0;">
+              <strong>QoS</strong> adalah kemampuan jaringan untuk memberikan prioritas dan jaminan performa transmisi bagi tipe trafik tertentu (seperti suara dan video real-time) agar tidak terganggu oleh trafik data biasa (seperti download file).
+            </p>
+          </div>
+
+          <p style="margin-top: 14px;">4 Pilar Metrik Performa Jaringan Telekomunikasi (Standar ITU-T / TIPHON):</p>
+
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-body">
+              <div class="step-title">Bandwidth vs Throughput (Lebar Pipa vs Air yang Mengalir)</div>
+              <div class="step-why">
+                <strong>Bandwidth</strong> adalah kapasitas teoritis maksimal saluran (misal: 100 Mbps). <strong>Throughput</strong> adalah kecepatan data aktual yang benar-benar berhasil terkirim dan diterima secara sukses dalam satuan waktu (misal: 78 Mbps bersih setelah dikurangi overhead header).
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-body">
+              <div class="step-title">Latency / Delay (Waktu Tempuh Paket)</div>
+              <div class="step-why">
+                Waktu yang dibutuhkan sebuah paket data untuk merambat dari pengirim (source) ke penerima (destination), diukur dalam milidetik (ms). Untuk percakapan suara manusia alami, delay satu arah harus <strong>&lt; 150 ms</strong>.
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-body">
+              <div class="step-title">Jitter (Variasi Keterlambatan Paket)</div>
+              <div class="step-why">
+                Fluktuasi atau selisih perbedaan waktu kedatangan antar paket data yang berurutan. Jika Paket 1 tiba dalam 20ms, Paket 2 dalam 110ms, Paket 3 dalam 25ms, maka jitter sangat tinggi. Jitter tinggi membuat suara manusia terdengar gagap, patah, atau terpotong!
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-body">
+              <div class="step-title">Packet Loss (Paket Hilang di Perjalanan)</div>
+              <div class="step-why">
+                Persentase paket data yang hilang atau dibuang oleh router di tengah jalan akibat antrian penuh (*buffer overflow*). Kehilangan paket suara <strong>&gt; 3%</strong> akan membuat kata-kata dalam pembicaraan hilang tanpa bisa dipahami.
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout--warning">
+            <strong>Sering Keliru:</strong> Mengira "Speedtest 100 Mbps = Pasti Lancar Main Game & Zoom". <strong>SALAH!</strong> Game dan VoIP hanya butuh bandwidth sangat kecil (&lt; 100 kbps), tetapi menuntut <em>Latency rendah (&lt; 50ms)</em>, <em>Jitter stabil (&lt; 10ms)</em>, dan <em>Packet Loss 0%</em>!
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Amati bagaimana paket suara sensitif-waktu (VoIP) terjepit di belakang paket download besar (Torrent/File) pada router tanpa QoS:
+          </p>
+
+          <div class="sim-container" id="sim-qos-metrics">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Kabel & Jalur -->
+                <line x1="130" y1="130" x2="380" y2="180" stroke="var(--border-light)" stroke-width="2.5" stroke-dasharray="6,4" />
+                <line x1="130" y1="230" x2="380" y2="180" stroke="var(--border-light)" stroke-width="2.5" stroke-dasharray="6,4" />
+                <line x1="480" y1="180" x2="720" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+                
+                <!-- Buffer Queue Visualizer di Router -->
+                <rect x="330" y="240" width="190" height="34" rx="8" fill="#11172A" stroke="var(--border)" stroke-width="1.5" />
+                <text x="425" y="255" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">ROUTER FIFO BUFFER</text>
+                <text id="qos-queue-status" x="425" y="267" text-anchor="middle" fill="var(--warning)" font-size="8" font-family="var(--font-mono)">Antrian: Kosong</text>
+
+                <!-- Nodes -->
+                <g id="qos-node-voip" data-cx="130" data-cy="130" transform="translate(65, 60)"></g>
+                <g id="qos-node-torrent" data-cx="130" data-cy="230" transform="translate(65, 160)"></g>
+                <g id="qos-node-router" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="qos-node-dest" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Dua sumber trafik aktif bersamaan: Telepon IP (VoIP) dan PC yang mendownload file raksasa...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Standar TIPHON</span>
+
+          <h3>4.1 Standar Kualitas TIPHON (Telecommunications and Internet Protocol Harmonization Over Networks)</h3>
+          <p>Lembaga standar telekomunikasi dunia mengkategorikan performa jaringan menjadi 4 kategori kualitas:</p>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Kategori Kualitas</th>
+                <th>Delay / Latency</th>
+                <th>Jitter</th>
+                <th>Packet Loss</th>
+                <th>Pengalaman Pengguna</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color: var(--success);">Sangat Bagus (Sempurna)</strong></td>
+                <td>&lt; 150 ms</td>
+                <td>&lt; 0 ms (0-10 ms)</td>
+                <td>0%</td>
+                <td>Suara bening kristal, interaksi game instan tanpa hambatan</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--info);">Bagus</strong></td>
+                <td>150 - 300 ms</td>
+                <td>10 - 25 ms</td>
+                <td>1% - 3%</td>
+                <td>Masih sangat layak untuk Zoom/VoIP, delay nyaris tak terasa</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--warning);">Sedang</strong></td>
+                <td>300 - 450 ms</td>
+                <td>25 - 50 ms</td>
+                <td>3% - 15%</td>
+                <td>Percakapan mulai saling tabrak, delay terasa mengganggu</td>
+              </tr>
+              <tr>
+                <td><strong style="color: var(--danger);">Buruk (Tidak Layak)</strong></td>
+                <td>&gt; 450 ms</td>
+                <td>&gt; 50 ms</td>
+                <td>&gt; 15%</td>
+                <td>Suara putus-putus, robotik, koneksi sering drop/terputus</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 style="margin-top: var(--space-5);">4.2 Rumus Perhitungan Jitter Matematis</h3>
+          <div style="background: var(--bg-dark); border-radius: var(--radius-md); padding: var(--space-4); margin: var(--space-3) 0;">
+            <p style="color: var(--text-muted); margin-bottom: 6px; font-size: 0.9rem;">Rumus Jitter Rata-rata (IETF RFC 3550 / TIPHON):</p>
+            <div style="font-family: var(--font-mono); font-size: 1.05rem; color: var(--info); font-weight: bold;">
+              Jitter_i = Jitter_(i-1) + (|D_(i-1, i)| - Jitter_(i-1)) / 16
+            </div>
+            <p style="color: var(--text-dim); margin-top: 8px; font-size: 0.85rem;">
+              Di mana <code>D_(i-1, i) = (R_i - S_i) - (R_(i-1) - S_(i-1))</code> adalah perbedaan delay transit antara paket ke-i dan paket sebelumnya.
+            </p>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Kasus: Turnamen E-Sport Game Center Bandung Lag Saat Jam Ramai</h3>
+            <p>
+              Sebuah Game Center di Bandung memiliki 40 PC gaming dengan bandwidth ISP Dedicated 200 Mbps. Saat gladi bersih malam hari (sepi), ping ke server game hanya 12 ms stabil. Namun saat turnamen siang hari dengan 40 PC aktif bermain + 100 penonton connect ke WiFi tamu, ping melonjak ke 180 ms dengan jitter 85 ms dan packet loss 7%. Pemain mengeluh tembakan tidak register.
+            </p>
+          </div>
+          <div class="case-solution">
+            <h4>Penyebab Masalah:</h4>
+            <ul>
+              <li>WiFi tamu memakan antrian router dengan video streaming TikTok/YouTube.</li>
+              <li>Router tidak menerapkan pemisahan antrian prioritas (Priority Queue) untuk port game UDP (Port 7000-8000).</li>
+              <li>Terjadi fenomena <em>Bufferbloat</em> pada interface WAN router.</li>
+            </ul>
+            <h4>Solusi Terapan:</h4>
+            <ol>
+              <li>Pisahkan SSID & VLAN Tamu dengan alokasi bandwidth maksimal 20 Mbps (*Bandwidth Limiting*).</li>
+              <li>Konfigurasi QoS Mangle di MikroTik: Berikan tanda paket (*packet mark*) <code>Game-Traffic</code> pada port UDP game, lalu masukkan ke Queue Tree dengan Priority 1 (tertinggi).</li>
+              <li>Aktifkan algoritma antrian modern FQ_CoDel / Cake untuk membasmi bufferbloat.</li>
+            </ol>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> Bandwidth melimpah tidak menjamin pengalaman gaming mulus tanpa manajemen QoS yang memprioritaskan paket sensitif latency di atas paket unduhan massal.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-5-1" data-quest-id="quest-1-5-1">
+          <span class="block-badge">Blok 6 - Quest: Metrik QoS</span>
+          <div class="quest-body">
+            <p><strong>Quest 1:</strong> Seorang teknisi melakukan ping test ke server VoIP selama 5 detik. Waktu kedatangan 4 paket berurutan adalah: 20 ms, 22 ms, 19 ms, 21 ms. Pengukuran ini menunjukkan jaringan memiliki nilai:</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q151" value="a"> A. Jitter sangat tinggi (&gt; 50 ms)</label>
+              <label class="quest-option"><input type="radio" name="q151" value="b"> B. Jitter sangat rendah / stabil (± 2 ms) dengan kualitas TIPHON Sangat Bagus</label>
+              <label class="quest-option"><input type="radio" name="q151" value="c"> C. Packet Loss 50%</label>
+              <label class="quest-option"><input type="radio" name="q151" value="d"> D. Throughput 0 bps</label>
+            </div>
+            <button class="quest-hint-toggle"> Buka Petunjuk</button>
+            <div class="quest-hint-content" style="display:none;">
+              Hitung selisih antar angka waktu kedatangan: |20 - 22| = 2, |22 - 19| = 3, |19 - 21| = 2. Apakah selisihnya besar atau kecil?
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Jitter sangat rendah / stabil (± 2 ms)</h4>
+            <p>Variasi waktu kedatangan paket berkisar antara 19 ms hingga 22 ms (hanya berfluktuasi 2-3 ms). Menurut standar TIPHON, jitter di bawah 10 ms tergolong <strong>Kategori Sangat Bagus</strong>, ideal untuk panggilan suara dan game tanpa distorsi.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan Singkat</span>
+          <p>
+            Pemahaman metrik QoS adalah pembeda utama antara administrator jaringan pemula (yang hanya peduli berapa Mbps speedtest) dengan Network Engineer profesional (yang memahami latency budget, jitter variance, dan packet delivery guarantees).
+          </p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 35-45 menit untuk sub-topik ini.</p>
+            <p><strong>Poin kunci:</strong> Menyadarkan adikmu bahwa Bandwidth ≠ Kecepatan/Latency. Bandwidth adalah lebar jalan tol, Latency adalah kecepatan mobil sampai, Jitter adalah kestabilan laju mobil.</p>
+            <p><strong>Naskah pembuka:</strong> "Pernah gak kamu main game sambil ada yang nonton YouTube di rumah, terus karakter game-mu teleport-teleport? Padahal internetnya 50 Mbps. Kenapa bisa begitu? Hari ini kita pelajari 4 angka rahasia di balik fenomena itu."</p>
+            <p><strong> Pertanyaan pemantik:</strong> "Kalau kamu disuruh milih: internet 1 Gbps tapi delay 300 ms, atau internet 10 Mbps tapi delay 5 ms, mana yang kamu pilih buat main game FPS online? Kenapa?"</p>
+            <p><strong>Miskonsepsi umum:</strong> Siswa sering mengira 'Throughput' sama persis dengan 'Bandwidth paket langganan'. Jelaskan adanya TCP header overhead, retransmisi, dan packet loss.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.5.2: MEKANISME ANTRIAN PAKET & BUFFERBLOAT
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-2">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.5.2</span>
+          <h2>Mekanisme Antrian di Router & Solusi Bufferbloat</h2>
+          <p class="subtopic-lead">
+            Bagaimana router mengelola tumpukan paket di memorinya? Memahami FIFO, Priority Queuing (PQ), Hierarchical Token Bucket (HTB), dan konsep CIR vs MIR di MikroTik.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Secara bawaan (*default*), semua router bekerja dengan prinsip <strong>FIFO (First In, First Out)</strong>: paket yang datang pertama akan dikirim pertama, seperti antrian kasir supermarket konvensional.
+          </p>
+          <p>
+            Masalahnya: sebuah paket file download berukuran <strong>1500 Byte (MTU penuh)</strong> memakan waktu transmisi jauh lebih lama dibanding paket kontrol suara VoIP yang hanya berukuran <strong>64 Byte</strong>. Ketika seseorang men-download file besar, buffer router terisi ratusan paket raksasa. Paket suara yang datang belakangan harus mengantri di belakang tumpukan raksasa ini!
+          </p>
+          <div class="hook-question">
+            Fenomena inilah yang disebut <strong>Bufferbloat</strong>: buffer router yang terlalu besar justru menambah delay hingga ratusan milidetik. Bagaimana solusinya?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Algoritma Penjadwalan Antrian (Queuing Algorithms)</span>
+
+          <div class="step-card">
+            <div class="step-number">A</div>
+            <div class="step-body">
+              <div class="step-title">FIFO (First In, First Out) - Default & Tidak Adil</div>
+              <div class="step-why">
+                Tidak membedakan jenis paket. Trafik agresif (seperti multi-connection torrent/download manager) akan mendominasi seluruh antrian dan menenggelamkan trafik sensitif.
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">B</div>
+            <div class="step-body">
+              <div class="step-title">Priority Queuing (PQ) - Jalur Khusus Ambulans</div>
+              <div class="step-why">
+                Router membuat beberapa antrian bertingkat (High, Medium, Normal, Low). Selama antrian <em>High</em> masih berisi 1 saja paket suara/DNS, router <strong>TIDAK AKAN</strong> memproses antrian <em>Low</em> (download). Ini menjamin suara tidak pernah delay!
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">C</div>
+            <div class="step-body">
+              <div class="step-title">HTB (Hierarchical Token Bucket) - Berbagi Bandwidth Bertingkat</div>
+              <div class="step-why">
+                Dipakai pada MikroTik Queue Tree. Membagi bandwidth dalam struktur pohon hirarkis. Memungkinkan pembagian bandwidth dengan konsep <strong>CIR (Limit-At)</strong> dan <strong>MIR (Max-Limit)</strong> serta peminjaman sisa bandwidth jika ada kelas yang sedang idle.
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout--tip">
+            <strong> Konsep Penting MikroTik: CIR vs MIR</strong><br>
+            • <code>limit-at</code> (CIR - Committed Information Rate): Bandwidth <strong>garansi minimal</strong> yang pasti didapatkan user, sepadat apapun jaringan.<br>
+            • <code>max-limit</code> (MIR - Maximum Information Rate): Bandwidth <strong>maksimal</strong> yang boleh dinikmati jika jaringan sedang longgar/sepi.
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Saksikan bagaimana Priority Queuing (PQ) menyelamatkan paket suara berukuran kecil agar mendahului paket file raksasa:
+          </p>
+
+          <div class="sim-container" id="sim-queuing-prio">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <line x1="130" y1="130" x2="360" y2="180" stroke="var(--border-light)" stroke-width="2.5" stroke-dasharray="6,4" />
+                <line x1="130" y1="230" x2="360" y2="180" stroke="var(--border-light)" stroke-width="2.5" stroke-dasharray="6,4" />
+                <line x1="490" y1="180" x2="720" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+
+                <!-- Queue Boxes Priority -->
+                <rect x="340" y="75" width="170" height="26" rx="6" fill="#132B25" stroke="var(--success)" stroke-width="1.5" />
+                <text x="425" y="92" text-anchor="middle" fill="var(--success)" font-size="8.5" font-weight="bold" font-family="var(--font-mono)">HIGH QUEUE (VoIP / Port 5060)</text>
+
+                <rect x="340" y="275" width="170" height="26" rx="6" fill="#2E1C1D" stroke="var(--danger)" stroke-width="1.5" />
+                <text x="425" y="292" text-anchor="middle" fill="var(--danger)" font-size="8.5" font-weight="bold" font-family="var(--font-mono)">LOW QUEUE (Bulk HTTP / Torrent)</text>
+
+                <!-- Devices -->
+                <g id="qp-node-phone" data-cx="130" data-cy="130" transform="translate(65, 60)"></g>
+                <g id="qp-node-pc" data-cx="130" data-cy="230" transform="translate(65, 160)"></g>
+                <g id="qp-node-router" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="qp-node-dest" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Paket download besar memenuhi antrian default...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Konfigurasi CLI MikroTik</span>
+
+          <h3>4.1 Konfigurasi MikroTik Simple Queue (Per-IP Bandwidth Limiter)</h3>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <span class="terminal__dot terminal__dot--red"></span>
+              <span class="terminal__dot terminal__dot--yellow"></span>
+              <span class="terminal__dot terminal__dot--green"></span>
+              <span class="terminal__title">MikroTik RouterOS - Simple Queue Management</span>
+            </div>
+            <div class="terminal__body">
+<pre>
+[admin@MikroTik] > <strong>/queue simple add name="Limit-Lab-Komputer" \
+   target=192.168.20.0/24 max-limit=20M/20M limit-at=5M/5M priority=8/8</strong>
+  ! Target subnet Lab Komputer (VLAN 20)
+  ! max-limit = 20 Mbps Download / 20 Mbps Upload (Maksimal)
+  ! limit-at  = 5 Mbps (Garansi minimal per segmen)
+  ! priority  = 8 (Prioritas paling rendah)
+
+[admin@MikroTik] > <strong>/queue simple add name="Priority-Ruang-Guru-VoIP" \
+   target=192.168.10.0/24 max-limit=50M/50M limit-at=20M/20M priority=1/1</strong>
+  ! Target subnet Ruang Guru & VoIP
+  ! priority = 1 (Prioritas TERTINGGI - diproses mendahului Lab)
+</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Kasus: e-Rapor Macet Saat Ujian CBT Online Berlangsung</h3>
+            <p>
+              Di SMK Maju Berkarya, saat siswa ujian online serentak di Lab, guru di ruang tata usaha tidak bisa menginput nilai e-Rapor karena halaman web timeout. Teknisi menemukan bahwa koneksi 50 Mbps terkuras 100% oleh 150 komputer lab yang melakukan request ujian serentak.
+            </p>
+          </div>
+          <div class="case-solution">
+            <h4>Solusi:</h4>
+            <p>
+              Menerapkan alokasi <strong>CIR (limit-at)</strong> pada router MikroTik:
+            </p>
+            <ul>
+              <li>Ruang Guru & Server e-Rapor: Diberikan <code>limit-at=15M</code> (Garansi pasti dapat 15 Mbps).</li>
+              <li>Lab CBT Siswa: Diberikan <code>limit-at=30M max-limit=45M</code>.</li>
+            </ul>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> Tanpa <code>limit-at</code> (garansi minimal), perangkat penting bisa kehabisan bandwidth (starvation) saat perangkat lain mengunduh secara rakus.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-5-2" data-quest-id="quest-1-5-2">
+          <span class="block-badge">Blok 6 - Quest: Antrian & CIR/MIR</span>
+          <div class="quest-body">
+            <p><strong>Quest 2:</strong> Pada konfigurasi MikroTik Queue: <code>limit-at=2M/2M max-limit=10M/10M priority=1</code>, apa yang dimaksud dengan nilai <code>limit-at=2M</code>?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q152" value="a"> A. Bandwidth maksimal yang tidak boleh dilewati</label>
+              <label class="quest-option"><input type="radio" name="q152" value="b"> B. Bandwidth garansi minimal yang pasti diperoleh user dalam kondisi terpadat</label>
+              <label class="quest-option"><input type="radio" name="q152" value="c"> C. Batas ukuran memori buffer antrian</label>
+              <label class="quest-option"><input type="radio" name="q152" value="d"> D. Kecepatan transfer file FTP</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Bandwidth garansi minimal (CIR)</h4>
+            <p><code>limit-at</code> merepresentasikan <em>Committed Information Rate (CIR)</em>, yaitu alokasi bandwidth cadangan yang dijamin selalu tersedia untuk klien tersebut meskipun jalur ISP sedang mengalami kepadatan tinggi (*congestion*).</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>
+            Manajemen antrian adalah jantung dari keadilan distribusi lalu lintas jaringan. Tanpa antrian pintar, koneksi internet sebesar apapun akan terasa lambat saat terjadi perebutan bandwidth serentak.
+          </p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 35-45 menit.</p>
+            <p><strong>Poin kunci:</strong> Pembedaan jelas antara FIFO (antrian sembako tanpa prioritas) vs PQ (ada jalur prioritas untuk pasien darurat).</p>
+            <p><strong>Naskah pembuka:</strong> "Bayangkan loket kasir di tol. Kalau truk gandeng dan ambulans disuruh antri di baris yang sama, apa yang terjadi pada pasien di ambulans? Itulah yang terjadi pada suara Zoom-mu kalau router pakai antrian FIFO!"</p>
+            <p><strong> Pertanyaan pemantik:</strong> "Kapan kita butuh Queue Tree yang kompleks dibanding Simple Queue biasa di MikroTik?"</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.5.3: DASAR VOICE OVER IP (VOIP, SIP & RTP)
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-3">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.5.3</span>
+          <h2>Arsitektur Voice over IP (VoIP), Protokol SIP & RTP</h2>
+          <p class="subtopic-lead">
+            Bagaimana gelombang suara analog diubah menjadi bit biner IP, dinegosiasikan lewat SIP (Port 5060), dan dialirkan dua arah melalui RTP Stream?
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Dulu, perusahaan yang memiliki gedung 5 lantai harus memasang <strong>dua instalasi kabel berbeda</strong>: kabel UTP untuk komputer dan kabel tembaga RJ11 terpisah menuju sentral telepon PABX analog Telkom. Biaya pulsa telepon antar-ruangan dan antar-cabang kota sangat mahal.
+          </p>
+          <p>
+            Kini, teknologi <strong>VoIP (Voice over IP)</strong> menumpangkan panggilan telepon langsung di atas kabel LAN yang sama secara <strong>100% GRATIS</strong> antar-cabang via internet/VPN!
+          </p>
+          <div class="hook-question">
+            Bagaimana dua pesawat telepon IP bisa saling mencari, membunyikan dering (*ringing*), dan mengalirkan suara manusia di atas paket UDP?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Signaling (SIP) vs Media Stream (RTP)</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Dua Komponen Wajib Panggilan VoIP:</div>
+            <p style="margin: 0;">
+              Panggilan VoIP selalu memisahkan tugas antara <strong>Signaling (Panggilan/Kontrol)</strong> dan <strong>Media Transport (Aliran Suara)</strong>:
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">SIP</div>
+            <div class="step-body">
+              <div class="step-title">1. SIP (Session Initiation Protocol - UDP/TCP Port 5060)</div>
+              <div class="step-why">
+                Bertugas sebagai "makelar panggilan": mendaftarkan nomor ekstensi (REGISTER), mengundang telepon tujuan (INVITE), membunyikan dering (180 Ringing), dan menutup telepon (BYE). SIP <strong>TIDAK membawa suara</strong>, hanya teks negosiasi!
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">RTP</div>
+            <div class="step-body">
+              <div class="step-title">2. RTP (Real-time Transport Protocol - UDP Port 10000-20000)</div>
+              <div class="step-why">
+                Setelah telepon diangkat (200 OK), suara manusia yang sudah dikonversi codec digital (G.711 / G.729) dialirkan langsung secara <em>peer-to-peer</em> antar telepon menggunakan protokol UDP berkecepatan tinggi tanpa overhead retransmisi.
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout--warning">
+            <strong>Sering Keliru:</strong> Mengapa VoIP memakai <strong>UDP</strong> bukan TCP? Karena suara butuh kecepatan real-time! Jika ada 1 paket suara hilang, lebih baik dibiarkan hening sepersekian milidetik daripada TCP melakukan retransmisi yang menyebabkan jeda/delay 2 detik kemudian!
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Amati alur lengkap sebuah panggilan telepon VoIP dari Ext 101 (Kepala Sekolah) ke Ext 102 (Guru) melalui IP PBX Server:
+          </p>
+
+          <div class="sim-container" id="sim-voip-call">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Garis Koneksi Signaling ke PBX -->
+                <line x1="130" y1="210" x2="425" y2="100" stroke="var(--info)" stroke-width="2" stroke-dasharray="5,4" />
+                <line x1="720" y1="210" x2="425" y2="100" stroke="var(--info)" stroke-width="2" stroke-dasharray="5,4" />
+                
+                <!-- Garis Direct RTP Audio Stream Peer-to-Peer -->
+                <line id="voip-rtp-line" x1="130" y1="210" x2="720" y2="210" stroke="var(--success)" stroke-width="4" stroke-dasharray="8,4" opacity="0.2" />
+                <rect id="voip-rtp-badge" x="335" y="225" width="180" height="22" rx="11" fill="#133834" stroke="var(--success)" stroke-width="1.5" opacity="0" />
+                <text id="voip-rtp-text" x="425" y="240" text-anchor="middle" fill="var(--success)" font-size="9" font-weight="bold" font-family="var(--font-mono)" opacity="0"> Direct RTP Audio (G.711)</text>
+
+                <!-- Labels Protocol -->
+                <text x="240" y="140" text-anchor="middle" fill="var(--info)" font-size="8" font-family="var(--font-mono)">SIP Port 5060</text>
+                <text x="610" y="140" text-anchor="middle" fill="var(--info)" font-size="8" font-family="var(--font-mono)">SIP Port 5060</text>
+
+                <!-- Device Nodes -->
+                <g id="voip-node-phone1" data-cx="130" data-cy="210" transform="translate(65, 140)"></g>
+                <g id="voip-node-pbx" data-cx="425" data-cy="100" transform="translate(360, 30)"></g>
+                <g id="voip-node-phone2" data-cx="720" data-cy="210" transform="translate(655, 140)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 6</span>
+              <p class="sim__text">Ext 101 (Kepala Sekolah) mengangkat gagang telepon dan menekan nomor 102...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis: SIP Handshake Sequence</span>
+
+          <h3>4.1 Diagram Pesan SIP (Session Setup):</h3>
+          <div style="background: var(--bg-dark); border-radius: var(--radius-md); padding: var(--space-4); margin: var(--space-3) 0; overflow-x: auto;">
+<pre style="color: var(--text); font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.6;">
+  Phone 1 (Ext 101)          IP PBX (Asterisk)          Phone 2 (Ext 102)
+         │                           │                           │
+         │──── 1. SIP INVITE ───────>│                           │
+         │<─── 2. 100 Trying ────────│──── 3. SIP INVITE ───────>│
+         │                           │<─── 4. 180 Ringing ───────│ (Telepon Dering)
+         │<─── 5. 180 Ringing ───────│                           │
+         │                           │<─── 6. 200 OK (Answer) ───│ (Gagang Diangkat)
+         │<─── 7. 200 OK ────────────│                           │
+         │──── 8. SIP ACK ──────────>│──── 9. SIP ACK ──────────>│
+         │                           │                           │
+         ═════════════ 10. DUA ARAH RTP AUDIO STREAM ═════════════ (Port UDP 16384)
+         │                           │                           │
+         │──── 11. SIP BYE ─────────>│──── 12. SIP BYE ─────────>│ (Telepon Ditutup)
+         │<─── 13. 200 OK ───────────│<─── 14. 200 OK ───────────│
+</pre>
+          </div>
+
+          <h3 style="margin-top: var(--space-5);">4.2 Codec Kompresi Suara Populer</h3>
+          <ul>
+            <li><strong>G.711 (PCM Uncompressed):</strong> Bandwidth ~64 kbps (87 kbps dengan header IP/UDP/RTP). Suara paling jernih (*toll quality*), konsumsi CPU ringan.</li>
+            <li><strong>G.729 (CS-ACELP Compressed):</strong> Bandwidth ~8 kbps (31 kbps dengan header). Sangat hemat bandwidth, cocok untuk link WAN/VPN antar-pulau.</li>
+            <li><strong>Opus:</strong> Codec modern dinamis yang dipakai WhatsApp, Discord, dan Zoom (mampu adaptasi dari 6 kbps hingga 510 kbps secara otomatis).</li>
+          </ul>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Kasus: Masalah One-Way Audio (Suara Hanya Terdengar Satu Arah)</h3>
+            <p>
+              PT IndoNet memasang IP PBX Asterisk di kantor pusat Jakarta dan IP Phone di kantor cabang Surabaya yang terhubung lewat internet publik dengan NAT. Telepon berhasil berdering dan tersambung, tetapi karyawan Jakarta bisa mendengar Surabaya, sementara karyawan Surabaya <strong>sama sekali tidak bisa mendengar suara Jakarta</strong>.
+            </p>
+          </div>
+          <div class="case-solution">
+            <h4>Analisis & Solusi:</h4>
+            <p>
+              Ini adalah masalah klasik <strong>NAT Traversal pada SIP/RTP</strong>.
+            </p>
+            <ul>
+              <li>Pesan SIP berisi SDP (*Session Description Protocol*) yang menyertakan IP Private pengirim (192.168.1.50).</li>
+              <li>Router cabang di Surabaya mencoba mengirim stream RTP suara ke IP Private Jakarta yang tidak bisa diroute di internet publik.</li>
+              <li><strong>Solusi:</strong> Aktifkan fitur <code>nat=force_rport,comedia</code> di Asterisk atau gunakan STUN Server (*Session Traversal Utilities for NAT*) agar IP PBX mengetahui IP Publik asli dari paket audio yang masuk.</li>
+            </ul>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> SIP dan RTP beroperasi pada port dan jalur berbeda. Keberhasilan dering (SIP) tidak menjamin aliran audio (RTP) berhasil menembus NAT/Firewall.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-5-3" data-quest-id="quest-1-5-3">
+          <span class="block-badge">Blok 6 - Quest: Protokol VoIP</span>
+          <div class="quest-body">
+            <p><strong>Quest 3:</strong> Port dan protokol manakah yang digunakan oleh SIP untuk negosiasi pembentukan panggilan (*signaling*) secara standar?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q153" value="a"> A. TCP Port 80</label>
+              <label class="quest-option"><input type="radio" name="q153" value="b"> B. UDP/TCP Port 5060</label>
+              <label class="quest-option"><input type="radio" name="q153" value="c"> C. UDP Port 443</label>
+              <label class="quest-option"><input type="radio" name="q153" value="d"> D. ICMP Type 8</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - UDP/TCP Port 5060</h4>
+            <p>Standar RFC 3261 menetapkan port <strong>5060 (UDP/TCP)</strong> untuk SIP unencrypted dan port <strong>5061 (TLS)</strong> untuk SIP terenkripsi (SIPS).</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>
+            VoIP adalah jembatan yang menyatukan dunia telekomunikasi lawas dengan dunia jaringan komputer modern. Menguasai SIP dan RTP membuka pemahaman mendalam tentang bagaimana aplikasi real-time seperti WhatsApp Call, Zoom, dan Google Meet bekerja di balik layar.
+          </p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 40-50 menit.</p>
+            <p><strong>Poin kunci:</strong> Memisahkan konsep "telepon berdering" (Signaling SIP via PBX) vs "mengobrol suara" (Media RTP langsung antar IP Phone).</p>
+            <p><strong>Naskah pembuka:</strong> "Tahu gak kenapa nomor telepon ekstensi di kantor-kantor bisa gratis tanpa pulsa Telkom? Karena suaranya dipecah jadi bit-bit biner dan dibungkus paket UDP di kabel LAN yang sama dengan komputermu!"</p>
+            <p><strong> Pertanyaan pemantik:</strong> "Kenapa kalau kita teleponan via WhatsApp terus jaringan jelek, suara orangnya mendadak cepet kayak kaset dipercepat? (Jitter buffer catch-up)."</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.5.4: TEORI TRAFIK TELEKOMUNIKASI & ERLANG B
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-4">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.5.4</span>
+          <h2>Pengantar Teori Trafik & Model Antrian Erlang B</h2>
+          <p class="subtopic-lead">
+            Bagaimana merancang jumlah saluran telepon (trunk) agar perusahaan tidak boros sewa saluran namun pelanggan tidak sering mendapat nada sibuk? Memahami konsep Intensitas Trafik (Erlang) dan Formula Erlang B.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Sebuah Call Center Customer Service memiliki <strong>100 agen operator</strong>. Setiap jalur telepon SIP Trunk dari Telkom disewa seharga Rp 200.000 / bulan per saluran.
+          </p>
+          <p>
+            Jika bos meminta: <em>"Sewa saja 100 saluran biar tiap orang punya 1 jalur!"</em>, biaya bulanan menjadi Rp 20.000.000. Namun kenyataannya, tidak mungkin ke-100 orang menelepon serentak di detik yang persis sama! Jika disewa hanya 10 saluran, banyak nasabah komplain karena selalu mendapat nada sibuk (*blocking*).
+          </p>
+          <div class="hook-question">
+            Berapa jumlah saluran (C) yang paling presisi harus disewa agar kemungkinan nasabah mendapat nada sibuk kurang dari 1% (Blocking Probability &lt; 0.01)?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Satuan Trafik Erlang & Formula Erlang B</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Intensitas Trafik (A) dalam Satuan Erlang:</div>
+            <p style="margin: 0;">
+              <strong>1 Erlang</strong> mewakili pendudukan saluran komunikasi secara kontinu selama 1 jam penuh (60 menit pemakaian tanpa henti).
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">Rumus</div>
+            <div class="step-body">
+              <div class="step-title">Perhitungan Intensitas Trafik (A)</div>
+              <div class="step-why">
+                <code style="font-size: 1.1rem; color: var(--info); font-weight: bold;">A = λ × h</code><br>
+                • <strong>λ (Lambda):</strong> Laju kedatangan panggilan rata-rata per jam (*Call Arrival Rate*)<br>
+                • <strong>h (Holding Time):</strong> Rata-rata durasi percakapan dalam satuan jam (misal: 3 menit = 3/60 = 0.05 jam).
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">Erlang B</div>
+            <div class="step-body">
+              <div class="step-title">Formula Erlang B (Loss Model - Panggilan Sibuk Langsung Ditolak/Diblokir)</div>
+              <div class="step-why">
+                Ditemukan oleh matematikawan Denmark <strong>A.K. Erlang (1917)</strong> untuk menghitung probabilitas pemblokiran panggilan (*Grade of Service - GoS / B*):
+                <div style="margin-top: 8px; font-family: var(--font-mono); color: var(--success); font-weight: bold;">
+                  B(C, A) = [ (A^C / C!) ] / [ ∑_(k=0)^C (A^k / k!) ]
+                </div>
+                Di mana <strong>C</strong> adalah jumlah saluran fisik/trunk, dan <strong>A</strong> adalah beban trafik Erlang.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Simulasi 4 Panggilan Telepon Masuk Serentak ke IP PBX dengan Kapasitas Trunk = 3 Saluran (Amati Pemblokiran Panggilan ke-4):
+          </p>
+
+          <div class="sim-container" id="sim-erlang-blocking">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- 3 Trunk Channels Trunk Box -->
+                <rect x="330" y="80" width="190" height="220" rx="12" fill="#131C35" stroke="var(--border)" stroke-width="2" />
+                <text x="425" y="105" text-anchor="middle" fill="var(--info)" font-size="10" font-weight="bold" font-family="var(--font-mono)">SIP TRUNK (C = 3 Channel)</text>
+
+                <!-- 3 Saluran Slots -->
+                <g id="erlang-slot-1" transform="translate(345, 120)">
+                  <rect width="160" height="40" rx="6" fill="#1D2A4F" stroke="var(--border-light)" stroke-width="1.2" />
+                  <text x="80" y="24" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Trunk Ch 1: [ IDLE ]</text>
+                </g>
+                <g id="erlang-slot-2" transform="translate(345, 175)">
+                  <rect width="160" height="40" rx="6" fill="#1D2A4F" stroke="var(--border-light)" stroke-width="1.2" />
+                  <text x="80" y="24" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Trunk Ch 2: [ IDLE ]</text>
+                </g>
+                <g id="erlang-slot-3" transform="translate(345, 230)">
+                  <rect width="160" height="40" rx="6" fill="#1D2A4F" stroke="var(--border-light)" stroke-width="1.2" />
+                  <text x="80" y="24" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Trunk Ch 3: [ IDLE ]</text>
+                </g>
+
+                <!-- Callers (Kiri) & Receivers (Kanan) -->
+                <g id="erlang-node-callers" data-cx="120" data-cy="190" transform="translate(55, 120)"></g>
+                <g id="erlang-node-operators" data-cx="730" data-cy="190" transform="translate(665, 120)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Sistem memiliki 3 saluran trunk. Panggilan Call-1 masuk...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Contoh Perhitungan Baku</span>
+
+          <h3>4.1 Contoh Kasus Perhitungan Dimensi Saluran:</h3>
+          <p>
+            Sebuah kantor menerima rata-rata <strong>120 panggilan per jam (λ = 120 calls/hour)</strong> pada jam sibuk. Rata-rata setiap panggilan berlangsung selama <strong>3 menit (h = 3/60 = 0.05 jam)</strong>.
+          </p>
+
+          <div class="step-card">
+            <div class="step-number">①</div>
+            <div class="step-body">
+              <div class="step-title">Hitung Intensitas Trafik (A):</div>
+              <div class="step-why">
+                <code>A = λ × h = 120 × 0.05 = <strong>6.0 Erlang</strong></code>.<br>
+                Artinya pada jam sibuk, terdapat ekuivalen 6 percakapan konstan tanpa henti.
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">②</div>
+            <div class="step-body">
+              <div class="step-title">Tentukan Target Kualitas (Grade of Service / GoS):</div>
+              <div class="step-why">
+                Target manajemen: probabilitas nada sibuk maksimal <strong>1% (B = 0.01)</strong>.
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">③</div>
+            <div class="step-body">
+              <div class="step-title">Lihat Tabel Baku Erlang B:</div>
+              <div class="step-why">
+                Untuk beban <code>A = 6.0 Erlang</code> dengan <code>B ≤ 0.01 (1%)</code>, dibutuhkan <strong>C = 12 Saluran Trunk</strong>.<br>
+                (Jika hanya sewa 8 saluran, probabilitas blocking melonjak menjadi ~12% yang berarti 1 dari 8 penelepon akan ditolak!).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Kasus: Lonjakan Panggilan Call Center BPJS Saat Awal Bulan</h3>
+            <p>
+              Pada tanggal 1 setiap bulan, Call Center BPJS mengalami lonjakan panggilan hingga 1.200 call/jam dengan durasi rata-rata 2 menit. Saat menggunakan 30 saluran trunk, ribuan penelepon mengeluh nada sibuk terus-menerus.
+            </p>
+          </div>
+          <div class="case-solution">
+            <h4>Analisis:</h4>
+            <ul>
+              <li>Trafik: <code>A = 1200 × (2/60) = 40 Erlang</code>.</li>
+              <li>Dengan C = 30 saluran untuk 40 Erlang, blocking probability mencapai <strong>28.4%</strong> (Hampir 1/3 penelepon gagal masuk!).</li>
+              <li><strong>Solusi:</strong> Tambah kapasitas trunk dinamis (Elastic SIP Trunking) menjadi <strong>C = 53 Saluran</strong> untuk menekan blocking di bawah 1%.</li>
+            </ul>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> Teori antrian Erlang B memungkinkan insinyur telekomunikasi menghitung kapasitas hardware/trunk secara eksak dengan kalkulasi matematika, bukan tebak-tebakan.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-5-4" data-quest-id="quest-1-5-4">
+          <span class="block-badge">Blok 6 - Quest: Perhitungan Erlang</span>
+          <div class="quest-body">
+            <p><strong>Quest 4:</strong> Jika sebuah kantor menerima 60 panggilan per jam dengan durasi rata-rata percakapan 4 menit, berapakah intensitas trafiknya dalam satuan Erlang?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q154" value="a"> A. 240 Erlang</label>
+              <label class="quest-option"><input type="radio" name="q154" value="b"> B. 4.0 Erlang</label>
+              <label class="quest-option"><input type="radio" name="q154" value="c"> C. 15 Erlang</label>
+              <label class="quest-option"><input type="radio" name="q154" value="d"> D. 0.4 Erlang</label>
+            </div>
+            <button class="quest-hint-toggle"> Buka Petunjuk</button>
+            <div class="quest-hint-content" style="display:none;">
+              Ubah 4 menit ke pecahan jam: 4/60 = 1/15 jam. Lalu kalikan 60 panggilan × (1/15) jam.
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - 4.0 Erlang</h4>
+            <p><strong>Langkah Perhitungan:</strong><br>
+            1. Laju kedatangan (λ) = 60 call/jam.<br>
+            2. Holding time (h) = 4 menit / 60 menit = 0.0667 jam (1/15 jam).<br>
+            3. Intensitas Trafik (A) = 60 × (4 / 60) = <strong>4.0 Erlang</strong>.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>
+            Pemahaman Erlang B adalah kompetensi langka dan nilai tambah istimewa bagi siswa SMK TKJ karena menghubungkan logika rekayasa perangkat lunak, fisika jaringan, dan perencanaan finansial infrastruktur ISP/Telco.
+          </p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 40-50 menit.</p>
+            <p><strong>Poin kunci:</strong> Menjelaskan bahwa Erlang adalah "berapa jam saluran terpakai dalam 1 jam pengamatan". Jika 1 saluran dipakai 60 menit full = 1 Erlang.</p>
+            <p><strong>Naskah pembuka:</strong> "Sebagai insinyur jaringan, bosmu bakal nanya: 'Van, kita mau pasang telepon buat 50 orang, kita harus beli berapa nomor saluran ke Telkom?' Kamu gak boleh jawab 'kayaknya 20 deh pak'. Kamu harus bisa hitung pakai rumus Erlang B ini!"</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.5.5: STUDI KASUS TERINTEGRASI & MULTI-LAYANAN
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-5">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.5.5</span>
+          <h2>Desain Jaringan Multi-Layanan (Data, VoIP, Wireless & QoS)</h2>
+          <p class="subtopic-lead">
+            Mengintegrasikan Voice VLAN (802.1p CoS 5 / DSCP EF), Priority Queuing, dan Bandwidth Shaping pada satu topologi terpadu kampus SMK.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            SMK Nusantara memiliki 3 kebutuhan sekaligus dalam 1 infrastruktur:
+          </p>
+          <ul>
+            <li><strong>Data Akademik (VLAN 10):</strong> Browsing internet guru, e-Rapor, dan administrasi sekolah.</li>
+            <li><strong>Lab Komputer (VLAN 20):</strong> 100 PC siswa yang sering download ISO Linux dan materi pelajaran.</li>
+            <li><strong>VoIP IP Phone (VLAN 60):</strong> Telepon antar-ruang Kepala Sekolah, TU, Lab, dan Pos Satpam.</li>
+          </ul>
+          <div class="hook-question">
+            Tantangan: Bagaimana mengonfigurasi Voice VLAN dan QoS agar percakapan telepon pos satpam dan kepala sekolah tidak pernah terputus meskipun lab siswa sedang men-download 100 file secara bersamaan?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Voice VLAN & DSCP Marking</span>
+
+          <div class="step-card">
+            <div class="step-number">L2</div>
+            <div class="step-body">
+              <div class="step-title">Voice VLAN & 802.1p CoS (Class of Service di Layer 2)</div>
+              <div class="step-why">
+                Switch Cisco/MikroTik secara otomatis mengenali frame dari IP Phone dan menyematkan tag <strong>CoS 5 (Voice)</strong> dengan nilai prioritas tertinggi pada header 802.1Q trunk.
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">L3</div>
+            <div class="step-body">
+              <div class="step-title">DSCP (Differentiated Services Code Point di Layer 3 IP Header)</div>
+              <div class="step-why">
+                Header IP memiliki field ToS/DSCP 6-bit. Paket VoIP ditandai sebagai <strong>DSCP EF (Expedited Forwarding - Nilai 46)</strong> yang memerintahkan semua router untuk langsung meneruskannya tanpa mengantri di buffer biasa.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Saksikan bagaimana integrasi Voice VLAN + DSCP EF + Priority Queue meloloskan panggilan telepon tanpa jeda di tengah badai download ISO:
+          </p>
+
+          <div class="sim-container" id="sim-multiservice-qos">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <line x1="130" y1="130" x2="380" y2="180" stroke="var(--border-light)" stroke-width="2.5" stroke-dasharray="6,4" />
+                <line x1="130" y1="230" x2="380" y2="180" stroke="var(--border-light)" stroke-width="2.5" stroke-dasharray="6,4" />
+                <line x1="480" y1="180" x2="720" y2="180" stroke="var(--border-light)" stroke-width="3" stroke-dasharray="6,4" />
+
+                <!-- Voice VLAN Tag Badge -->
+                <rect x="50" y="70" width="160" height="22" rx="11" fill="#133834" stroke="var(--success)" stroke-width="1.5" />
+                <text x="130" y="85" text-anchor="middle" fill="var(--success)" font-size="8.5" font-weight="bold" font-family="var(--font-mono)">VLAN 60 - CoS 5 (Voice)</text>
+
+                <!-- Data VLAN Tag Badge -->
+                <rect x="50" y="275" width="160" height="22" rx="11" fill="#2E1C1D" stroke="var(--danger)" stroke-width="1.5" />
+                <text x="130" y="290" text-anchor="middle" fill="var(--danger)" font-size="8.5" font-weight="bold" font-family="var(--font-mono)">VLAN 20 - Best Effort Data</text>
+
+                <!-- Nodes -->
+                <g id="ms-node-phone" data-cx="130" data-cy="130" transform="translate(65, 60)"></g>
+                <g id="ms-node-pc" data-cx="130" data-cy="230" transform="translate(65, 160)"></g>
+                <g id="ms-node-switch" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="ms-node-dest" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">IP Phone (VLAN 60) dan PC Lab (VLAN 20) terhubung ke switch yang sama...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & Konfigurasi Cisco Voice VLAN</span>
+
+          <h3>Konfigurasi Cisco Switch Port untuk IP Phone + PC Bersama:</h3>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <span class="terminal__dot terminal__dot--red"></span>
+              <span class="terminal__dot terminal__dot--yellow"></span>
+              <span class="terminal__dot terminal__dot--green"></span>
+              <span class="terminal__title">Switch-Cisco-2960 - Interface Configuration (Voice VLAN)</span>
+            </div>
+            <div class="terminal__body">
+<pre>
+Switch(config)# <strong>interface FastEthernet 0/5</strong>
+Switch(config-if)# <strong>switchport mode access</strong>
+Switch(config-if)# <strong>switchport access vlan 10</strong>
+  ! Komputer PC dicolok ke port pass-through IP Phone -> masuk VLAN 10 Data (Untagged)
+
+Switch(config-if)# <strong>switchport voice vlan 60</strong>
+  ! IP Phone mengirim frame suara dengan Tag VLAN 60 802.1Q + Prioritas CoS 5
+
+Switch(config-if)# <strong>mls qos trust cos</strong>
+  ! Switch mempercayai tanda prioritas CoS dari IP Phone dan tidak me-resetnya ke 0
+</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Hasil Pengujian Jaringan Sekolah Sebelum vs Sesudah QoS:</h3>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Parameter Metrik</th><th>Sebelum Ada QoS</th><th>Sesudah Diterapkan QoS</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Jitter VoIP</strong></td><td style="color:var(--danger);">68 ms (Patah-patah)</td><td style="color:var(--success);">4 ms (Jernih Stabil)</td></tr>
+              <tr><td><strong>Packet Loss Suara</strong></td><td style="color:var(--danger);">8.5% (Kata hilang)</td><td style="color:var(--success);">0.0% (Utuh)</td></tr>
+              <tr><td><strong>Delay Rata-rata</strong></td><td style="color:var(--warning);">320 ms</td><td style="color:var(--success);">18 ms</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-5-5" data-quest-id="quest-1-5-5">
+          <span class="block-badge">Blok 6 - Quest: Voice VLAN</span>
+          <div class="quest-body">
+            <p><strong>Quest 5:</strong> Perintah Cisco <code>switchport voice vlan 60</code> pada interface switch memungkinkan:</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q155" value="a"> A. Mematikan port switch jika ada suara ribut</label>
+              <label class="quest-option"><input type="radio" name="q155" value="b"> B. 1 kabel fisik melayani 2 VLAN berbeda: VLAN Data untuk PC (Untagged) dan VLAN 60 untuk IP Phone (Tagged CoS 5)</label>
+              <label class="quest-option"><input type="radio" name="q155" value="c"> C. Mengubah sinyal suara menjadi analog FM</label>
+              <label class="quest-option"><input type="radio" name="q155" value="d"> D. Menghapus konfigurasi IP router</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - 1 kabel fisik melayani 2 VLAN (Data PC & Voice IP Phone)</h4>
+            <p>Fitur Voice VLAN Cisco sangat revolusioner karena menghemat biaya penarikan kabel gedung: satu kabel dari switch masuk ke IP Phone, lalu dari IP Phone ditarik kabel pendek ke PC desktop.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>
+            Integrasi Voice VLAN dan QoS adalah puncak implementasi infrastruktur jaringan modern, membuktikan bahwa kabel jaringan mampu membawa berbagai layanan secara simultan dengan SLA yang terjaga.
+          </p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 35-45 menit.</p>
+            <p><strong>Poin kunci:</strong> Menunjukkan efisiensi Voice VLAN (hemat kabel 50% di kantor).</p>
+            <p><strong>Naskah pembuka:</strong> "Kalau di kantor ada 100 meja karyawan dan tiap meja butuh PC dan telepon, apakah kita harus tarik 200 kabel? Nggak! Dengan Voice VLAN, cukup 100 kabel!"</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           EVALUASI AKHIR MODUL 1.5 & MINI-PROYEK FASE 1
+           ==================================================================== -->
+      <section class="subtopic-section" id="evaluasi-akhir">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Evaluasi Akhir Modul 1.5</span>
+          <h2>Kuis Komprehensif & Mini-Proyek Mahkota Fase 1</h2>
+          <p class="subtopic-lead">
+            Uji penguasaan seluruh konsep QoS, VoIP, Erlang B, dan antrian paket sebelum menyelesaikan Fase 1.
+          </p>
+        </div>
+
+        <!-- QUEST AKHIR 1 -->
+        <div class="block-card block--quest" id="quest-akhir-1" data-quest-id="quest-akhir-1">
+          <span class="block-badge">Quest Akhir 1 (Analisis Metrik)</span>
+          <div class="quest-body">
+            <p>Metrik manakah yang paling bertanggung jawab menyebabkan suara panggilan VoIP terdengar gagap, patah, dan robotik?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qe1" value="a"> A. Bandwidth download terlalu besar</label>
+              <label class="quest-option"><input type="radio" name="qe1" value="b"> B. Jitter (Variasi delay kedatangan paket yang tinggi)</label>
+              <label class="quest-option"><input type="radio" name="qe1" value="c"> C. Kabel UTP Cat6</label>
+              <label class="quest-option"><input type="radio" name="qe1" value="d"> D. Subnet mask /24</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Jitter yang tinggi</h4>
+            <p>Jitter menyebabkan paket audio tiba dengan jeda yang tidak teratur, membuat *jitter buffer* di telepon kosong atau meluap, menghasilkan suara robotik.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR 2 -->
+        <div class="block-card block--quest" id="quest-akhir-2" data-quest-id="quest-akhir-2">
+          <span class="block-badge">Quest Akhir 2 (SIP vs RTP)</span>
+          <div class="quest-body">
+            <p>Mengapa media audio VoIP ditransmisikan menggunakan protokol UDP (RTP) dan bukan TCP?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qe2" value="a"> A. Karena TCP tidak mendukung nomor port</label>
+              <label class="quest-option"><input type="radio" name="qe2" value="b"> B. Karena transmisi suara menuntut kecepatan real-time; retransmisi TCP akan menimbulkan jeda delay yang merusak percakapan</label>
+              <label class="quest-option"><input type="radio" name="qe2" value="c"> C. Karena UDP memiliki enkripsi otomatis</label>
+              <label class="quest-option"><input type="radio" name="qe2" value="d"> D. Karena kabel fiber optic hanya mendukung UDP</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Menuntut kecepatan real-time tanpa jeda retransmisi</h4>
+            <p>Pada komunikasi real-time interaktif, paket yang hilang lebih baik dilewati daripada ditunggu retransmisinya oleh TCP yang akan menambah delay ratusan milidetik.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR 3 -->
+        <div class="block-card block--quest" id="quest-akhir-3" data-quest-id="quest-akhir-3">
+          <span class="block-badge">Quest Akhir 3 (Erlang B)</span>
+          <div class="quest-body">
+            <p>Apa yang diasumsikan oleh model antrian Erlang B ketika seluruh saluran trunk sedang sibuk?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qe3" value="a"> A. Panggilan baru langsung ditolak/diblokir (nada sibuk) dan dibuang seketika (*Blocked Calls Cleared*)</label>
+              <label class="quest-option"><input type="radio" name="qe3" value="b"> B. Panggilan baru disimpan di memori selamanya sampai ada saluran kosong</label>
+              <label class="quest-option"><input type="radio" name="qe3" value="c"> C. Kecepatan bicara penelepon otomatis dipercepat 2 kali lipat</label>
+              <label class="quest-option"><input type="radio" name="qe3" value="d"> D. Server merestart otomatis</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: A - Panggilan diblokir seketika (*Blocked Calls Cleared*)</h4>
+            <p>Erlang B mengasumsikan sistem *Loss Model* (tanpa antrian tunggu/buffer). Jika butuh sistem dengan antrian tunggu (seperti *call center hold music*), digunakan model <strong>Erlang C</strong>.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR 4 (Debug) -->
+        <div class="block-card block--quest" id="quest-akhir-4" data-quest-id="quest-akhir-4">
+          <span class="block-badge">Quest Akhir 4 (Debug Kasus)</span>
+          <div class="quest-body">
+            <p>Admin mengonfigurasi Simple Queue di MikroTik: <code>name="Lab" max-limit=50M/50M limit-at=0/0</code> dan <code>name="Guru" max-limit=50M/50M limit-at=0/0</code> pada total ISP 50 Mbps. Saat Lab download penuh 50 Mbps, Ruang Guru tidak bisa browsing sama sekali. Apa perbaikan paling tepat?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qe4" value="a"> A. Pasang kabel LAN baru</label>
+              <label class="quest-option"><input type="radio" name="qe4" value="b"> B. Beri nilai <code>limit-at=15M/15M</code> (CIR) pada antrian Guru dan turunkan <code>priority</code> Lab menjadi 8</label>
+              <label class="quest-option"><input type="radio" name="qe4" value="c"> C. Matikan firewall NAT</label>
+              <label class="quest-option"><input type="radio" name="qe4" value="d"> D. Ganti IP address Guru ke public</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Beri nilai limit-at (CIR) pada Guru & atur prioritas</h4>
+            <p>Ketika <code>limit-at=0</code>, tidak ada garansi bandwidth minimum untuk Guru, sehingga trafik Lab yang agresif akan menghabiskan seluruh pipa. Memberi <code>limit-at=15M</code> menjamin Guru selalu mendapatkan 15 Mbps dalam kondisi sepadat apapun.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- Mini-Proyek Mahkota Fase 1 -->
+        <div class="block-card" style="border-color: var(--primary); background: var(--bg-surface);">
+          <span class="block-badge" >Proyek Mahkota Akhir Fase 1</span>
+          <h3>Proyek Integrasi: Desain Jaringan Enterprise Multi-Vendor & Multi-Layanan</h3>
+          <p>Selamat! Kamu telah menyelesaikan seluruh materi Fase 1 (Dasar IP, Routing L3, GNS3/MikroTik, Keamanan ACL/VPN, dan QoS/VoIP). Sekarang bangun proyek mahkota portofoliomu:</p>
+          <ul>
+            <li><strong>Topologi Hybrid:</strong> 1 Router Cisco + 1 Router MikroTik terhubung OSPF Area 0.</li>
+            <li><strong>Segmentasi VLAN:</strong> VLAN 10 (Staff/Data), VLAN 20 (Lab Siswa), VLAN 60 (Voice/VoIP), VLAN 99 (Management).</li>
+            <li><strong>VoIP Server:</strong> Pasang Asterisk / FreePBX di GNS3 dengan 2 Extension IP Phone yang bisa saling telepon.</li>
+            <li><strong>Keamanan & QoS:</strong> Pasang ACL pemblokiran antar-VLAN + Simple Queue/Queue Tree dengan prioritas VoIP (Priority 1) dan limitasi Lab.</li>
+            <li><strong>Dokumentasi GitHub:</strong> Simpan diagram topologi, tabel pengalamatan IP VLSM, file konfigurasi router, dan rekaman demonstrasi ping & VoIP.</li>
+          </ul>
+          <p><strong>Unggah ke GitHub dan siap untuk lampiran CV/Portofolio magang!</strong></p>
+        </div>
+
+        <!-- Navigasi Modul -->
+        <div class="block-card" style="text-align: center; border-color: var(--primary-soft);">
+          <a href="modul-1-4.html" class="btn-sim" style="margin-right: 8px;">← Modul 1.4: Keamanan Jaringan</a>
+          <a href="index.html" class="btn-sim" style="margin-right: 8px;">Daftar Modul</a>
+          <a href="modul-1-6.html" class="btn-sim btn-sim--primary">Modul 1.6: Bagaimana Internet Bekerja -></a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- SCRIPT ENGINE -->
+  <script src="assets/js/anim-engine.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/modul-1-5.js"></script>
+
+</body>
+</html>

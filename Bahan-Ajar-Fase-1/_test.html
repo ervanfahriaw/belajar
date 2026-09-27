@@ -1,0 +1,840 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bahan Ajar Jaringan Komputer - Fase 1</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-module-id="modul-test">
+
+  <!-- ========================================================================
+       1. HEADER STICKY + READING PROGRESS
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="header-main">
+      <div class="header-left">
+        <a href="#" class="btn-back">Daftar Modul</a>
+        <div class="header-title-box">
+          <h1>Modul 1.1 - Dasar Jaringan & Subnetting</h1>
+          <span class="header-subtitle">Fase 1: Jaringan & Infrastruktur (TKJ Kelas 11)</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <span class="badge-meta"> Durasi: <strong>90 Menit</strong></span>
+        <span class="badge-meta badge-meta--quest"> Quest: <strong>0 / 2</strong></span>
+      </div>
+    </div>
+
+    <!-- Progress Bar Scroll -->
+    <div class="progress-container">
+      <div class="progress-bar" id="reading-progress"></div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. WRAPPER LAYOUT & SIDEBAR
+       ======================================================================== -->
+  <div class="layout-wrapper">
+
+    <!-- Sidebar Sub-Topik (Desktop) -->
+    <aside class="sidebar-nav">
+      <div class="sidebar-title">Daftar Sub-Topik</div>
+      <ul class="subtopic-nav-list">
+        <li class="subtopic-nav-item active">
+          <a href="#subtopik-1">
+            <span class="subtopic-nav-num">1</span>
+            <span>Alur Transmisi & Enkapsulasi Data</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-2">
+            <span class="subtopic-nav-num">2</span>
+            <span>Subnetting & Pembagian Blok IP</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Konten Utama -->
+    <main class="main-content">
+
+      <!-- Menu Dropdown Mobile -->
+      <div class="mobile-nav-select-wrapper">
+        <select class="mobile-nav-select" aria-label="Pilih Sub-topik">
+          <option value="subtopik-1">1. Alur Transmisi & Enkapsulasi Data</option>
+          <option value="subtopik-2">2. Subnetting & Pembagian Blok IP</option>
+        </select>
+      </div>
+
+      <!-- Hero Header Modul -->
+      <section class="modul-hero">
+        <span class="modul-hero__eyebrow"> Bahan Ajar SMK TKJ Interaktif</span>
+        <h2 class="modul-hero__title">Dasar Jaringan Komputer & Subnetting IP</h2>
+        <p class="modul-hero__desc">
+          Mempelajari perjalanan paket data dari aplikasi ke kabel jaringan, cara switch membaca identitas MAC di Layer 2, serta teknik membelah jaringan besar menjadi subnet-subnet efisien dan aman.
+        </p>
+
+        <!-- Target Belajar -->
+        <div class="learning-goals">
+          <div class="learning-goals__title"> Target Pemahaman Kamu:</div>
+          <ul class="learning-goals__list">
+            <li class="learning-goals__item">
+              <span class="learning-goals__check">✓</span>
+              <span>Memahami alur transmisi data & proses pembungkusan (enkapsulasi).</span>
+            </li>
+            <li class="learning-goals__item">
+              <span class="learning-goals__check">✓</span>
+              <span>Mengetahui fungsi CAM Table pada Switch jaringan.</span>
+            </li>
+            <li class="learning-goals__item">
+              <span class="learning-goals__check">✓</span>
+              <span>Mampu menghitung subnetting secara runtut ke bawah dan memahami penerapan topologinya.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SUB-TOPIK 1: ALUR TRANSMISI & ENKAPSULASI DATA
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-1">
+        <div class="subtopic-header">
+          <div class="subtopic-number">01</div>
+          <h2 class="subtopic-title">Alur Transmisi & Enkapsulasi Data</h2>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Masalah Nyata</span>
+          <p>
+            Kamu sedang duduk di lab komputer dan mengetik chat WhatsApp: <em>"Halo Bro, mau kirim tugas..."</em> ke teman yang duduk di sebelahmu.
+          </p>
+          <div class="hook-question">
+            Dua perangkat ini berdekatan, tetapi bagaimana rentetan karakter teks tersebut bisa meluncur melalui kabel, melewati switch, dan muncul di layar laptop temanmu tanpa tertukar dengan data orang lain?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP & DEFINISI EKSPLISIT -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Konsep Inti & Definisi</span>
+
+          <!-- Definisi Lengkap Sebelum Masuk ke Penjelasan -->
+          <div class="definition-box">
+            <div class="definition-title">� Apa Itu Alur Transmisi Data?</div>
+            <p style="margin: 0;">
+              <strong>Alur Transmisi Data</strong> adalah perjalanan sebuah paket data yang dikirim dari <em>perangkat sumber (source)</em> menuju <em>perangkat tujuan (destination)</em> melalui media perantara (kabel UTP, serat optik, atau gelombang radio WiFi). Dalam perjalanan ini, data dibungkus bertahap dengan label pengenal <strong>(Enkapsulasi)</strong>, diperiksa alamat fisiknya oleh switch, dan kemudian dibuka kembali di perangkat penerima <strong>(Dekapsulasi)</strong> agar sampai tanpa cacat.
+            </p>
+          </div>
+
+          <p>
+            Komputer tidak pernah mengirim teks secara mentah. Data harus melewati serangkaian aturan (protokol) yang membungkusnya menjadi paket-paket terstruktur.
+          </p>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Paket Surat Pos:</div>
+            <ul>
+              <li><strong>Isi Surat</strong> = Pesan atau file yang kamu kirimkan.</li>
+              <li><strong>Amplop & Resi Pengiriman</strong> = Header IP (Alamat logis tujuan) dan Header MAC (Identitas fisik kartu jaringan).</li>
+              <li><strong>Kantor Sortir Pos</strong> = Switch Jaringan (Membaca alamat resi tujuan untuk memilih jalur pengiriman yang tepat).</li>
+              <li><strong>Penerima Membuka Surat</strong> = Proses Dekapsulasi di komputer tujuan.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK DETAIL MIKRO -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Perhatikan bagaimana data pesan dibuat, dibungkus amplop IP, diperiksa oleh switch, hingga dibuka di laptop:
+          </p>
+
+          <div class="sim-container" id="sim-demo-jaringan">
+            <!-- Stage Blueprint Canvas -->
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 360" preserveAspectRatio="xMidYMid meet">
+                <!-- Kabel Fisik dengan Label -->
+                <line x1="180" y1="180" x2="425" y2="180" stroke="var(--border-light)" stroke-width="4" stroke-linecap="round" />
+                <line x1="425" y1="180" x2="670" y2="180" stroke="var(--border-light)" stroke-width="4" stroke-linecap="round" />
+                <text x="300" y="170" fill="var(--text-dim)" font-size="9" font-family="var(--font-mono)">Kabel UTP (Port 1)</text>
+                <text x="545" y="170" fill="var(--text-dim)" font-size="9" font-family="var(--font-mono)">Kabel UTP (Port 4)</text>
+
+                <!-- Node 1: Smartphone Pengirim (Pusat di x=180, y=180) -->
+                <g id="node-hp" data-cx="180" data-cy="180" transform="translate(115, 110)">
+                  <!-- Injected via anim-engine.js -->
+                </g>
+
+                <!-- Node 2: Switch Jaringan (Pusat di x=425, y=180) -->
+                <g id="node-switch" data-cx="425" data-cy="180" transform="translate(360, 110)">
+                  <!-- Injected via anim-engine.js -->
+                </g>
+
+                <!-- Node 3: Laptop Penerima (Pusat di x=670, y=180) -->
+                <g id="node-laptop" data-cx="670" data-cy="180" transform="translate(605, 110)">
+                  <!-- Injected via anim-engine.js -->
+                </g>
+              </svg>
+            </div>
+
+            <!-- Narasi Langkah Dinamis -->
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 4</span>
+              <p class="sim__text">Smartphone menyiapkan data pesan...</p>
+            </div>
+
+            <!-- Kontrol Simulasi -->
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play"> Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS (DENGAN KONTEKS TERMINAL JELAS) -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Detail Teknis & Perintah CLI</span>
+          <p>
+            Untuk melihat bagaimana kartu jaringan komputer kita mencatat identitas MAC dari perangkat tujuan di jaringan lokal, kita memeriksa <strong>Tabel ARP (Address Resolution Protocol)</strong> dan melakukan pengujian <code>ping</code>:
+          </p>
+
+          <!-- Banner Keterangan Terminal Eksplisit -->
+          <div class="terminal-context-banner">
+            <span> <strong>Perangkat:</strong> HP / Laptop Siswa (<code>192.168.1.10</code>)</span>
+            <span> <strong>Tujuan Uji:</strong> Cek Tabel MAC tetangga & Ping ke Laptop Guru (<code>192.168.1.50</code>)</span>
+          </div>
+
+          <!-- Komponen Terminal -->
+          <div class="terminal">
+            <div class="terminal__bar">
+              <div class="terminal__dots">
+                <span class="terminal__dot terminal__dot--red"></span>
+                <span class="terminal__dot terminal__dot--yellow"></span>
+                <span class="terminal__dot terminal__dot--green"></span>
+              </div>
+              <span>bash - terminal di Laptop Siswa (192.168.1.10)</span>
+            </div>
+            <pre class="terminal__body"><span class="terminal__prompt">siswa@smk-tkj:~$</span> <span class="terminal__cmd">arp -a</span>
+Interface: 192.168.1.10 --- 0x3
+  Internet Address      Physical Address (MAC)    Type
+  192.168.1.1           00-15-5d-a2-ff-01         dynamic (Gateway Router)
+  192.168.1.50          <span style="color: var(--info); font-weight: bold;">b2-34-c5-89-11-22</span>         dynamic (Laptop Guru)
+
+<span class="terminal__prompt">siswa@smk-tkj:~$</span> <span class="terminal__cmd">ping -c 2 192.168.1.50</span>
+PING 192.168.1.50 (192.168.1.50) 56(84) bytes of data.
+64 bytes from 192.168.1.50: icmp_seq=1 ttl=64 time=0.412 ms
+64 bytes from 192.168.1.50: icmp_seq=2 ttl=64 time=0.385 ms
+
+--- 192.168.1.50 ping statistics ---
+2 packets transmitted, 2 received, <span style="color: var(--success); font-weight: bold;">0% packet loss</span></pre>
+          </div>
+        </div>
+
+        <!-- MISKONSEPSI -->
+        <div class="misconception-box">
+          <div class="misconception-title">Sering Keliru (Miskonsepsi Siswa):</div>
+          <p style="margin: 0;">
+            Banyak yang mengira switch memeriksa alamat IP saat meneruskan data antar-komputer. <strong>Bukan!</strong> Switch Layer 2 tidak peduli dengan alamat IP; switch hanya membaca <em>MAC Address</em> pada frame Ethernet dan mencocokkannya dengan daftar port pada tabel CAM miliknya.
+          </p>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--case">
+          <span class="block-badge">Studi Kasus Nyata</span>
+          <h3>Kasus: Kenapa Switch Baru Mengirim Data ke Semua Port (Flooding)?</h3>
+          <div class="case-scenario">
+            Ketika switch baru dinyalakan pertama kali, tabel CAM miliknya masih kosong. Saat HP Siswa di Port 1 mengirim data pertama kali ke Laptop Guru di Port 4, switch belum tahu di mana Laptop Guru berada.
+          </div>
+          <h4>Langkah Penyelesaian Switch (Flooding & Learning):</h4>
+          <ul>
+            <li><strong>Flooding:</strong> Switch menyalin paket data tersebut ke seluruh port aktif (kecuali port pengirim).</li>
+            <li><strong>Learning:</strong> Saat Laptop Guru membalas paket tersebut dari Port 4, switch langsung mencatat: <em>"MAC B2:34 berada di Port 4"</em>. Pengiriman data selanjutnya akan langsung diarahkan ke Port 4 tanpa membebani port lain!</li>
+          </ul>
+        </div>
+
+        <!-- BLOK 6 & 7: QUEST INTERAKTIF -->
+        <div class="block-card block--quest" id="quest-01" data-quest-id="quest-01">
+          <div class="quest-header">
+            <span class="block-badge">Quest Pemahaman</span>
+            <span class="quest-difficulty difficulty--dasar">Tingkat: Dasar</span>
+          </div>
+
+          <div class="quest-question">
+            Pada simulasi di atas, informasi apakah yang dibaca oleh Switch pada paket data untuk menentukan port tujuan?
+          </div>
+
+          <div class="quest-options">
+            <label class="quest-option-label">
+              <input type="radio" name="q1" value="A">
+              <span>A. Isi pesan chat teks yang diketik oleh siswa.</span>
+            </label>
+            <label class="quest-option-label">
+              <input type="radio" name="q1" value="B">
+              <span>B. MAC Address tujuan yang tertera pada frame header data.</span>
+            </label>
+            <label class="quest-option-label">
+              <input type="radio" name="q1" value="C">
+              <span>C. Password WiFi yang sedang digunakan pengirim.</span>
+            </label>
+            <label class="quest-option-label">
+              <input type="radio" name="q1" value="D">
+              <span>D. Kecepatan kipas prosesor pada switch.</span>
+            </label>
+          </div>
+
+          <div class="quest-hint-box">
+            <button type="button" class="quest-hint-toggle"> Buka Petunjuk</button>
+            <div class="quest-hint-content">
+              Ingat kembali peran switch di Layer 2 (Data Link) yang menggunakan tabel CAM berbasis alamat fisik kartu jaringan.
+            </div>
+          </div>
+
+          <button type="button" class="btn-reveal">Tampilkan Jawaban</button>
+
+          <!-- BLOK 7: JAWABAN BERANIMASI SLIDE DOWN -->
+          <div class="quest-solution">
+            <div class="solution-badge"> Pembahasan Kunci Jawaban</div>
+            <div class="solution-answer">Jawaban Benar: B (MAC Address Tujuan)</div>
+            <div class="solution-why">
+              Switch Layer 2 membaca header Frame Ethernet, mengekstrak <strong>Destination MAC Address</strong>, dan mencocokkannya dengan CAM Table untuk mengetahui ke port mana data harus diteruskan. Switch tidak membuka isi pesan pengguna.
+            </div>
+
+            <div style="margin-top: 16px;">
+              <button type="button" class="btn-sim btn-quest-retry">⟲ Coba Lagi</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL CATATAN MENTOR -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header">
+            <div class="mentor-panel__title">
+              <span>� Catatan Khusus Mentor (Ervan)</span>
+              <span class="mentor-panel__badge">Tips Mengajar</span>
+            </div>
+            <span class="mentor-panel__arrow">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <div class="mentor-grid">
+              <div class="mentor-label"> Estimasi Waktu</div>
+              <div class="mentor-value">15 Menit sesi pengenalan konsep dasar</div>
+
+              <div class="mentor-label"> Poin Kunci</div>
+              <div class="mentor-value">1. Enkapsulasi data. 2. Peran CAM Table switch. 3. Dekapsulasi di komputer penerima.</div>
+
+              <div class="mentor-label">� Naskah Pembuka</div>
+              <div class="mentor-value"><em>"Bayangkan kalau kamu kirim surat lewat pos. Pesanmu dimasukkan amplop, ditempel alamat rumah dan resi kurir. Switch itu seperti petugas sortir pos yang cuma baca resi amplop tanpa boleh baca isi suratmu."</em></div>
+
+              <div class="mentor-label"> Pertanyaan Pemantik</div>
+              <div class="mentor-value"><em>"Kalau kabel LAN dari switch ke laptop guru dicabut, apakah switch masih bisa mencatat keberadaan laptop guru di tabel CAM?"</em></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SUB-TOPIK 2: SUBNETTING & PEMBAGIAN BLOK IP LENGKAP
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-2">
+        <div class="subtopic-header">
+          <div class="subtopic-number">02</div>
+          <h2 class="subtopic-title">Subnetting & Pembagian Blok IP</h2>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Masalah Nyata di Sekolah / Kantor</span>
+          <p>
+            Sebuah sekolah SMK memiliki 1 blok IP standar Kelas C: <code>192.168.1.0/24</code> yang menyediakan 254 alamat komputer. Awalnya, semua komputer (Lab Siswa, Ruang Guru, Ruang Tata Usaha, dan Server CCTV) digabung menjadi satu jaringan besar.
+          </p>
+          <div class="hook-question">
+            Tiba-tiba muncul 3 masalah fatal:
+            <ol style="margin-top: 8px; font-weight: normal; color: var(--text);">
+              <li><strong>Masalah Keamanan (Security):</strong> Siswa iseng di lab bisa memindai (scan) dan mengakses komputer bendahara TU serta server nilai guru.</li>
+              <li><strong>Badai Broadcast (Broadcast Storm):</strong> Setiap kali ada 1 komputer mengirim sinyal pencarian printer, seluruh 254 komputer dipaksa menerima sinyal tersebut sehingga jaringan melambat.</li>
+              <li><strong>Pemborosan Alamat IP:</strong> Ruang server yang hanya butuh 4 alamat tetap memakan 1 jaringan besar.</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- BLOK 2: DEFINISI, KEGUNAAN & MANFAAT SUBNETTING -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Konsep & Manfaat Subnetting</span>
+
+          <div class="definition-box">
+            <div class="definition-title">� Apa Itu Subnetting?</div>
+            <p style="margin: 0;">
+              <strong>Subnetting</strong> adalah teknik membelah satu blok jaringan besar <em>(Network ID)</em> menjadi beberapa sub-jaringan yang lebih kecil <em>(Sub-network / Subnet)</em> yang saling terpisah secara logis. Hal ini dilakukan dengan cara <strong>"meminjam bit"</strong> dari porsi Host ID untuk dialihkan menjadi porsi Network ID.
+            </p>
+          </div>
+
+          <h4>Manfaat Utama Subnetting di Dunia Kerja:</h4>
+          <ul>
+            <li><strong>1. Mengisolasi Keamanan:</strong> Komputer siswa di Subnet 1 tidak bisa sembarangan mengakses komputer keuangan di Subnet 3 tanpa izin firewall router.</li>
+            <li><strong>2. Mencegah Jaringan Lemot (Memecah Broadcast Domain):</strong> Sinyal broadcast di Lab Siswa tidak akan bocor ke Ruang Guru.</li>
+            <li><strong>3. Efisiensi Ruang Alamat IP:</strong> Alamat IP publik maupun privat dialokasikan sesuai jumlah kebutuhan nyata tanpa banyak alamat terbuang.</li>
+          </ul>
+
+          <div class="analogy-box">
+            <div class="analogy-title">Analogi Gedung Sekolah:</div>
+            <p style="margin: 0;">
+              Satu lantai gedung tanpa sekat membuat suara bising terdengar ke semua orang dan siapa saja bebas masuk ke ruangan orang lain. Subnetting adalah <strong>memasang dinding partisi</strong> menjadi 4 ruang kelas mandiri. Setiap kelas memiliki pintu keluar masing-masing (Gateway Router) untuk keluar masuk.
+            </p>
+          </div>
+        </div>
+
+        <!-- BLOK 3: CARA KERJA BINER & KONVERSI DESIMAL -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Dasar Biner: Dari Mana Asal Angka Subnet Mask?</span>
+          <p>
+            Alamat IPv4 terdiri dari <strong>32 bit angka biner</strong> yang dibagi menjadi 4 bagian (oktet). Setiap oktet berisi 8 bit. Masing-masing bit memiliki bobot kelipatan dua dari kanan ke kiri:
+          </p>
+
+          <!-- Kartu Konversi 8 Bit -->
+          <div class="binary-converter-card">
+            <h4 style="color: var(--info); margin-bottom: 8px;"> Tabel Bobot 8-Bit dalam 1 Oktet:</h4>
+            <div class="binary-grid-8">
+              <div class="binary-col">
+                <div class="binary-weight">Bit 1</div>
+                <div class="binary-bit binary-bit--active">128</div>
+              </div>
+              <div class="binary-col">
+                <div class="binary-weight">Bit 2</div>
+                <div class="binary-bit binary-bit--active">64</div>
+              </div>
+              <div class="binary-col">
+                <div class="binary-weight">Bit 3</div>
+                <div class="binary-bit">32</div>
+              </div>
+              <div class="binary-col">
+                <div class="binary-weight">Bit 4</div>
+                <div class="binary-bit">16</div>
+              </div>
+              <div class="binary-col">
+                <div class="binary-weight">Bit 5</div>
+                <div class="binary-bit">8</div>
+              </div>
+              <div class="binary-col">
+                <div class="binary-weight">Bit 6</div>
+                <div class="binary-bit">4</div>
+              </div>
+              <div class="binary-col">
+                <div class="binary-weight">Bit 7</div>
+                <div class="binary-bit">2</div>
+              </div>
+              <div class="binary-col">
+                <div class="binary-weight">Bit 8</div>
+                <div class="binary-bit">1</div>
+              </div>
+            </div>
+
+            <p style="font-size: 0.92rem; color: var(--text-muted); margin-top: 12px; margin-bottom: 0;">
+              <strong>Contoh: Kenapa Prefix /26 menghasilkan Subnet Mask 255.255.255.192?</strong><br>
+              Prefix <code>/26</code> artinya ada 26 angka <code>1</code> di awal. Tiga oktet pertama berisi 8+8+8 = 24 bit penuh (<code>255.255.255</code>).<br>
+              Pada oktet ke-4, tersisa 2 bit bernilai 1: <code>11000000</code>.<br>
+              Nilai desimalnya = Bit 1 (128) + Bit 2 (64) = <strong>192</strong>!
+            </p>
+          </div>
+        </div>
+
+        <!-- BLOK 4: PERHITUNGAN SUBNETTING TERTATA KE BAWAH -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Langkah Perhitungan Subnetting Lengkap</span>
+          <p>
+            Mari kita hitung bagaimana membagi jaringan <code>192.168.1.0/24</code> menjadi <strong>4 Subnet</strong> untuk 4 ruangan di sekolah:
+          </p>
+
+          <!-- Langkah 1 -->
+          <div class="calc-step-vertical">
+            <div class="calc-step-header">
+              <div class="calc-step-badge">1</div>
+              <h4 class="calc-step-title">Tentukan Berapa Bit yang Harus Dipinjam</h4>
+            </div>
+            <div class="calc-item-row">
+              <span class="calc-item-label">Alasan:</span>
+              Setiap 1 bit biner yang dipinjam melipatgandakan jumlah subnet sebanyak 2 kali (1 bit = 2 subnet, 2 bit = 4 subnet, 3 bit = 8 subnet).
+            </div>
+            <div class="calc-box-vertical">
+Kebutuhan: 4 Subnet
+2 bit dipinjam menghasilkan: 2 x 2 = 4 Subnet (Pas!)
+
+Prefix Awal : /24
+Bit Pinjaman: + 2 bit
+Prefix Baru : /26
+Subnet Mask : 255.255.255.192
+            </div>
+            <div class="calc-result-badge">
+              ✓ Hasil: Prefix baru adalah <strong>/26</strong>
+            </div>
+          </div>
+
+          <!-- Langkah 2 -->
+          <div class="calc-step-vertical">
+            <div class="calc-step-header">
+              <div class="calc-step-badge">2</div>
+              <h4 class="calc-step-title">Hitung Jumlah Komputer (Host) yang Bisa Masuk per Subnet</h4>
+            </div>
+            <div class="calc-item-row">
+              <span class="calc-item-label">Alasan:</span>
+              Total panjang alamat IP adalah 32 bit. Setelah 26 bit dipakai untuk Network, sisa bit host adalah 6 bit. Dari total kombinasi tersebut, <strong>2 alamat wajib dikurangi</strong> karena alamat pertama adalah nama jaringan (Network ID) dan alamat terakhir untuk panggilan serentak (Broadcast ID).
+            </div>
+            <div class="calc-box-vertical">
+Sisa bit host = 32 bit - 26 bit = 6 bit host
+Total kombinasi alamat = 2 pangkat 6 = 64 alamat
+
+Alamat yang bisa dipasang ke komputer = 64 - 2 = 62 Komputer
+            </div>
+            <div class="calc-result-badge">
+              ✓ Hasil: Maksimal <strong>62 Komputer</strong> per Subnet
+            </div>
+          </div>
+
+          <!-- Langkah 3 -->
+          <div class="calc-step-vertical">
+            <div class="calc-step-header">
+              <div class="calc-step-badge">3</div>
+              <h4 class="calc-step-title">Hitung Ukuran Blok (Jarak Antar Subnet)</h4>
+            </div>
+            <div class="calc-item-row">
+              <span class="calc-item-label">Alasan:</span>
+              Untuk mengetahui di angka berapa saja Network ID berikutnya dimulai, kita kurangi angka total 256 dengan angka terakhir subnet mask.
+            </div>
+            <div class="calc-box-vertical">
+Ukuran Blok = 256 - Nilai Oktet Terakhir Mask
+            = 256 - 192 = 64
+
+Artinya Network ID akan melompat setiap kelipatan 64:
+Subnet 1 = 0
+Subnet 2 = 0 + 64 = 64
+Subnet 3 = 64 + 64 = 128
+Subnet 4 = 128 + 64 = 192
+            </div>
+            <div class="calc-result-badge">
+              ✓ Hasil: Ukuran Blok = <strong>64</strong>
+            </div>
+          </div>
+
+          <!-- Tabel Pembagian Subnet Lengkap -->
+          <h4 style="margin-top: 24px; margin-bottom: 8px; color: var(--text);"> Tabel Alokasi 4 Subnet Sekolah:</h4>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Subnet</th>
+                  <th>Network ID</th>
+                  <th>Rentang IP Host Valid</th>
+                  <th>Broadcast ID</th>
+                  <th>Kapasitas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Subnet 1 (Lab Siswa)</strong></td>
+                  <td><code>192.168.1.0</code></td>
+                  <td><code>192.168.1.1 - 192.168.1.62</code></td>
+                  <td><code>192.168.1.63</code></td>
+                  <td>62 PC</td>
+                </tr>
+                <tr>
+                  <td><strong>Subnet 2 (Ruang Guru)</strong></td>
+                  <td><code>192.168.1.64</code></td>
+                  <td><code>192.168.1.65 - 192.168.1.126</code></td>
+                  <td><code>192.168.1.127</code></td>
+                  <td>62 PC</td>
+                </tr>
+                <tr>
+                  <td><strong>Subnet 3 (Ruang TU)</strong></td>
+                  <td><code>192.168.1.128</code></td>
+                  <td><code>192.168.1.129 - 192.168.1.190</code></td>
+                  <td><code>192.168.1.191</code></td>
+                  <td>62 PC</td>
+                </tr>
+                <tr>
+                  <td><strong>Subnet 4 (Server & CCTV)</strong></td>
+                  <td><code>192.168.1.192</code></td>
+                  <td><code>192.168.1.193 - 192.168.1.254</code></td>
+                  <td><code>192.168.1.255</code></td>
+                  <td>62 PC</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BLOK 5: VISUALISASI TOPOLOGI PENERAPAN SUBNET NYATA -->
+        <div class="block-card block--case">
+          <span class="block-badge">� Visualisasi Topologi Penerapan Subnet di Sekolah</span>
+          <p>
+            Berikut adalah wujud nyata bagaimana 4 subnet hasil perhitungan di atas dihubungkan melalui Router Gateway dan Switch di masing-masing ruangan:
+          </p>
+
+          <!-- SVG Diagram Topologi Sekolah -->
+          <div class="subnet-topology-card">
+            <svg viewBox="0 0 800 380" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: auto; display: block;">
+              <!-- Router Gateway Utama di Tengah Atas -->
+              <g transform="translate(340, 20)">
+                <rect x="0" y="0" width="120" height="50" rx="8" fill="#18223C" stroke="var(--primary)" stroke-width="2" />
+                <text x="60" y="22" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">Router Utama</text>
+                <text x="60" y="38" text-anchor="middle" fill="var(--info)" font-size="9" font-family="var(--font-mono)">Gateway Sekolah</text>
+              </g>
+
+              <!-- Garis Bus / Trunking ke 4 Subnet -->
+              <line x1="400" y1="70" x2="400" y2="120" stroke="var(--primary)" stroke-width="3" />
+              <line x1="100" y1="120" x2="700" y2="120" stroke="var(--primary)" stroke-width="3" />
+
+              <line x1="100" y1="120" x2="100" y2="160" stroke="#38BDF8" stroke-width="2" />
+              <line x1="300" y1="120" x2="300" y2="160" stroke="#34D399" stroke-width="2" />
+              <line x1="500" y1="120" x2="500" y2="160" stroke="#FBBF24" stroke-width="2" />
+              <line x1="700" y1="120" x2="700" y2="160" stroke="#C084FC" stroke-width="2" />
+
+              <!-- KOTAK SUBNET 1: LAB SISWA (BIRU) -->
+              <g transform="translate(20, 160)">
+                <rect x="0" y="0" width="160" height="190" rx="10" fill="rgba(56, 189, 248, 0.08)" stroke="#38BDF8" stroke-width="1.8" />
+                <rect x="0" y="0" width="160" height="30" rx="10 10 0 0" fill="#132B44" />
+                <text x="80" y="20" text-anchor="middle" fill="#38BDF8" font-size="10.5" font-weight="bold">SUBNET 1: Lab Siswa</text>
+                
+                <text x="80" y="55" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="bold">192.168.1.0/26</text>
+                <text x="80" y="72" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Gateway: .1</text>
+                <text x="80" y="88" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Host: .2 - .62</text>
+                
+                <!-- Mini Ikon PC Lab -->
+                <rect x="40" y="110" width="80" height="36" rx="4" fill="#0A0E1A" stroke="var(--border)" />
+                <text x="80" y="132" text-anchor="middle" fill="#38BDF8" font-size="9" font-family="var(--font-mono)">[ 30 PC Siswa ]</text>
+                <text x="80" y="170" text-anchor="middle" fill="var(--success)" font-size="8.5" font-weight="bold">✓ Terisolasi Aman</text>
+              </g>
+
+              <!-- KOTAK SUBNET 2: RUANG GURU (HIJAU) -->
+              <g transform="translate(220, 160)">
+                <rect x="0" y="0" width="160" height="190" rx="10" fill="rgba(52, 211, 153, 0.08)" stroke="#34D399" stroke-width="1.8" />
+                <rect x="0" y="0" width="160" height="30" rx="10 10 0 0" fill="#10322B" />
+                <text x="80" y="20" text-anchor="middle" fill="#34D399" font-size="10.5" font-weight="bold">SUBNET 2: Ruang Guru</text>
+                
+                <text x="80" y="55" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="bold">192.168.1.64/26</text>
+                <text x="80" y="72" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Gateway: .65</text>
+                <text x="80" y="88" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Host: .66 - .126</text>
+                
+                <rect x="40" y="110" width="80" height="36" rx="4" fill="#0A0E1A" stroke="var(--border)" />
+                <text x="80" y="132" text-anchor="middle" fill="#34D399" font-size="9" font-family="var(--font-mono)">[ 20 Laptop Guru ]</text>
+                <text x="80" y="170" text-anchor="middle" fill="var(--success)" font-size="8.5" font-weight="bold">✓ Akses Nilai Aman</text>
+              </g>
+
+              <!-- KOTAK SUBNET 3: RUANG TU (KUNING) -->
+              <g transform="translate(420, 160)">
+                <rect x="0" y="0" width="160" height="190" rx="10" fill="rgba(251, 191, 36, 0.08)" stroke="#FBBF24" stroke-width="1.8" />
+                <rect x="0" y="0" width="160" height="30" rx="10 10 0 0" fill="#382C13" />
+                <text x="80" y="20" text-anchor="middle" fill="#FBBF24" font-size="10.5" font-weight="bold">SUBNET 3: Ruang TU</text>
+                
+                <text x="80" y="55" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="bold">192.168.1.128/26</text>
+                <text x="80" y="72" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Gateway: .129</text>
+                <text x="80" y="88" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Host: .130 - .190</text>
+                
+                <rect x="40" y="110" width="80" height="36" rx="4" fill="#0A0E1A" stroke="var(--border)" />
+                <text x="80" y="132" text-anchor="middle" fill="#FBBF24" font-size="9" font-family="var(--font-mono)">[ 10 PC Bendahara ]</text>
+                <text x="80" y="170" text-anchor="middle" fill="var(--success)" font-size="8.5" font-weight="bold">✓ Keuangan Terjaga</text>
+              </g>
+
+              <!-- KOTAK SUBNET 4: SERVER & CCTV (UNGU) -->
+              <g transform="translate(620, 160)">
+                <rect x="0" y="0" width="160" height="190" rx="10" fill="rgba(192, 132, 252, 0.08)" stroke="#C084FC" stroke-width="1.8" />
+                <rect x="0" y="0" width="160" height="30" rx="10 10 0 0" fill="#291845" />
+                <text x="80" y="20" text-anchor="middle" fill="#C084FC" font-size="10.5" font-weight="bold">SUBNET 4: Server CCTV</text>
+                
+                <text x="80" y="55" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="bold">192.168.1.192/26</text>
+                <text x="80" y="72" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Gateway: .193</text>
+                <text x="80" y="88" text-anchor="middle" fill="var(--text-muted)" font-size="8.5" font-family="var(--font-mono)">Host: .194 - .254</text>
+                
+                <rect x="40" y="110" width="80" height="36" rx="4" fill="#0A0E1A" stroke="var(--border)" />
+                <text x="80" y="132" text-anchor="middle" fill="#C084FC" font-size="9" font-family="var(--font-mono)">[ Server & NVR ]</text>
+                <text x="80" y="170" text-anchor="middle" fill="var(--success)" font-size="8.5" font-weight="bold">✓ Rekaman Aman</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- BLOK 6 & 7: QUEST INTERAKTIF -->
+        <div class="block-card block--quest" id="quest-02" data-quest-id="quest-02">
+          <div class="quest-header">
+            <span class="block-badge">Quest Perhitungan</span>
+            <span class="quest-difficulty difficulty--menengah">Tingkat: Menengah</span>
+          </div>
+
+          <div class="quest-question">
+            Jika jaringan <code>192.168.10.0/24</code> dibagi menjadi 4 subnet sama besar (prefix <code>/26</code>), berapakah alamat <strong>Broadcast ID</strong> untuk <strong>Subnet ke-2</strong>?
+          </div>
+
+          <div class="quest-options">
+            <label class="quest-option-label">
+              <input type="radio" name="q2" value="A">
+              <span>A. 192.168.10.63</span>
+            </label>
+            <label class="quest-option-label">
+              <input type="radio" name="q2" value="B">
+              <span>B. 192.168.10.127</span>
+            </label>
+            <label class="quest-option-label">
+              <input type="radio" name="q2" value="C">
+              <span>C. 192.168.10.64</span>
+            </label>
+            <label class="quest-option-label">
+              <input type="radio" name="q2" value="D">
+              <span>D. 192.168.10.255</span>
+            </label>
+          </div>
+
+          <div class="quest-hint-box">
+            <button type="button" class="quest-hint-toggle"> Buka Petunjuk</button>
+            <div class="quest-hint-content">
+              Subnet 2 dimulai dari Network ID 192.168.10.64 dan Subnet 3 dimulai dari 192.168.10.128. Broadcast adalah 1 angka tepat sebelum Network ID subnet berikutnya.
+            </div>
+          </div>
+
+          <button type="button" class="btn-reveal">Tampilkan Jawaban</button>
+
+          <!-- BLOK 7: JAWABAN BERANIMASI SLIDE DOWN -->
+          <div class="quest-solution">
+            <div class="solution-badge"> Pembahasan Kunci Jawaban</div>
+            <div class="solution-answer">Jawaban Benar: B (192.168.10.127)</div>
+            <div class="solution-why">
+              Subnet 2 memiliki Network ID <code>192.168.10.64</code> dan ukuran blok 64. Subnet 3 dimulai di <code>192.168.10.128</code>. Maka alamat Broadcast Subnet 2 adalah satu angka sebelum 128, yaitu <strong>192.168.10.127</strong>.
+            </div>
+
+            <div style="margin-top: 16px;">
+              <button type="button" class="btn-sim btn-quest-retry">⟲ Coba Lagi</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL CATATAN MENTOR -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header">
+            <div class="mentor-panel__title">
+              <span>� Catatan Khusus Mentor (Ervan)</span>
+              <span class="mentor-panel__badge">Tips Mengajar</span>
+            </div>
+            <span class="mentor-panel__arrow">▼</span>
+          </div>
+          <div class="mentor-panel__content">
+            <div class="mentor-grid">
+              <div class="mentor-label"> Estimasi Waktu</div>
+              <div class="mentor-value">25 Menit latihan menghitung & menggambar alokasi</div>
+
+              <div class="mentor-label"> Poin Kunci</div>
+              <div class="mentor-value">1. Konversi biner 8 bit (128, 64..). 2. Pengurangan 2 alamat (Network & Broadcast). 3. Pembagian subnet ke ruangan nyata.</div>
+
+              <div class="mentor-label">� Naskah Pembuka</div>
+              <div class="mentor-value"><em>"Jangan anggap subnetting cuma hitung-hitungan di kertas ujian. Di dunia kerja, kalau kamu nggak subnetting, semua PC di kantor bakal lemot kena badai broadcast dan data keuangan rawan dibobol."</em></div>
+
+              <div class="mentor-label"> Pertanyaan Pemantik</div>
+              <div class="mentor-value"><em>"Kalau kamu punya 100 PC di lab dan diatur pakai subnet /26, kira-kira cukup nggak? Kenapa?"</em></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER MODUL -->
+      <footer class="modul-footer">
+        <div class="modul-nav-cards">
+          <a href="#" class="modul-nav-card modul-nav-card--prev">
+            <span class="modul-nav-label">Modul Sebelumnya</span>
+            <span class="modul-nav-title">Fase 0 - Onboarding & Setup</span>
+          </a>
+          <a href="#" class="modul-nav-card modul-nav-card--next">
+            <span class="modul-nav-label">Modul Berikutnya</span>
+            <span class="modul-nav-title">Modul 1.2 - Routing & Switching</span>
+          </a>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- ========================================================================
+       SCRIPTS: ANIMATION ENGINE + CORE LOGIC
+       ======================================================================== -->
+  <script src="assets/js/anim-engine.js"></script>
+  <script src="assets/js/core.js"></script>
+
+  <!-- Inisialisasi Simulasi Detail Mikro -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // 1. Render Perangkat SVG
+      const hpEl = document.getElementById('node-hp');
+      const switchEl = document.getElementById('node-switch');
+      const laptopEl = document.getElementById('node-laptop');
+
+      if (hpEl && window.Devices) {
+        hpEl.innerHTML = window.Devices.hp({ name: 'HP Siswa', ip: '192.168.1.10', mac: 'MAC: A1:4F', state: 'aktif' });
+      }
+      if (switchEl && window.Devices) {
+        switchEl.innerHTML = window.Devices.switch({ name: 'Switch-Lab-01', state: 'normal' });
+      }
+      if (laptopEl && window.Devices) {
+        laptopEl.innerHTML = window.Devices.laptop({ name: 'Laptop Guru', ip: '192.168.1.50', mac: 'MAC: B2:34', state: 'normal' });
+      }
+
+      // 2. Konfigurasi Animasi Detail Mikro
+      if (window.AnimEngine) {
+        window.AnimEngine.register({
+          id: 'sim-demo-jaringan',
+          judul: 'Alur Pengiriman Data: HP -> Switch -> Laptop',
+          pertanyaanYangDijawab: 'Bagaimana data dibungkus, dicek di switch, dan dibuka di tujuan?',
+          langkah: [
+            {
+              narasi: '1. Smartphone membuat pesan "Halo Guru!". Pesan kemudian dibungkus (Enkapsulasi) menjadi Paket Data dengan IP Tujuan 192.168.1.50 dan MAC Tujuan B2:34.',
+              durasi: 2200,
+              aksi: function (ctx) {
+                ctx.clear();
+                ctx.createRawPayload('node-hp', 'Halo Guru!');
+                ctx.highlight('node-hp', 'var(--info)');
+                setTimeout(() => {
+                  ctx.encapsulatePacket('node-hp', 'Halo Guru!', { destIP: '192.168.1.50', destMAC: 'B2:34' });
+                }, 900);
+              }
+            },
+            {
+              narasi: '2. Paket data yang telah terkunci rapi dikirimkan meluncur melewati kabel UTP Port 1 menuju Switch jaringan.',
+              durasi: 1800,
+              aksi: function (ctx) {
+                ctx.movePacket('node-hp', 'node-switch', { durasi: 1500 });
+              }
+            },
+            {
+              narasi: '3. Di Switch, lampu indikator Port 4 berkedip. Switch membaca CAM Table: MAC B2:34 (Laptop Guru) terdaftar di Port 4. Paket siap diteruskan.',
+              durasi: 2200,
+              aksi: function (ctx) {
+                ctx.highlight('node-switch', 'var(--info)');
+                ctx.inspectSwitch('node-switch', {
+                  targetMAC: 'B2:34 (Laptop Guru)',
+                  forwardPort: 'Port 4'
+                });
+              }
+            },
+            {
+              narasi: '4. Paket diteruskan ke Port 4 (Laptop). Di laptop, amplop paket dibuka (Dekapsulasi) dan pesan asli "Halo Guru!" berhasil dibaca dengan sukses!',
+              durasi: 2000,
+              aksi: function (ctx) {
+                ctx.movePacket('node-switch', 'node-laptop', {
+                  durasi: 1400,
+                  onArrive: function () {
+                    ctx.decapsulatePacket('node-laptop', 'Halo Guru!');
+                    ctx.highlight('node-laptop', 'var(--success)');
+                  }
+                });
+              }
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

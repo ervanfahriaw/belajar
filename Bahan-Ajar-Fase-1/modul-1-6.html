@@ -1,0 +1,1330 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modul 1.6 - Bagaimana Internet Bekerja: Dari Klik Layar ke Data Center Global | Bahan Ajar Mentoring</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-module-id="modul-1-6">
+
+  <!-- ========================================================================
+       1. HEADER MODUL STICKY + PROGRESS BAR
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="header-main">
+      <div class="header-left">
+        <a href="index.html" class="btn-back">Daftar Modul</a>
+        <div class="header-title-box">
+          <h1>Modul 1.6 - Bagaimana Internet Bekerja</h1>
+          <span class="header-subtitle">Fase 1: Jaringan & Infrastruktur (Kabel Laut, DNS, CDN YouTube, Cloud Storage Drive, & End-to-End Flow)</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <span class="badge-meta">Estimasi: <strong>2-3 Minggu (120-150 Menit/Sesi)</strong></span>
+        <span class="badge-meta badge-meta--quest">Quest: <strong>0 / 15</strong></span>
+      </div>
+    </div>
+
+    <!-- Progress Bar Scroll Sticky -->
+    <div class="progress-container">
+      <div class="progress-bar" id="reading-progress"></div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. LAYOUT UTAMA (SIDEBAR STICKY + KONTEN)
+       ======================================================================== -->
+  <div class="layout-wrapper">
+
+    <!-- Sidebar Navigasi Sub-Topik (Desktop) -->
+    <aside class="sidebar-nav">
+      <div class="sidebar-title">Peta Perjalanan Modul 1.6</div>
+      <ul class="subtopic-nav-list">
+        <li class="subtopic-nav-item active">
+          <a href="#subtopik-1">
+            <span class="subtopic-nav-num">1</span>
+            <span>Infrastruktur Fisik Global</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-2">
+            <span class="subtopic-nav-num">2</span>
+            <span>Sistem DNS Global</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-3">
+            <span class="subtopic-nav-num">3</span>
+            <span>CDN & YouTube Video Stream</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-4">
+            <span class="subtopic-nav-num">4</span>
+            <span>Data Center & Google Drive</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#subtopik-5">
+            <span class="subtopic-nav-num">5</span>
+            <span>Alur End-to-End Lengkap</span>
+          </a>
+        </li>
+        <li class="subtopic-nav-item">
+          <a href="#evaluasi-akhir">
+            <span class="subtopic-nav-num"></span>
+            <span>Evaluasi & Mini-Proyek</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Konten Utama Modul -->
+    <main class="content-area">
+
+      <!-- HERO SECTION -->
+      <section class="modul-hero">
+        <span class="modul-hero__eyebrow"> MODUL PENGAYAAN SPESIAL: ARSITEKTUR INTERNET NYATA</span>
+        <h2 class="modul-hero__title">Membongkar Misteri di Balik Setiap Ketikan & Klik URL</h2>
+        <p class="modul-hero__desc">
+          Kamu sudah belajar cara menyusun kabel LAN, membagi subnet, merouting paket, dan mengonfigurasi firewall. Sekarang pertanyaannya: <strong>saat kamu membuka YouTube dan menonton video 4K, atau menyimpan dokumen skripsi di Google Drive, apa yang sebenarnya terjadi di seluruh belahan bumi dalam hitungan milidetik?</strong> Modul ini akan membawamu menjelajahi kabel fiber optik di dasar samudera, sistem penamaan DNS global, server CDN terdistribusi, hingga sistem penyimpanan awan di data center raksasa!
+        </p>
+
+        <div class="modul-meta-grid">
+          <div class="meta-card">
+            <div class="meta-card__icon"></div>
+            <div class="meta-card__body">
+              <div class="meta-card__label">Fisik Internet</div>
+              <div class="meta-card__value">Kabel Laut Subsea, Tier 1/2/3 ISP, Internet Exchange (IXP), & BGP Routing</div>
+            </div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-card__icon"></div>
+            <div class="meta-card__body">
+              <div class="meta-card__label">Layanan Konten</div>
+              <div class="meta-card__value">DNS Tree Lookup, YouTube CDN Edge Caching (DASH), & Google Drive Erasure Coding</div>
+            </div>
+          </div>
+          <div class="meta-card">
+            <div class="meta-card__icon"></div>
+            <div class="meta-card__body">
+              <div class="meta-card__label">Observasi Nyata</div>
+              <div class="meta-card__value">Wireshark TLS 1.3/QUIC Capture, Traceroute Autonomous System, & Dig DNS Trace</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.6.1: HIERARKI FISIK INTERNET GLOBAL
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-1">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.6.1</span>
+          <h2>Infrastruktur Fisik Internet Global & Kabel Bawah Laut</h2>
+          <p class="subtopic-lead">
+            Internet bukan "awan magis di langit", melainkan jaringan fisik kabel fiber optik di dasar laut yang menghubungkan benua-benua, dikelola oleh hierarki ISP Tier 1, 2, 3 dan Internet Exchange Point (IXP).
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Banyak orang awam mengira internet ditransmisikan lewat satelit luar angkasa. Padahal faktanya: <strong>lebih dari 99% lalu lintas internet internasional di seluruh dunia mengalir melalui kabel kaca fiber optik berdiameter seukuran selang air yang tergeletak di dasar samudera</strong> sedalam 8.000 meter!
+          </p>
+          <p>
+            Pada September 2021, kabel bawah laut <strong>Jasuka (Jawa-Sumatera-Kalimantan)</strong> mengalami kerusakan di titik Batam-Pontianak karena jangkar kapal. Seketika jutaan pengguna internet di Indonesia mengalami kelambatan parah. Mengapa sebuah kabel di dasar laut bisa melumpuhkan akses internet ke seluruh dunia?
+          </p>
+          <div class="hook-question">
+            Bagaimana kabel bawah laut, ISP rumahmu, dan pusat pertukaran data (IXP) bekerja bersama menyambungkan laptopmu ke server di belahan bumi lain?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Piramida ISP & Internet Exchange (IXP)</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Definisi Internet (Inter-Network of Networks):</div>
+            <p style="margin: 0;">
+              Internet adalah kumpulan puluhan ribu jaringan independen yang disebut <strong>Autonomous System (AS)</strong> yang saling bersepakat untuk bertukar data menggunakan protokol routing global <strong>BGP (Border Gateway Protocol)</strong>.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">Tier 3</div>
+            <div class="step-body">
+              <div class="step-title">1. ISP Tier-3 (Access ISP / ISP Konsumen Lokal)</div>
+              <div class="step-why">
+                Penyedia internet yang langsung menjual layanan ke rumah, sekolah, dan kantor (contoh: IndiHome, Biznet, FirstMedia, MyRepublic). ISP Tier-3 <em>membeli</em> bandwidth transit dari Tier-2 untuk bisa keluar ke jaringan global.
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">Tier 2</div>
+            <div class="step-body">
+              <div class="step-title">2. ISP Tier-2 (Regional Transit Provider)</div>
+              <div class="step-why">
+                Penyedia jaringan berskala negara atau regional (contoh: Telkom Indonesia, Indosat Ooredoo, XL Axiata). Mereka memiliki jaringan serat optik antar-kota dan antar-pulau, serta saling bertukar lalu lintas data lokal secara gratis di <strong>IXP (Internet Exchange Point)</strong>.
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">Tier 1</div>
+            <div class="step-body">
+              <div class="step-title">3. ISP Tier-1 (The Backbone of the Planet)</div>
+              <div class="step-why">
+                Penguasa tulang punggung internet dunia (contoh: Lumen/CenturyLink, Telia Carrier, NTT Communications, Tata Communications). Mereka memiliki jaringan fiber optik bawah laut antar-benua dan <strong>TIDAK PERNAH membayar biaya transit kepada siapapun</strong> - mereka saling bertukar trafik secara seimbang (*Settlement-Free Peering*).
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">IXP</div>
+            <div class="step-body">
+              <div class="step-title">4. Internet Exchange Point (IXP / IIX / OpenIXP)</div>
+              <div class="step-why">
+                Gedung sentral tempat puluhan ISP berbeda mencolokkan router mereka ke satu switch raksasa bersama. Jika pelanggan IndiHome ingin berkirim data ke pelanggan Biznet di Jakarta, datanya <strong>TIDAK PERLU keliling ke Amerika</strong>, cukup melintasi switch IXP di Gedung Cyber Jakarta!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Amati bagaimana paket dari laptopmu di Bandung merambat melalui kabel fiber optik darat, menembus switch IXP Jakarta, dan melintasi kabel bawah laut menuju server Singapura:
+          </p>
+
+          <div class="sim-container" id="sim-internet-backbone">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Jalur Fiber Darat & Laut -->
+                <line x1="110" y1="180" x2="270" y2="180" stroke="var(--info)" stroke-width="3" stroke-dasharray="6,4" />
+                <line x1="270" y1="180" x2="440" y2="180" stroke="var(--info)" stroke-width="3" stroke-dasharray="6,4" />
+                <line x1="440" y1="180" x2="720" y2="180" stroke="var(--warning)" stroke-width="4" stroke-dasharray="8,4" />
+
+                <!-- Badges Wilayah -->
+                <rect x="40" y="280" width="140" height="24" rx="12" fill="var(--info-soft)" stroke="var(--info)" stroke-width="1.5" />
+                <text x="110" y="296" text-anchor="middle" fill="var(--info)" font-size="8.5" font-weight="bold" font-family="var(--font-mono)">Bandung (LAN Rumah)</text>
+
+                <rect x="360" y="280" width="160" height="24" rx="12" fill="var(--success-soft)" stroke="var(--success)" stroke-width="1.5" />
+                <text x="440" y="296" text-anchor="middle" fill="var(--success)" font-size="8.5" font-weight="bold" font-family="var(--font-mono)">OpenIXP (Cyber JKT)</text>
+
+                <rect x="630" y="280" width="170" height="24" rx="12" fill="var(--warning-soft)" stroke="var(--warning)" stroke-width="1.5" />
+                <text x="715" y="296" text-anchor="middle" fill="var(--warning)" font-size="8.5" font-weight="bold" font-family="var(--font-mono)"> Submarine Cable (SG)</text>
+
+                <!-- Subsea Cable Waves -->
+                <path d="M460 205 Q580 230 700 205" fill="none" stroke="var(--info)" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.6" />
+                <text x="580" y="235" text-anchor="middle" fill="var(--info)" font-size="8" font-family="var(--font-mono)">Kabel Laut Laut Jawa (SJC / Indigo)</text>
+
+                <!-- Nodes -->
+                <g id="bb-node-user" data-cx="110" data-cy="180" transform="translate(45, 110)"></g>
+                <g id="bb-node-isp" data-cx="270" data-cy="180" transform="translate(205, 110)"></g>
+                <g id="bb-node-ixp" data-cx="440" data-cy="180" transform="translate(375, 110)"></g>
+                <g id="bb-node-global" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Laptop mengirim request paket data dari jaringan lokal Bandung...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis & BGP Traceroute Hops</span>
+
+          <h3>4.1 Melacak Rute Internasional dengan <code>tracert</code> / <code>traceroute</code></h3>
+          <p>Buka terminal di komputermu dan ketik perintah berikut untuk melihat setiap "lompatan" router dari rumahmu ke server Google di Singapura:</p>
+
+          <div class="terminal">
+            <div class="terminal__bar">
+              <span class="terminal__dot terminal__dot--red"></span>
+              <span class="terminal__dot terminal__dot--yellow"></span>
+              <span class="terminal__dot terminal__dot--green"></span>
+              <span class="terminal__title">Command Prompt - tracert youtube.com</span>
+            </div>
+            <div class="terminal__body">
+<pre>
+Tracing route to youtube.com [142.250.190.46] over a maximum of 30 hops:
+
+  1     1 ms     1 ms     1 ms  192.168.1.1                [Router WiFi Rumah]
+  2     4 ms     3 ms     4 ms  10.120.0.1                 [BRAS ISP Tier-3 Bandung]
+  3     8 ms     7 ms     8 ms  180.252.1.25               [Telkom Metro Ethernet Jabar]
+  4    12 ms    11 ms    12 ms  172.26.10.1                [OpenIXP Gateway Jakarta]
+  5    14 ms    13 ms    14 ms  72.14.215.88               [Google Edge PoP Jakarta]
+  6    24 ms    23 ms    24 ms  108.170.248.65             [Kabel Laut Subsea Batam-SG]
+  7    25 ms    24 ms    25 ms  142.250.190.46             [Google Data Center Singapore]
+
+Trace complete. 7 hops, RTT = 24 ms!
+</pre>
+            </div>
+          </div>
+
+          <h3 style="margin-top: var(--space-5);">4.2 Anatomi Kabel Fiber Optik Bawah Laut</h3>
+          <p>Meskipun berada di dasar laut samudra bertekanan ribuan PSI dan rawan gigitan hiu, inti kabel serat optik sebenarnya sangat tipis (sehelai rambut). Perlindungan kabel terdiri dari 8 lapisan:</p>
+          <ul>
+            <li><strong>1. Polyethylene:</strong> Lapisan luar kedap air dan anti-karat air laut.</li>
+            <li><strong>2. Mylar Tape:</strong> Pembungkus isolasi termal.</li>
+            <li><strong>3. Kawat Baja Berpilin (Steel Strands):</strong> Pelindung mekanis anti-benturan jangkar kapal.</li>
+            <li><strong>4. Pipa Aluminium:</strong> Penghalang hidrogen dan air laut.</li>
+            <li><strong>5. Polycarbonate:</strong> Struktur tabung penyangga.</li>
+            <li><strong>6. Tabung Tembaga:</strong> Menyalurkan arus listrik ribuan volt untuk menyalakan <em>Optical Repeater</em> (Penguat sinyal laser setiap 50-80 km).</li>
+            <li><strong>7. Petroleum Jelly:</strong> Pelumas tahan air.</li>
+            <li><strong>8. Optical Glass Fibers (Inti Kaca):</strong> Membawa pulsa cahaya laser inframerah berkecepatan 100+ Terabit/detik!</li>
+          </ul>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Kasus: Insiden Kabel Bawah Laut Laut Merah Putus (Februari 2024)</h3>
+            <p>
+              Pada Februari 2024, 4 kabel bawah laut utama di Laut Merah (penghubung utama Asia Tenggara ke Eropa) putus serentak akibat terseret jangkar kapal kargo Rubymar yang tertembak. 25% trafik internet global antara Asia dan Eropa terganggu seketika.
+            </p>
+          </div>
+          <div class="case-solution">
+            <h4>Bagaimana Internet Menyelamatkan Dirinya? (Self-Healing BGP):</h4>
+            <ul>
+              <li>Protokol <strong>BGP (Border Gateway Protocol)</strong> secara otomatis mendeteksi rute Laut Merah mati dalam hitungan detik.</li>
+              <li>Router ISP Tier-1 global secara dinamis membelokkan (*reroute*) trafik Asia-Eropa memutar ke timur: melewati Samudera Pasifik → melintasi daratan Amerika Serikat → melintasi Samudera Atlantik menuju Eropa.</li>
+              <li>Internet tetap menyala, hanya saja latency Jakarta-London melonjak dari 160 ms menjadi 310 ms karena jarak tempuh cahaya menjadi 2 kali lipat lebih jauh.</li>
+            </ul>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> Internet dirancang sebagai sistem jala (*mesh*) desentralisasi yang tidak memiliki "titik kegagalan tunggal" (*Single Point of Failure*). Jika satu kabel putus, BGP mencari jalan alternatif di sisi bumi yang lain.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-6-1" data-quest-id="quest-1-6-1">
+          <span class="block-badge">Blok 6 - Quest: Infrastruktur Fisik</span>
+          <div class="quest-body">
+            <p><strong>Quest 1:</strong> Dua pengguna di Jakarta menggunakan ISP berbeda (User A pakai IndiHome, User B pakai Biznet). Saat User A mengirim email ke User B, fasilitas apa di Jakarta yang memungkinkan paket langsung berpindah antar-ISP tanpa perlu transit ke server luar negeri?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q161" value="a"> A. Satelit Geostasioner NASA</label>
+              <label class="quest-option"><input type="radio" name="q161" value="b"> B. Internet Exchange Point (IXP / OpenIXP / IIX di Jakarta)</label>
+              <label class="quest-option"><input type="radio" name="q161" value="c"> C. Kabel Laut Pasifik</label>
+              <label class="quest-option"><input type="radio" name="q161" value="d"> D. Server Cloud Amazon di California</label>
+            </div>
+            <button class="quest-hint-toggle"> Buka Petunjuk</button>
+            <div class="quest-hint-content" style="display:none;">
+              Pikirkan pusat pertukaran trafik peering lokal Indonesia yang menghubungkan ISP-ISP domestik di satu gedung switch bersama.
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Internet Exchange Point (IXP)</h4>
+            <p>IXP (seperti IIX oleh APJII dan OpenIXP di Gedung Cyber Jakarta) memungkinkan ISP-ISP lokal bertukar data secara domestik (peering). Ini menghemat biaya sewa bandwidth internasional dan memangkas latency dari ratusan milidetik menjadi &lt; 5 ms.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>
+            Memahami fisik internet membedakan pemikir abstrak dengan teknisi infrastruktur sejati. Ketika terjadi gangguan jaringan lambat, seorang engineer tahu apakah bottleneck terjadi di WiFi lokal, link gateway ISP, IXP peering, atau kabel laut internasional.
+          </p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 40-50 menit.</p>
+            <p><strong>Poin kunci:</strong> Mematahkan mitos bahwa internet itu "lewat satelit/awan". Tunjukkan website <a href="https://www.submarinecablemap.com" target="_blank" style="color:var(--info);">submarinecablemap.com</a> agar adikmu bisa melihat langsung jalur kabel bawah laut yang mendarat di Ancol Jakarta dan Batam.</p>
+            <p><strong>Naskah pembuka:</strong> "Tahu gak, video TikTok yang barusan kamu tonton itu sinyal cahayanya barusan berenang di bawah laut sedalam 3.000 meter lewat kabel kaca yang dijaga di dasar samudra!"</p>
+            <p><strong> Pertanyaan pemantik:</strong> "Kenapa kabel laut fiber optik jauh lebih disukai daripada satelit untuk internet dunia? (Speed of light in glass + kapasitas Terabit vs Latency satelit orbit 600ms)."</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.6.2: SISTEM PENAMAAN DOMAIN (DNS)
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-2">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.6.2</span>
+          <h2>Sistem Penamaan Domain (DNS) - Buku Telepon Internet</h2>
+          <p class="subtopic-lead">
+            Bagaimana saat kamu mengetik <code>youtube.com</code> di browser, komputer bisa menemukan alamat IP <code>142.250.190.46</code> dalam waktu 15 milidetik melalui pohon hirarki DNS global?
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Di internet, tidak ada perangkat yang mengerti nama teks seperti <code>google.com</code> atau <code>youtube.com</code>. Semua router di seluruh dunia <strong>hanya mengerti angka IP Address</strong> (seperti <code>142.250.190.46</code> untuk IPv4 atau <code>2a00:1450:4001::</code> untuk IPv6).
+          </p>
+          <p>
+            Bayangkan jika kamu harus menghafal ribuan alamat IP untuk setiap website yang ingin kamu buka: <em>"Mau cari tugas, buka 142.250..., mau nonton video buka 172.217..., mau buka Instagram buka 157.240..."</em> Tentu mustahil!
+          </p>
+          <div class="hook-question">
+            Bagaimana sistem global DNS menerjemahkan nama domain manusia menjadi IP biner secara instan, aman, dan tanpa pernah salah alamat?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Hirarki Pohon DNS Global (Root → TLD → Authoritative)</span>
+
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-body">
+              <div class="step-title">Recursive Resolver (ISP / Google 8.8.8.8 / Cloudflare 1.1.1.1)</div>
+              <div class="step-why">
+                "Detektif" yang ditugaskan browsermu untuk berkeliling dunia mencari jawaban IP domain. Jika ia belum punya jawabannya di cache, ia akan bertanya ke server hirarki di atasnya.
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-body">
+              <div class="step-title">Root Name Server (Titik "." Paling Puncak Dunia)</div>
+              <div class="step-why">
+                Terdapat 13 klaster IP Root Server di dunia (dinamai huruf <code>a.root-servers.net</code> sampai <code>m.root-servers.net</code>, didistribusikan ke ribuan lokasi via Anycast). Root server menjawab: <em>"Saya tidak tahu IP youtube.com, tapi saya tahu alamat server pengelola ekstensi <strong>.COM</strong>!"</em>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-body">
+              <div class="step-title">TLD (Top-Level Domain) Server (.com, .id, .net, .org)</div>
+              <div class="step-why">
+                Dikelola oleh institusi registry (misal Verisign untuk <code>.com</code>, PANDI untuk <code>.id</code>). TLD server menjawab: <em>"Ini alamat Authoritative Name Server resmi milik Google (<code>ns1.google.com</code>)!"</em>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-body">
+              <div class="step-title">Authoritative Name Server (Pemilik Asli Data Domain)</div>
+              <div class="step-why">
+                Server yang memegang database asli record DNS website tersebut. Server ini menjawab tegas: <em>"IP untuk youtube.com adalah <strong>142.250.190.46</strong> (Record A), simpan di cache selama 300 detik (TTL)!"</em>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Simulasi 4 Langkah Recursive DNS Resolution saat pengguna mengetik <code>youtube.com</code>:
+          </p>
+
+          <div class="sim-container" id="sim-dns-lookup">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Lines ke Server Hierarki DNS -->
+                <line x1="120" y1="260" x2="280" y2="260" stroke="var(--border-light)" stroke-width="2.5" stroke-dasharray="5,4" />
+                <line x1="280" y1="260" x2="440" y2="90" stroke="var(--info)" stroke-width="2" stroke-dasharray="4,4" />
+                <line x1="280" y1="260" x2="600" y2="160" stroke="var(--warning)" stroke-width="2" stroke-dasharray="4,4" />
+                <line x1="280" y1="260" x2="720" y2="260" stroke="var(--success)" stroke-width="2.5" stroke-dasharray="5,4" />
+
+                <!-- Node Elements -->
+                <g id="dns-node-browser" data-cx="120" data-cy="260" transform="translate(55, 190)"></g>
+                <g id="dns-node-resolver" data-cx="280" data-cy="260" transform="translate(215, 190)"></g>
+                <g id="dns-node-root" data-cx="440" data-cy="90" transform="translate(375, 20)"></g>
+                <g id="dns-node-tld" data-cx="600" data-cy="160" transform="translate(535, 90)"></g>
+                <g id="dns-node-auth" data-cx="720" data-cy="260" transform="translate(655, 190)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Pengguna mengetik youtube.com di browser. Resolver ISP mulai bekerja...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis: DNS Records & Perintah Diagnostik</span>
+
+          <h3>4.1 Jenis-Jenis DNS Record Wajib:</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>Tipe Record</th><th>Fungsi Utama</th><th>Contoh Data</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>A (Address)</strong></td><td>Memetakan domain ke alamat <strong>IPv4 (32-bit)</strong></td><td><code>youtube.com -> 142.250.190.46</code></td></tr>
+              <tr><td><strong>AAAA (Quad-A)</strong></td><td>Memetakan domain ke alamat <strong>IPv6 (128-bit)</strong></td><td><code>youtube.com -> 2a00:1450:4001::</code></td></tr>
+              <tr><td><strong>CNAME (Canonical Name)</strong></td><td>Nama alias yang merujuk ke domain lain</td><td><code>www.youtube.com -> youtube.com</code></td></tr>
+              <tr><td><strong>MX (Mail Exchange)</strong></td><td>Menentukan server penerima email</td><td><code>smknusantara.sch.id -> mail.google.com</code></td></tr>
+              <tr><td><strong>TXT (Text)</strong></td><td>Verifikasi kepemilikan domain & SPF/DKIM anti-spam</td><td><code>v=spf1 include:_spf.google.com ~all</code></td></tr>
+              <tr><td><strong>NS (Name Server)</strong></td><td>Menentukan server otoritatif pemilik domain</td><td><code>ns1.google.com</code></td></tr>
+            </tbody>
+          </table>
+
+          <h3 style="margin-top: var(--space-5);">4.2 Menelusuri Jejak DNS dengan <code>nslookup</code></h3>
+          <div class="terminal">
+            <div class="terminal__bar">
+              <span class="terminal__dot terminal__dot--red"></span>
+              <span class="terminal__dot terminal__dot--yellow"></span>
+              <span class="terminal__dot terminal__dot--green"></span>
+              <span class="terminal__title">Command Prompt - nslookup youtube.com</span>
+            </div>
+            <div class="terminal__body">
+<pre>
+C:\Users\Arya> <strong>nslookup -type=A youtube.com 8.8.8.8</strong>
+Server:  dns.google
+Address:  8.8.8.8
+
+Non-authoritative answer:
+Name:    youtube.com
+Addresses:  142.250.190.46
+            172.217.194.93
+            172.217.194.136
+</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Kasus: Facebook, WhatsApp & Instagram Tumbang Global (4 Oktober 2021)</h3>
+            <p>
+              Selama 6 jam penuh, seluruh dunia tidak bisa membuka Facebook, WhatsApp, maupun Instagram. Saat pengguna membuka aplikasi, muncul pesan <em>"DNS_PROBE_FINISHED_NXDOMAIN"</em> (Domain tidak ditemukan).
+            </p>
+          </div>
+          <div class="case-solution">
+            <h4>Penyebab Teknis:</h4>
+            <ul>
+              <li>Facebook melakukan kesalahan update pada konfigurasi router <strong>BGP (Border Gateway Protocol)</strong> mereka.</li>
+              <li>Akibatnya, rute Autonomous System milik Facebook hilang dari tabel routing internet global.</li>
+              <li>Ketika resolver DNS di seluruh dunia mencoba menghubungi Authoritative DNS Server Facebook (<code>a.ns.facebook.com</code>), jalurnya terputus fisik. Resolver menganggap domain Facebook sudah tidak ada!</li>
+            </ul>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> DNS bergantung pada rute BGP yang sehat. Begitu Authoritative DNS Server tidak bisa dihubungi, sebuah perusahaan bernilai triliunan rupiah bisa lenyap dari peta internet dalam hitungan detik.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-6-2" data-quest-id="quest-1-6-2">
+          <span class="block-badge">Blok 6 - Quest: Sistem DNS</span>
+          <div class="quest-body">
+            <p><strong>Quest 2:</strong> Sebuah website baru saja memindahkan servernya ke IP baru. Namun beberapa pengguna di rumah masih diarahkan ke IP server lama selama beberapa menit. Parameter DNS apakah yang mengatur berapa lama resolver menyimpan cache IP lama tersebut?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q162" value="a"> A. MTU (Maximum Transmission Unit)</label>
+              <label class="quest-option"><input type="radio" name="q162" value="b"> B. TTL (Time-To-Live) pada DNS Record</label>
+              <label class="quest-option"><input type="radio" name="q162" value="c"> C. MAC Address Switch</label>
+              <label class="quest-option"><input type="radio" name="q162" value="d"> D. Subnet Mask /24</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - TTL (Time-To-Live)</h4>
+            <p>Nilai <strong>TTL (Time-To-Live)</strong> pada record DNS menentukan durasi (dalam detik) sebuah hasil resolusi DNS boleh disimpan di memori cache komputer dan ISP sebelum resolver wajib menanyakan ulang ke server otoritatif.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>
+            DNS adalah pondasi tak terlihat yang memungkinkan web modern beroperasi dengan nama yang ramah manusia sekaligus kinerja caching yang super cepat.
+          </p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 35-45 menit.</p>
+            <p><strong>Poin kunci:</strong> Mempraktikkan perintah <code>ipconfig /flushdns</code> dan <code>nslookup</code> di laptop adikmu agar dia melihat sendiri proses penerjemahan nama domain.</p>
+            <p><strong>Naskah pembuka:</strong> "Bayangkan kontak HP-mu. Kamu gak pernah hafal nomor telepon 08123456789 temanmu, kamu cuma cari namanya 'Budi'. DNS itu buku kontak telepon raksasa milik seluruh bumi!"</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.6.3: CDN & YOUTUBE VIDEO STREAMING
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-3">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.6.3</span>
+          <h2>CDN (Content Delivery Network) & Video Streaming YouTube</h2>
+          <p class="subtopic-lead">
+            Mengapa saat memutar video YouTube 4K kamu tidak mengambil file dari kantor pusat Google di California? Memahami arsitektur CDN Edge Cache, Video Chunking, dan Adaptive Bitrate Streaming (DASH).
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Server pusat Google dan YouTube berada di Silicon Valley, California, Amerika Serikat (jarak fisik: <strong>14.500 km dari Indonesia</strong>). Waktu tempuh cahaya bolak-balik melintasi kabel Pasifik membutuhkan minimal <strong>220-260 milidetik</strong>.
+          </p>
+          <p>
+            Jika setiap kali 50 juta orang Indonesia menonton video YouTube harus mengambil bit-bit video langsung dari California:
+          </p>
+          <ul>
+            <li>Kabel bawah laut lintas Pasifik akan kehabisan kapasitas (*congested*).</li>
+            <li>Video akan buffering lama (5-10 detik setiap kali diklik).</li>
+            <li>Biaya sewa bandwidth internasional Google dan ISP akan membengkak triliunan rupiah per bulan.</li>
+          </ul>
+          <div class="hook-question">
+            Namun faktanya, saat kamu klik video YouTube di HP-mu di Indonesia, video langsung berputar instan dalam 0.1 detik! Bagaimana arsitektur CDN dan Edge Server mewujudkan keajaiban ini?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Origin Server vs Edge Cache Server & DASH Streaming</span>
+
+          <div class="step-card">
+            <div class="step-number">CDN</div>
+            <div class="step-body">
+              <div class="step-title">Content Delivery Network (CDN / Google Global Cache - GGC)</div>
+              <div class="step-why">
+                Google menempatkan ribuan rak server salinan (*Edge Cache PoP*) langsung di dalam gedung data center ISP di kota-kota Indonesia (Jakarta, Surabaya, Medan). Saat video YouTube trending ditonton oleh 1 orang di Bandung, file videonya langsung disimpan di server lokal Jakarta. Orang ke-2 sampai ke-1.000.000 berikutnya mengambil video <strong>dari Jakarta (hanya berjarak 5 ms)</strong>, bukan dari Amerika!
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">DASH</div>
+            <div class="step-body">
+              <div class="step-title">Video Chunking & Adaptive Bitrate Streaming (DASH / HLS)</div>
+              <div class="step-why">
+                File video YouTube 2 jam (ukuran 2 GB) <strong>TIDAK DIDOWNLOAD SEKALIGUS</strong>. File dipecah menjadi ribuan potongan kecil (*chunks*) berdurasi <strong>2-4 detik</strong>. Player di HP-mu secara otomatis meminta chunk resolusi 1080p saat WiFi kencang, dan otomatis turun ke chunk 480p saat sinyal melemah tanpa pernah menghentikan pemutaran (*zero buffering*)!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Komparasi: Mengambil Video Langsung dari California (250 ms) vs Mengambil dari Server Google CDN Jakarta (5 ms):
+          </p>
+
+          <div class="sim-container" id="sim-cdn-caching">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Jalur ke Jakarta (Hijau / Cepat) -->
+                <line x1="130" y1="180" x2="425" y2="180" stroke="var(--success)" stroke-width="4" stroke-dasharray="6,4" />
+                <rect x="230" y="150" width="100" height="20" rx="10" fill="#133834" stroke="var(--success)" stroke-width="1" />
+                <text x="280" y="163" text-anchor="middle" fill="var(--success)" font-size="8" font-family="var(--font-mono)"> Latency 5 ms</text>
+
+                <!-- Jalur ke California (Merah / Jauh) -->
+                <path d="M130 180 Q425 40 720 180" fill="none" stroke="var(--danger)" stroke-width="2" stroke-dasharray="5,4" opacity="0.4" />
+                <rect x="360" y="45" width="130" height="20" rx="10" fill="#2E1C1D" stroke="var(--danger)" stroke-width="1" />
+                <text x="425" y="58" text-anchor="middle" fill="var(--danger)" font-size="8" font-family="var(--font-mono)"> California (250 ms)</text>
+
+                <!-- Devices -->
+                <g id="cdn-node-user" data-cx="130" data-cy="180" transform="translate(65, 110)"></g>
+                <g id="cdn-node-edge" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="cdn-node-origin" data-cx="720" data-cy="180" transform="translate(655, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Pengguna mengklik video viral YouTube di HP...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis: HTTP Headers & Caching States</span>
+
+          <h3>4.1 Membaca Header Caching pada Video Stream</h3>
+          <p>Saat browsermu meminta potongan file video (misal <code>videoplayback?itag=137&range=0-1048576</code>), perhatikan respon header HTTP:</p>
+
+          <div style="background: var(--bg-dark); border-radius: var(--radius-md); padding: var(--space-4); margin: var(--space-3) 0;">
+<pre style="color: var(--text); font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.6;">
+HTTP/2 200 OK
+content-type: video/mp4
+content-length: 1048576
+<strong>server: gvs 1.0 (Google Video Server)</strong>
+<strong>x-cache: HIT (Data disajikan langsung dari RAM Edge Server Jakarta)</strong>
+<strong>cache-control: public, max-age=86400</strong>
+access-control-allow-origin: *
+</pre>
+          </div>
+
+          <h3 style="margin-top: var(--space-5);">4.2 Istilah Kunci CDN:</h3>
+          <ul>
+            <li><strong>Cache HIT:</strong> Konten video yang diminta sudah ada di server Edge terdekat. Video langsung dikirim seketika tanpa menghubungi server origin di Amerika.</li>
+            <li><strong>Cache MISS:</strong> Video baru (misal baru diunggah 1 menit lalu). Edge server mengambilnya 1 kali dari Origin Server, lalu menyimpannya di cache untuk penonton berikutnya.</li>
+            <li><strong>Anycast DNS / BGP:</strong> Teknik jaringan di mana ribuan server di seluruh dunia menggunakan IP Address yang PERSIS SAMA. Rute BGP secara otomatis mengarahkan komputermu ke server fisik terdekat.</li>
+          </ul>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Kasus: Siaran Langsung Final Piala Dunia 2022 Ditonton 10 Juta Orang Serentak</h3>
+            <p>
+              Saat siaran langsung final Piala Dunia berlangsung, 10 juta penonton di Indonesia streaming serentak di aplikasi Vidio. Jika 10 juta stream masing-masing 4 Mbps mengalir terpisah dari server origin, dibutuhkan bandwidth 40 Terabit/detik yang akan meruntuhkan seluruh jaringan ISP Indonesia.
+            </p>
+          </div>
+          <div class="case-solution">
+            <h4>Solusi CDN Terdistribusi:</h4>
+            <ul>
+              <li>Vidio bekerja sama dengan CDN global (Cloudflare & Akamai) yang memiliki ratusan server edge di Jakarta, Surabaya, Bandung, dan Bali.</li>
+              <li>Server origin hanya mengirim <strong>1 aliran video master</strong> ke masing-masing Edge Server.</li>
+              <li>Edge Server lokal menduplikasi aliran video tersebut ke jutaan penonton di kota masing-masing (*Edge Multicast/Fan-out*), menjaga jaringan nasional tetap stabil dan hemat bandwidth 95%!</li>
+            </ul>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> Tanpa CDN, layanan internet skala miliaran pengguna seperti YouTube, Netflix, TikTok, dan Spotify mustahil dapat beroperasi.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-6-3" data-quest-id="quest-1-6-3">
+          <span class="block-badge">Blok 6 - Quest: CDN & Video Caching</span>
+          <div class="quest-body">
+            <p><strong>Quest 3:</strong> Saat seseorang di Surabaya menonton video YouTube yang sedang trending, dari manakah file video tersebut paling mungkin dikirimkan secara fisik ke perangkatnya?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q163" value="a"> A. Langsung dari harddisk laptop pembuat video di Amerika Serikat</label>
+              <label class="quest-option"><input type="radio" name="q163" value="b"> B. Dari Edge Server Google Global Cache (GGC) terdekat di Jawa Timur / Jakarta</label>
+              <label class="quest-option"><input type="radio" name="q163" value="c"> C. Dari satelit cuaca BMKG</label>
+              <label class="quest-option"><input type="radio" name="q163" value="d"> D. Dari memori flash drive router rumahan</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Dari Edge Server Google Global Cache (GGC) terdekat</h4>
+            <p>Google menempatkan server GGC di berbagai data center ISP di Indonesia untuk menyajikan video-video populer secara lokal (Cache HIT), memangkas delay dan menghemat kapasitas kabel internasional.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>
+            CDN mengubah paradigma distribusi data dari yang semula <em>"User mendatangi Data Center yang jauh"</em> menjadi <em>"Data Center dibawa mendekat ke halaman rumah User"</em>.
+          </p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 35-45 menit.</p>
+            <p><strong>Poin kunci:</strong> Membuka DevTools browser (F12 → Tab Network) saat memutar video YouTube dan menunjukkan request potongan file <code>videoplayback</code> yang berukuran beberapa megabyte per chunk.</p>
+            <p><strong>Naskah pembuka:</strong> "Tahu gak kenapa YouTube gak pernah nge-lag meskipun videonya 4K? Padahal server pusatnya di Amerika. Rahasianya: videonya udah ada di Jakarta sebelum kamu klik!"</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.6.4: DATA CENTER & CLOUD STORAGE GOOGLE DRIVE
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-4">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.6.4</span>
+          <h2>Arsitektur Data Center & Cloud Storage (Google Drive)</h2>
+          <p class="subtopic-lead">
+            Di mana file tugas sekolahmu sebenarnya disimpan saat di-upload ke Google Drive? Memahami rancangan Data Center Tier 1-4, Redundancy, dan Object Storage Erasure Coding.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Saat kamu mengunggah dokumen skripsi penting atau foto kenangan ke <strong>Google Drive</strong>, kamu merasa sangat aman. Mengapa? Karena kamu tahu file itu tidak akan hilang meskipun laptopmu rusak atau tercebur air.
+          </p>
+          <p>
+            Tetapi, apakah server Google tidak bisa rusak? Harddisk server di data center Google rusak <strong>ribuan unit setiap hari</strong>! Genset bisa mati, gempa bumi bisa terjadi, dan kabel listrik PLN bisa padam.
+          </p>
+          <div class="hook-question">
+            Jika harddisk dan server fisik di data center Google bisa mati kapan saja, bagaimana Google Drive bisa menjamin data miliaran penggunanya tidak pernah hilang (Daya Tahan / Durability 99.999999999% - 11 Nines)?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Data Center Tiering & Distributed Erasure Coding</span>
+
+          <div class="definition-box">
+            <div class="definition-title">Klasifikasi Tier Data Center (Standar Uptime Institute / TIA-942):</div>
+            <p style="margin: 0;">
+              Data Center adalah gedung khusus anti-gempa dengan kontrol suhu presisi (Precision Air Conditioning), sistem pemadam gas bersih (FM-200), dan pasokan listrik berlapis tanpa henti:
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">T4</div>
+            <div class="step-body">
+              <div class="step-title">Data Center Tier 4 (Fault Tolerant - Uptime 99.995%)</div>
+              <div class="step-why">
+                Memiliki sistem kelistrikan <code>2(N+1) Redundant</code>: dua jalur gardu PLN berbeda, dual UPS raksasa, dan tangki genset diesel yang mampu menyala berminggu-minggu jika listrik satu kota padam. Downtime maksimal hanya <strong>26 menit per tahun</strong>!
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">EC</div>
+            <div class="step-body">
+              <div class="step-title">Object Storage & Erasure Coding (Reed-Solomon Parity)</div>
+              <div class="step-why">
+                Google Drive <strong>TIDAK menyimpan filemu utuh di satu harddisk</strong>! File 100 MB dipecah menjadi beberapa pecahan data (*Data Chunks*) ditambah pecahan pemulihan (*Parity Chunks*). Pecahan-pecahan ini disebar ke rak server dan gedung data center yang berbeda lokasi (*Geo-Replication*). Jika 2 harddisk terbakar bersamaan, data asli tetap bisa dihitung dan direkonstruksi secara instan tanpa kehilangan 1 bit pun!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Simulasi Upload ke Google Drive: File dipecah menjadi 3 Chunks + Parity dan disebar ke Data Center A, B, C. Saksikan file tetap utuh saat 1 server mati!
+          </p>
+
+          <div class="sim-container" id="sim-cloud-storage">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Garis Sebar Chunks -->
+                <line x1="130" y1="180" x2="425" y2="70" stroke="var(--info)" stroke-width="2" stroke-dasharray="5,4" />
+                <line x1="130" y1="180" x2="425" y2="180" stroke="var(--info)" stroke-width="2" stroke-dasharray="5,4" />
+                <line x1="130" y1="180" x2="425" y2="290" stroke="var(--info)" stroke-width="2" stroke-dasharray="5,4" />
+
+                <!-- 3 Server Racks Data Center -->
+                <g id="cs-rack-1" data-cx="425" data-cy="70" transform="translate(360, 0)"></g>
+                <g id="cs-rack-2" data-cx="425" data-cy="180" transform="translate(360, 110)"></g>
+                <g id="cs-rack-3" data-cx="425" data-cy="290" transform="translate(360, 220)"></g>
+
+                <!-- Status Cloud Durability -->
+                <rect x="580" y="150" width="220" height="60" rx="10" fill="#11172A" stroke="var(--success)" stroke-width="1.5" />
+                <text x="690" y="172" text-anchor="middle" fill="var(--success)" font-size="9" font-weight="bold" font-family="var(--font-mono)">GOOGLE CLOUD STORAGE</text>
+                <text id="cs-durability-text" x="690" y="192" text-anchor="middle" fill="var(--info)" font-size="8.5" font-family="var(--font-mono)">Durability: 99.999999999%</text>
+
+                <!-- User Laptop Upload -->
+                <g id="cs-node-user" data-cx="130" data-cy="180" transform="translate(65, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 5</span>
+              <p class="sim__text">Pengguna mengunggah file Skripsi.docx ke Google Drive...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis: Object Storage vs Block Storage</span>
+
+          <h3>Perbandingan Tipe Penyimpanan Data:</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>Tipe Storage</th><th>Cara Kerja</th><th>Protokol Akses</th><th>Contoh Layanan</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Object Storage</strong></td>
+                <td>Data disimpan sebagai objek independen dengan metadata unik & ID hash</td>
+                <td>HTTP REST API (GET, PUT, DELETE)</td>
+                <td>Google Drive, Google Cloud Storage, Amazon S3</td>
+              </tr>
+              <tr>
+                <td><strong>Block Storage</strong></td>
+                <td>Data dibagi menjadi blok-blok mentah biner di harddisk virtual</td>
+                <td>iSCSI, Fibre Channel, NVMe-oF</td>
+                <td>Virtual Harddisk VM (AWS EBS, Proxmox Ceph)</td>
+              </tr>
+              <tr>
+                <td><strong>File Storage</strong></td>
+                <td>Data disusun dalam struktur folder dan direktori hirarkis</td>
+                <td>NFS (Linux), SMB/CIFS (Windows)</td>
+                <td>Network Attached Storage (NAS), Windows File Share</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Kasus: Kebakaran Gedung Cyber 1 Jakarta (Desember 2021)</h3>
+            <p>
+              Pada 2 Desember 2021, lantai 2 Gedung Cyber 1 Jakarta terbakar hebat. Aliran listrik seluruh gedung dimatikan total demi keselamatan. Puluhan perusahaan hosting lokal, web pemerintah, dan aplikasi broker saham tumbang selama 24-48 jam.
+            </p>
+          </div>
+          <div class="case-solution">
+            <h4>Kenapa Google & AWS Tidak Pernah Tumbang Total?</h4>
+            <ul>
+              <li>Penyedia hosting lokal menyimpan server dan harddisk cadangan di gedung yang sama (Single Site).</li>
+              <li>Google dan AWS menerapkan standar <strong>Multi-Region Availability Zone (AZ)</strong>: data otomatis direplikasi ke data center fisik berbeda yang berjarak minimal 30-50 km. Jika satu gedung terbakar atau tenggelam banjir, trafik otomatis dialihkan ke gedung kedua dalam hitungan milidetik (*Hot Standby Failover*).</li>
+            </ul>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> Backup sejati harus berada di lokasi geografis berbeda (*Offsite Backup*). Jangan pernah menaruh backup di gedung yang sama dengan server utama.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-6-4" data-quest-id="quest-1-6-4">
+          <span class="block-badge">Blok 6 - Quest: Cloud Storage</span>
+          <div class="quest-body">
+            <p><strong>Quest 4:</strong> Teknologi apakah yang memecah file upload menjadi beberapa pecahan data ditambah pecahan parity pemulihan yang disebar ke beberapa server berbeda sehingga data tetap utuh meskipun ada harddisk yang rusak?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q164" value="a"> A. Erasure Coding (Reed-Solomon)</label>
+              <label class="quest-option"><input type="radio" name="q164" value="b"> B. Format Flashdisk FAT32</label>
+              <label class="quest-option"><input type="radio" name="q164" value="c"> C. Kabel RJ45 Cross-over</label>
+              <label class="quest-option"><input type="radio" name="q164" value="d"> D. Subnetting FLSM</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: A - Erasure Coding</h4>
+            <p>Erasure Coding adalah teknik proteksi data modern pada Object Storage (seperti Google Cloud Storage dan Amazon S3) yang memecah data menjadi N data chunks + K parity chunks, memberikan ketahanan 11 Nines (99.999999999%) dengan efisiensi kapasitas yang jauh lebih hemat dibanding duplikasi 3x lipat.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>
+            Data Center dan Cloud Storage adalah fondasi fisik dari era digital modern. Di balik kemudahan klik 'Upload', bekerja ribuan server blade berkinerja tinggi yang ditenagai algoritma matematika terdistribusi.
+          </p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 35-45 menit.</p>
+            <p><strong>Poin kunci:</strong> Menjelaskan bahwa 'Cloud' bukan benda ghaib, melainkan 'komputer milik orang lain yang dirawat dengan standar keamanan fisik dan kelistrikan militer'.</p>
+            <p><strong>Naskah pembuka:</strong> "Pernah mikir gak, pas kamu upload video 1 GB ke Google Drive, itu file mendarat di mana? Ada di harddisk server yang ditaruh di ruangan ber-AC super dingin di Singapura atau Jakarta!"</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           SUB-TOPIK 1.6.5: ALUR END-TO-END PERJALANAN PAKET INTERNET
+           ==================================================================== -->
+      <section class="subtopic-section" id="subtopik-5">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Sub-Topik 1.6.5</span>
+          <h2>Sintesis Lengkap: Perjalanan Paket End-to-End dari Layar ke Server</h2>
+          <p class="subtopic-lead">
+            Menyatukan seluruh puzzle Fase 1 (OSI 7 Layer, MAC Rewrite, VLAN, NAT, BGP, DNS, CDN, dan Server) dalam satu alur utuh 10 langkah penayangan video YouTube.
+          </p>
+        </div>
+
+        <!-- BLOK 1: MASALAH -->
+        <div class="block-card block--hook">
+          <span class="block-badge">Blok 1 - Masalah Nyata di Lapangan</span>
+          <p>
+            Seorang siswa TKJ sering kali mempelajari materi jaringan secara terpotong-potong: di Modul 1.1 belajar IP, di Modul 1.2 belajar VLAN, di Modul 1.3 belajar NAT, di Modul 1.4 belajar Firewall, di Modul 1.5 belajar QoS.
+          </p>
+          <div class="hook-question">
+            Tantangan Mahkota: Bisakah kamu menceritakan secara runut dan presisi, detik demi detik, apa yang terjadi dari saat jari telunjukmu mengklik thumbnail video YouTube di HP sampai gambar video bergerak pertama kali muncul di matamu?
+          </div>
+        </div>
+
+        <!-- BLOK 2: KONSEP -->
+        <div class="block-card block--concept">
+          <span class="block-badge">Blok 2 - Konsep Inti: Peta Alur 10 Langkah Perjalanan Internet</span>
+
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <div class="step-body">
+              <div class="step-title">1. Resolusi Nama DNS (Pencarian Alamat)</div>
+              <div class="step-why">Browser memeriksa DNS Cache lokal. Jika tidak ada, Resolver bertanya ke ISP/Google 8.8.8.8 hingga mendapat IP CDN Edge terdekat (142.250.190.46).</div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <div class="step-body">
+              <div class="step-title">2. Enkapsulasi OSI 7 Layer di Sistem Operasi HP</div>
+              <div class="step-why">HTTP/3 GET Request dibungkus UDP (Port 443) → dibungkus IP Header (Src: 192.168.1.50, Dst: 142.250.190.46) → dibungkus Frame WiFi 802.11.</div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <div class="step-body">
+              <div class="step-title">3. Transmisi Gelombang Radio WiFi ke Access Point</div>
+              <div class="step-why">Antena HP memancarkan gelombang 5 GHz ke Access Point terdekat tanpa interferensi channel.</div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">04</div>
+            <div class="step-body">
+              <div class="step-title">4. Switching VLAN & Trunking Layer 2</div>
+              <div class="step-why">Switch menyisipkan tag 802.1Q dan meneruskan frame melewati port Trunk menuju Router Gateway.</div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">05</div>
+            <div class="step-body">
+              <div class="step-title">5. NAT Masquerade & MAC Rewrite di Router Gateway</div>
+              <div class="step-why">Router mengubah IP Private HP (192.168.1.50) menjadi IP Publik ISP (180.252.10.88), melepas frame Ethernet lokal, dan membungkusnya ke link WAN fiber optic.</div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">06</div>
+            <div class="step-body">
+              <div class="step-title">6. Melewati Jaringan Metro Ethernet ISP & OpenIXP Jakarta</div>
+              <div class="step-why">Paket merambat di kabel fiber darat berkecepatan 200.000 km/detik menuju switch IXP pusat pertukaran data.</div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">07</div>
+            <div class="step-body">
+              <div class="step-title">7. Rute BGP Peering Menuju Google CDN Edge Server</div>
+              <div class="step-why">Router BGP mengarahkan paket masuk ke rack server Google Global Cache di Jakarta.</div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">08</div>
+            <div class="step-body">
+              <div class="step-title">8. Server Memproses & Mengirimkan Video Chunks</div>
+              <div class="step-why">Server membaca chunk video MP4 1080p dari NVMe SSD dan mengalirkannya balik via protokol QUIC/TLS 1.3 terenkripsi.</div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">09</div>
+            <div class="step-body">
+              <div class="step-title">9. Dekapsulasi & Jitter Buffering di HP</div>
+              <div class="step-why">HP menerima paket, memeriksa integritas checksum, membuka bungkus paket lapis demi lapis, dan memasukkan audio/video ke buffer pemutar.</div>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">10</div>
+            <div class="step-body">
+              <div class="step-title">10. GPU Render Gambar Bergerak di Layar Kaca</div>
+              <div class="step-why">Chip grafis GPU mendekode codec video H.264/AV1 dan menyalakan jutaan piksel OLED di layar HP. Video mulai berputar! Total waktu: <strong>&lt; 150 milidetik</strong>!</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 3: SIMULASI BERGERAK -->
+        <div class="block-card block--sim">
+          <span class="block-badge">Blok 3 - Simulasi Interaktif Bergerak</span>
+          <p style="margin-bottom: 12px;">
+            Simulasi Penuh Lintas Hop: HP → AP WiFi → Switch VLAN → Router Gateway (NAT) → Internet WAN → Google CDN Edge Server → Response Video Streaming:
+          </p>
+
+          <div class="sim-container" id="sim-end-to-end-flow">
+            <div class="sim__stage">
+              <svg viewBox="0 0 850 380" preserveAspectRatio="xMidYMid meet">
+                <!-- Kabel Topology End to End -->
+                <line x1="80" y1="180" x2="210" y2="180" stroke="var(--info)" stroke-width="2.5" stroke-dasharray="4,3" />
+                <line x1="210" y1="180" x2="350" y2="180" stroke="var(--info)" stroke-width="3" stroke-dasharray="6,4" />
+                <line x1="350" y1="180" x2="490" y2="180" stroke="var(--info)" stroke-width="3" stroke-dasharray="6,4" />
+                <line x1="490" y1="180" x2="630" y2="180" stroke="var(--warning)" stroke-width="3.5" stroke-dasharray="6,4" />
+                <line x1="630" y1="180" x2="760" y2="180" stroke="var(--success)" stroke-width="3.5" stroke-dasharray="6,4" />
+
+                <!-- Node Devices 6 Stages -->
+                <g id="e2e-node-phone" data-cx="80" data-cy="180" transform="translate(15, 110)"></g>
+                <g id="e2e-node-ap" data-cx="210" data-cy="180" transform="translate(145, 110)"></g>
+                <g id="e2e-node-switch" data-cx="350" data-cy="180" transform="translate(285, 110)"></g>
+                <g id="e2e-node-router" data-cx="490" data-cy="180" transform="translate(425, 110)"></g>
+                <g id="e2e-node-isp" data-cx="630" data-cy="180" transform="translate(565, 110)"></g>
+                <g id="e2e-node-server" data-cx="760" data-cy="180" transform="translate(695, 110)"></g>
+              </svg>
+            </div>
+
+            <div class="sim__narration">
+              <span class="sim__step-badge">Langkah 1 dari 6</span>
+              <p class="sim__text">Pengguna mengklik video di aplikasi YouTube HP...</p>
+            </div>
+
+            <div class="sim__controls">
+              <div class="sim-btn-group">
+                <button class="btn-sim btn-sim--primary" data-action="play">Putar</button>
+                <button class="btn-sim" data-action="prev">⟨ Mundur</button>
+                <button class="btn-sim" data-action="next">Maju ⟩</button>
+                <button class="btn-sim" data-action="reset">⟲ Reset</button>
+              </div>
+              <div class="sim-speed-box">
+                <span>Kecepatan:</span>
+                <input type="range" class="sim-speed-slider" data-action="speed" min="0.5" max="2" step="0.25" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 4: DETAIL TEKNIS -->
+        <div class="block-card block--detail">
+          <span class="block-badge">Blok 4 - Detail Teknis: Evolusi Protokol HTTP/1.1 vs HTTP/2 vs HTTP/3 (QUIC)</span>
+
+          <h3>Mengapa Web & YouTube Modern Sangat Responsif?</h3>
+          <ul>
+            <li><strong>HTTP/1.1 (1997):</strong> Setiap request (gambar, video, font) harus membuka koneksi TCP baru secara berurutan (*Head-of-Line Blocking*). Lambat dan memboroskan handshake.</li>
+            <li><strong>HTTP/2 (2015):</strong> Multiplexing - puluhan file dikirim bersamaan dalam 1 koneksi TCP tunggal biner.</li>
+            <li><strong>HTTP/3 + QUIC (2022 - Standar YouTube Saat Ini):</strong> Mengganti TCP dengan <strong>UDP + QUIC</strong>. Handshake TLS 1.3 terjadi dalam <strong>0-RTT (Zero Round Trip Time)</strong>! Jika HP-mu berpindah dari WiFi ke paket data 4G, video YouTube <strong>TIDAK PERNAH TERPUTUS</strong> karena koneksi diikat oleh Connection ID, bukan IP Address!</li>
+          </ul>
+        </div>
+
+        <!-- BLOK 5: STUDI KASUS -->
+        <div class="block-card block--casestudy">
+          <span class="block-badge">Blok 5 - Studi Kasus Nyata</span>
+          <div class="case-context">
+            <h3>Refleksi: Menjadi Network Engineer yang Memahami Peta Besar</h3>
+            <p>
+              Banyak teknisi hanya tahu cara mengetik perintah tanpa mengerti gambaran besar. Ketika terjadi masalah "YouTube buffering di kantor", teknisi biasa menyalahkan ISP. Network Engineer profesional melakukan diagnosa bertahap:
+            </p>
+            <ol>
+              <li>Cek Layer 1 & 2: Apakah ada interferensi channel WiFi atau error frame di port switch?</li>
+              <li>Cek Layer 3: Apakah ada bufferbloat antrian di router gateway kantor?</li>
+              <li>Cek DNS: Apakah resolver kantor lambat merespon (&gt; 100 ms)?</li>
+              <li>Cek Routing BGP: Apakah trafik diarahkan ke server CDN yang tepat?</li>
+            </ol>
+            <div class="case-lesson">
+              <strong>Pelajaran:</strong> Memahami alur End-to-End membuatmu mampu memecahkan masalah jaringan apapun secara logis dan terstruktur.
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOK 6: QUEST -->
+        <div class="block-card block--quest" id="quest-1-6-5" data-quest-id="quest-1-6-5">
+          <span class="block-badge">Blok 6 - Quest: Sintesis End-to-End</span>
+          <div class="quest-body">
+            <p><strong>Quest 5:</strong> Pada perjalanan paket dari HP di kamar tidur menuju server YouTube di internet, di perangkat manakah IP Private (192.168.1.50) pertama kali diubah menjadi IP Publik ISP?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="q165" value="a"> A. Di layar sentuh HP</label>
+              <label class="quest-option"><input type="radio" name="q165" value="b"> B. Di Router Gateway Rumah (melalui proses NAT Masquerade)</label>
+              <label class="quest-option"><input type="radio" name="q165" value="c"> C. Di kabel optik bawah laut</label>
+              <label class="quest-option"><input type="radio" name="q165" value="d"> D. Di server YouTube California</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Di Router Gateway Rumah (melalui NAT Masquerade)</h4>
+            <p>Router Gateway rumah melakukan fungsi Network Address Translation (NAT) untuk memetakan IP Private lokal ke satu-satunya IP Publik yang diberikan oleh ISP.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- BLOK 7: PEMBAHASAN -->
+        <div class="block-card block--review">
+          <span class="block-badge">Blok 7 - Pembahasan</span>
+          <p>
+            Selesai sudah pengembaraan komprehensif memahami bagaimana internet dunia bekerja. Setiap komponen dari kabel tembaga mikroskopis hingga kabel laut samudra bekerja tanpa henti membentuk keajaiban teknologi terbesar umat manusia: Internet.
+          </p>
+        </div>
+
+        <!-- Panel Catatan Mentor -->
+        <div class="mentor-panel">
+          <div class="mentor-panel__header"> Catatan Khusus Mentor (Klik untuk buka)</div>
+          <div class="mentor-panel__body">
+            <p><strong>Estimasi waktu:</strong> 45-60 menit.</p>
+            <p><strong>Poin kunci:</strong> Menguji pemahaman adikmu dengan memintanya menceritakan sendiri alur 10 langkah dari awal sampai akhir tanpa melihat catatan.</p>
+            <p><strong>Naskah penutup:</strong> "Selamat Arya! Kamu sekarang bukan cuma sekadar pengguna internet yang bisanya cuma nonton dan scroll medsos. Kamu adalah salah satu dari sedikit orang di usiamu yang paham persis bagaimana seluruh mesin internet dunia bekerja!"</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ====================================================================
+           EVALUASI AKHIR MODUL 1.6 & MINI-PROYEK OBSERVASI NYATA
+           ==================================================================== -->
+      <section class="subtopic-section" id="evaluasi-akhir">
+        <div class="subtopic-header">
+          <span class="subtopic-number">Evaluasi Akhir Modul 1.6</span>
+          <h2>Kuis Evaluasi Komprehensif & Proyek Investigasi Internet</h2>
+          <p class="subtopic-lead">
+            Uji pemahamanmu tentang kabel bawah laut, DNS recursive, CDN caching, dan alur data global.
+          </p>
+        </div>
+
+        <!-- QUEST AKHIR 1 -->
+        <div class="block-card block--quest" id="quest-akhir-1" data-quest-id="quest-akhir-1">
+          <span class="block-badge">Quest Akhir 1 (DNS & BGP)</span>
+          <div class="quest-body">
+            <p>Jika Authoritative DNS Server suatu perusahaan tidak bisa dihubungi akibat kesalahan update rute BGP, apa akibat yang dialami pengguna saat mengakses domain tersebut?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qe1" value="a"> A. Komputer pengguna langsung me-restart otomatis</label>
+              <label class="quest-option"><input type="radio" name="qe1" value="b"> B. Browser menampilkan error domain tidak ditemukan (NXDOMAIN / DNS Timeout) meskipun server aplikasi di data center masih menyala normal</label>
+              <label class="quest-option"><input type="radio" name="qe1" value="c"> C. Kecepatan internet menjadi 10 Gbps</label>
+              <label class="quest-option"><input type="radio" name="qe1" value="d"> D. Tampilan website berubah menjadi hitam putih</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Browser menampilkan error domain tidak ditemukan</h4>
+            <p>Tanpa resolusi DNS yang sukses, browser tidak pernah mendapatkan IP tujuan, sehingga koneksi TCP/QUIC tidak dapat dimulai sama sekali.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR 2 -->
+        <div class="block-card block--quest" id="quest-akhir-2" data-quest-id="quest-akhir-2">
+          <span class="block-badge">Quest Akhir 2 (CDN Cache HIT)</span>
+          <div class="quest-body">
+            <p>Sebuah file video di server CDN menghasilkan status <code>X-Cache: HIT</code>. Apa arti dari status tersebut?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qe2" value="a"> A. Server CDN mengalami kerusakan harddisk</label>
+              <label class="quest-option"><input type="radio" name="qe2" value="b"> B. File video sudah tersimpan di cache Edge Server lokal dan langsung dikirim ke pengguna tanpa perlu mengambil ke server origin</label>
+              <label class="quest-option"><input type="radio" name="qe2" value="c"> C. Video tersebut diblokir oleh Kominfo</label>
+              <label class="quest-option"><input type="radio" name="qe2" value="d"> D. Pengguna harus membayar pulsa tambahan</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - File video tersimpan di cache Edge Server lokal</h4>
+            <p>Cache HIT menandakan efisiensi optimal: konten disajikan langsung dari node terdekat pengguna dengan latency sangat rendah.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR 3 -->
+        <div class="block-card block--quest" id="quest-akhir-3" data-quest-id="quest-akhir-3">
+          <span class="block-badge">Quest Akhir 3 (Data Center Tiering)</span>
+          <div class="quest-body">
+            <p>Karakteristik utama dari fasilitas Data Center Tier 4 (Fault Tolerant) adalah:</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qe3" value="a"> A. Memiliki sistem kelistrikan dan pendingin 2(N+1) dengan toleransi terhadap kegagalan komponen tunggal tanpa downtime (Uptime 99.995%)</label>
+              <label class="quest-option"><input type="radio" name="qe3" value="b"> B. Hanya boleh dioperasikan oleh 4 orang teknisi</label>
+              <label class="quest-option"><input type="radio" name="qe3" value="c"> C. Tidak membutuhkan genset diesel cadangan</label>
+              <label class="quest-option"><input type="radio" name="qe3" value="d"> D. Menggunakan kabel telepon tembaga analog</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: A - Sistem 2(N+1) Fault Tolerant dengan Uptime 99.995%</h4>
+            <p>Standar Tier 4 menjamin tidak ada komponen tunggal yang bisa mematikan operasional data center bahkan saat pemeliharaan atau bencana listrik.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- QUEST AKHIR 4 (Debug) -->
+        <div class="block-card block--quest" id="quest-akhir-4" data-quest-id="quest-akhir-4">
+          <span class="block-badge">Quest Akhir 4 (Debug Kasus Jaringan)</span>
+          <div class="quest-body">
+            <p>Pengguna bisa membuka Google dan YouTube dengan lancar, tetapi tidak bisa membuka website sekolah <code>smknusantara.sch.id</code>. Hasil ping ke <code>8.8.8.8</code> berhasil (replay 15ms), tetapi <code>ping smknusantara.sch.id</code> menghasilkan <em>"Ping request could not find host"</em>. Di manakah letak masalah paling mungkin?</p>
+            <div class="quest-options" style="margin-top: var(--space-3);">
+              <label class="quest-option"><input type="radio" name="qe4" value="a"> A. Kabel LAN rumah putus</label>
+              <label class="quest-option"><input type="radio" name="qe4" value="b"> B. Konfigurasi DNS Record (A Record) untuk domain sekolah bermasalah atau masa sewa domain sudah kadaluarsa</label>
+              <label class="quest-option"><input type="radio" name="qe4" value="c"> C. Kartu WiFi laptop rusak</label>
+              <label class="quest-option"><input type="radio" name="qe4" value="d"> D. Seluruh kabel bawah laut dunia putus</label>
+            </div>
+          </div>
+          <button class="btn-reveal">Tampilkan Jawaban</button>
+          <div class="quest-solution" style="display:none;">
+            <h4> Jawaban: B - Masalah pada DNS Record / Domain sekolah</h4>
+            <p>Karena ping ke IP publik (8.8.8.8) dan akses YouTube berjalan lancar, koneksi fisik dan gateway ISP dalam keadaan normal. Pesan <em>"could not find host"</em> menunjukkan kegagalan pada proses resolusi DNS untuk domain spesifik tersebut.</p>
+            <button class="btn-quest-retry">Coba Lagi</button>
+          </div>
+        </div>
+
+        <!-- Mini-Proyek Observasi -->
+        <div class="block-card" style="border-color: var(--primary); background: var(--bg-surface);">
+          <span class="block-badge" >Mini-Proyek Praktik Lapangan</span>
+          <h3>Proyek: Audit Jejak Digital Paket Internet di Komputermu Sendiri</h3>
+          <p>Lakukan eksperimen nyata di laptopmu dan catat hasilnya ke file laporan GitHub:</p>
+          <ul>
+            <li><strong>1. Trace DNS:</strong> Jalankan <code>nslookup youtube.com</code> dan <code>nslookup drive.google.com</code>. Catat alamat IP yang dikembalikan.</li>
+            <li><strong>2. Traceroute Hops:</strong> Jalankan <code>tracert youtube.com</code>. Hitung berapa jumlah router (hops) yang dilewati dan cari tahu lokasi IP hop ke-4 dan ke-5 menggunakan tools IP Geolocation.</li>
+            <li><strong>3. Wireshark Stream Capture:</strong> Buka Wireshark, putar 1 video YouTube, filter dengan <code>udp.port == 443</code>. Amati aliran ribuan paket protokol <strong>QUIC</strong> yang mengalir ke komputermu!</li>
+            <li><strong>4. Simpan Laporan:</strong> Simpan tangkapan layar dan tuliskan analisa 1 halaman di repository GitHub pribadimu!</li>
+          </ul>
+        </div>
+
+        <!-- Navigasi Modul -->
+        <div class="block-card" style="text-align: center; border-color: var(--primary-soft);">
+          <a href="modul-1-5.html" class="btn-sim" style="margin-right: 12px;">← Modul 1.5: Antrian & Telco</a>
+          <a href="index.html" class="btn-sim btn-sim--primary">Selesai Seluruh Modul Fase 1 - Kembali ke Portal Utama</a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- SCRIPT ENGINE -->
+  <script src="assets/js/anim-engine.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/modul-1-6.js"></script>
+
+</body>
+</html>
